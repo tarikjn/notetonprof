@@ -1,0 +1,10 @@
+Deploy method:
+
+- svn hook rename migrate.rb/.sql to migrate-revXYZ.rb/.sql
+- Capistrano deploy runs migrate on destination server
+
+Also need domain specific migrates
+
+
+Symlink from Verio specific public folder to /home/user/trunk/
+Symlink from .htaccess to .htaccess.target
