@@ -12,7 +12,7 @@ class Settings
 	const LOCALE = 'fr_FR.UTF-8';
 	// timezone set in .htaccess
 	
-	const WEB_ROOT = 'http://localhost/~tarik/notetonprof.fr/public/'; // prod: http://www.notetonprof.fr/
+	const WEB_ROOT = 'http://localhost/~tarik/frportal/trunk/public/'; // prod: http://www.notetonprof.fr/
 	
 	const COOKIE_DOMAIN = '.notetonprof.fr';
 	
