@@ -1,7 +1,9 @@
-AuthUserFile /home/frportal/trunk/migration/.htpasswd
 AuthType Basic
-AuthName "Restricted Area"
-Require valid-user
+AuthName "Restricted"
+AuthBasicProvider external
+AuthExternal pwauth
+require valid-user
+require group devteam
 
 php_value include_path ".:/home/frportal/trunk/application"
 php_flag session.use_only_cookies on
