@@ -36,6 +36,7 @@ if (isset($_GET["email"]) && isset($_GET["code"]))
 		$mail_text = ob_get_clean();
 		
 		$mail = new PHPMailer();
+		$mail->CharSet = "UTF-8";
 		$mail->IsSMTP();
 		$mail->Host = $smtp;
 		if ($smtpA)

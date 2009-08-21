@@ -60,6 +60,7 @@ if (isset($_GET["type"]) && isset($_GET["id"]))
 			$mail_text = ob_get_clean();
 			
 			$mail = new PHPMailer();
+			$mail->CharSet = "UTF-8";
 			$mail->IsSMTP();
 			$mail->Host = $smtp;
 			if ($smtpA)
