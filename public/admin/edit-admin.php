@@ -12,7 +12,7 @@ if (!$id)
     $err = "Identifiant incorrect";
 else
 {
-	$current_data = DBPal::getRow("SELECT locked, level, open_ticket FROM delegues WHERE id = $id");
+	$current_data = DBPal::getRow("SELECT locked, level, open_ticket, session_id FROM delegues WHERE id = $id");
 	
 	if (!$current_data)
 		$err = "Ce Modérateur est introuvable.";
@@ -69,6 +69,10 @@ if (!@$err)
 		
 		// log
 		App::log($log_msg, "user", $id, $user->uid, $updated_data, $notes);
+		
+		// invalidate any active session for that user
+		if ($updated_data["locked"] or $updated_data["level"])
+			RealSession::replace($current_data->session_id, array('UserAuth', 'sessionSetRevalidate'));
 		
 		// refresh assignements
 		App::queue('refresh-assignments', array('prof', $id));
