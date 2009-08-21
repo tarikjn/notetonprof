@@ -55,7 +55,7 @@ if (!$erreur_url && !$erreur_var)
 	    	DBPal::query($query);
 	    	
 	    	// log
-	    	App::log("Enlisted as a moderator on school", "user", $d_id, $d_id, array("school_id" => $e_id));
+	    	App::log("Enlisted as a moderator on school", "user", $user->uid, $user->uid, array("school_id" => $e_id));
 	    	
 	    	$_SESSION["msg"] = "Tu es maintenant délégué de cet établisssement.";
 	    }
