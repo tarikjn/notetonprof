@@ -53,7 +53,7 @@ if (!$erreur_url && !$erreur_var)
 		
 		$query = "SELECT id FROM villes WHERE id = $c_id";
 		$result = DBPal::query($query);
-		$rnb = $result->num_rows();
+		$rnb = $result->num_rows;
 		
 		if (strlen($nom) < 1)
 			$notice["nom"] = "Remplis le champ <cite>Nom</cite>.";
