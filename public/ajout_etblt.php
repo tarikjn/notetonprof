@@ -54,7 +54,7 @@ if (!$erreur_url && !$erreur_var)
 			{
 				// passage à l'étape suivante
 				
-				$cp = $row["cp"];
+				$cp = $row->cp;
 				
 				if ($cp != $dept.$s_cp)
 					$_SESSION["msg"] = "Le code postal le plus proche de celui que tu as indiqué a été pris en compte.";

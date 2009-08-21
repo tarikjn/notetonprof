@@ -71,7 +71,7 @@ $title = "Accès établissement";
 			<h2>Accès établissement</h2>
 			<p>Pour accéder à la page de cet établissement, tu dois faire partie ou avoir fait partie de cet établissement. La page de cet établissement et les pages qui en font partie ne sont pas publics !</p>
 			<form action="<?=$_SERVER["SCRIPT_NAME"]?>/<?=urlencode($e_id)?>/" method="post">
-				<p><strong>Certifie-tu sur l'honneur faire ou avoir fait partie de l'établissement : <span class="etab"><? if ($cursus == E_2ND) { ?><? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":" ")?><? } ?><? } ?><?=htmlspecialchars($e_nom)?></span> (<?=htmlspecialchars($c_nom)?>), ceci en temps qu'élève ou personnel de l'établissement ?</strong></p>
+				<p><strong>Certifies-tu sur l'honneur faire ou avoir fait parti de l'établissement : <span class="etab"><? if ($cursus == E_2ND) { ?><? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":" ")?><? } ?><? } ?><?=htmlspecialchars($e_nom)?></span> (<?=htmlspecialchars($c_nom)?>), ceci en temps qu'élève ou personnel de l'établissement ?</strong></p>
 				<div class="submit"><input type="submit" name="action" value="Oui" /> <input type="submit" name="action" value="Non" /></div>
 			</form>
 			<p class="info-add">Si les cookies sont activés sur ton navigateur et ta réponse est positive, cette page ne s'affichera plus lorsque tu voudras accéder à cet établissement.</p>
