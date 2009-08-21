@@ -9,7 +9,7 @@ class Mail
 	
 	const BOT_MAIL = "robot@notetonprof.fr";
 	const BOT_NAME = "[NoteTonProf.fr]";
-	const ROOT_MAIL = $rootMail = "infos@notetonprof.fr";
+	const ROOT_MAIL = "infos@notetonprof.fr";
 	const ROOT_NAME = "[NoteTonProf.fr]";
 }
 
