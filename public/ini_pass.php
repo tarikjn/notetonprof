@@ -66,9 +66,9 @@ if ($sent)
 		
 		if(!$mail->Send())
 		{  
-			echo "There was an error sending the message<br/>"; 
-			echo $mail->ErrorInfo;
-			exit;
+			//echo "There was an error sending the message<br/>"; 
+			//echo $mail->ErrorInfo;
+			//exit;
 		}
 			
 		// changement de page
