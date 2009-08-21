@@ -7,9 +7,9 @@ class Mail
 	const SMTP_USER = "frportal";
 	const SMTP_PASS = "PehuF5Ac";
 	
-	const BOT_MAIL = "robot@notetonprof.fr";
+	const BOT_MAIL = "root@notetonprof.fr";
 	const BOT_NAME = "[NoteTonProf.fr]";
-	const ROOT_MAIL = "infos@notetonprof.fr";
+	const ROOT_MAIL = "root@notetonprof.fr";
 	const ROOT_NAME = "[NoteTonProf.fr]";
 }
 
@@ -20,9 +20,9 @@ $smtpA = true;
 $smtpUser = "frportal";
 $smtpPass = "PehuF5Ac";
 
-$botMail = "robot@notetonprof.fr";	// robot@notetonprof.fr
+$botMail = "root@notetonprof.fr";	// robot@notetonprof.fr
 $botName = "[NoteTonProf.fr]";
-$rootMail = "infos@notetonprof.fr";
+$rootMail = "root@notetonprof.fr";
 $rootName = "[NoteTonProf.fr]";
 
 $gotoURL = "http://".$_SERVER["HTTP_HOST"];
