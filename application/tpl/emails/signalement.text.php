@@ -6,7 +6,7 @@ Un visiteur a fait le signalement suivant :
 	<?=$gotoURL?>/notes/<?=$r_id?>/
 [Concerne :]
 	<?=$concerne?> (#<?=$id?>)
-[Problème :]
+[ProblÃ¨me :]
 	<?=$probleme?>
 
 [Corriger :]

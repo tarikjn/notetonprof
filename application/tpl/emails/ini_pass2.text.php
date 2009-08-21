@@ -1,14 +1,14 @@
 Bonjour,
 
-Ton mot de passe a été réinitialisé avec succès, voici tes nouveaux identifiants :
+Ton mot de passe a Ã©tÃ© rÃ©initialisÃ© avec succÃ¨s, voici tes nouveaux identifiants :
 - Identifiant :   <?=$email."\n"?>
 - Mot de passe :  <?=$pass."\n"?>
 
-Tu peux changer ton mot de passe à partir de l'espace délégué :
+Tu peux changer ton mot de passe Ã  partir de l'espace dÃ©lÃ©guÃ© :
 <?=$gotoURL."\n"?>/delegues/
 
 Amicalement,
-L'équipe de noteTonProf.fr,
+L'Ã©quipe de noteTonProf.fr,
 
 -- 
 <?=$gotoURL."\n"?>

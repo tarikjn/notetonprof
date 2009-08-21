@@ -1,19 +1,19 @@
 Bonjour <?=$prenom?>,
 
-Nous te remercions pour ton inscription sur noteTonProf.fr, voici le récapitulatif des informations dont tu as besoin pour te connecter à ton compte :
+Nous te remercions pour ton inscription sur noteTonProf.fr, voici le rÃ©capitulatif des informations dont tu as besoin pour te connecter Ã  ton compte :
 - Identifiant :   <?=$email."\n"?>
 - Mot de passe :  <?=$pass."\n"?>
 
-Tu pourra commencer à utiliser ton compte dès que tu aura séléctionné un ou plusieurs établissements à modérer.
-Pour celà, rends-toi sur la page d'accueil de noteTonProf.fr, puis sur la page de l'établissement que tu souhaite modérer et clique sur « Devenir délégué ».
+Tu pourra commencer Ã  utiliser ton compte dÃ¨s que tu aura sÃ©lÃ©ctionnÃ© un ou plusieurs Ã©tablissements Ã  modÃ©rer.
+Pour celÃ , rends-toi sur la page d'accueil de noteTonProf.fr, puis sur la page de l'Ã©tablissement que tu souhaite modÃ©rer et clique sur Â« Devenir dÃ©lÃ©guÃ© Â».
 
-Attention ! Ton compte n'est pas encore actif, afin que ton compte soit opérationnel, tu dois ouvrir la page suivante :
+Attention ! Ton compte n'est pas encore actif, afin que ton compte soit opÃ©rationnel, tu dois ouvrir la page suivante :
 <?=$gotoURL?>/confirm?email=<?=urlencode($email)?>&code=<?=urlencode($check_id)."\n"?>
 
-Cette procédure nous permet de vérifier les adresses e-mail des personnes qui s'inscrivent.
+Cette procÃ©dure nous permet de vÃ©rifier les adresses e-mail des personnes qui s'inscrivent.
 
 Amicalement,
-L'équipe de noteTonProf.fr,
+L'Ã©quipe de noteTonProf.fr,
 
 -- 
 <?=$gotoURL."\n"?>
