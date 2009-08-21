@@ -167,7 +167,7 @@ class App
 		}
 	}
 	
-	static function createObjectAndLog($object_type, $object_data)
+	static function createObjectAndLog($object_type, $object_data, $create_record = false)
 	{
 		global $user;
 		
@@ -177,7 +177,18 @@ class App
 		  );
 		
 		// log
-		App::log("Created", $object_type, $object_id, $user->uid, $object_data);
+		$create_record_id = App::log("Created", $object_type, $object_id, $user->uid, $object_data);
+		
+		if ($create_record)
+		{
+			DBPal::query(
+			      "UPDATE " . Settings::$objType2tabName[$object_type]
+			    . " SET create_record = $create_record_id"
+			    . " WHERE id = $object_id"
+			  );
+		}
+		
+		return $object_id;
 	}
 	
 	static function processReports($reports_post, $obj_arr, $user, $current_report = false)

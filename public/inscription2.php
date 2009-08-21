@@ -62,8 +62,8 @@ if ($sent)
 		    "md5_pass" => md5($pass)
 		  );
 		
-		// insert admin and log
-		App::createObjectAndLog('user', $new_admin);
+		// insert admin and log, 3rd param means setup create_record
+		App::createObjectAndLog('user', $new_admin, true);
 		
 		// envoi du mail d'activation
 		ob_start();
