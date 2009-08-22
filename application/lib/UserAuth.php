@@ -165,7 +165,8 @@ class UserAuth
 		
 		if ($remember)
 		{
-			$this->updateCookie($values->md5_pass, true);
+			$this->updateCookie($values->md5_pass);
+			// TODO: reverify mechanism on http://www.mtdev.com/2002/07/creating-a-secure-php-login-script
 		}
 		
 		// will be triggered on actual connection
@@ -187,19 +188,19 @@ class UserAuth
 	
 	private function updateCookie($cookie_hash)
 	{
-		$cookie = serialize(array($this->username, $cookie_hash) );
+		$cookie = serialize(array($this->uid, $cookie_hash));
 		setcookie('ccPortalAuth', $cookie, time() + self::COOKIE_LENGTH, '/', Settings::COOKIE_DOMAIN);
 	}
 	
 	private function checkRemembered($cookie)
 	{
-		list($uid, $cookie) = @unserialize($cookie);
-		if (!$uid or !$cookie) return;
+		list($uid, $enc_pass) = @unserialize($cookie);
+		if (!$uid or !$enc_pass) return;
 		
 		$uid = (int) $uid;
-		$cookie = DBPaL::quote($cookie);
+		$enc_pass = DBPaL::quote($enc_pass);
 		
-		$sql = "SELECT * FROM delegues WHERE id = $uid AND cookie = $cookie AND " . self::REQ_QUERY;
+		$sql = "SELECT * FROM delegues WHERE id = $uid AND md5_pass = $enc_pass AND " . self::REQ_QUERY;
 		$result = DBPal::getRow($sql);
 		
 		if ( is_object($result) )
