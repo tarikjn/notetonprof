@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	$q_add .= " || etblt_id=" . DBPal::quote($e_id);
     	
     	// log
-    	Portal::log("Unenlisted as a moderator from school", "user", $user->uid, $user->uid, array("school_id" => $e_id));
+    	App::log("Unenlisted as a moderator from school", "user", $user->uid, $user->uid, array("school_id" => $e_id));
     }		
     
     $query = "DELETE FROM delegues_etblts WHERE delegue_id = {$user->uid} && (0$q_add)";
