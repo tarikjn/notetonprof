@@ -83,7 +83,7 @@ else
 // Controller-View limit
 DBPal::finish();
 
-$title = "Mot de pass oublié";
+$title = "Mot de passe oublié";
 ?>
 <? require("tpl/haut.php"); ?>
 		<div class="navi"><a href=".">Accueil</a> &gt; <?=htmlspecialchars($title)?></div>

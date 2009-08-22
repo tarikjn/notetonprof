@@ -173,7 +173,7 @@ $title = "Commentaires";
 				<h2><?=htmlspecialchars($title)?></h2>
 			    <div class="info"><a href="/admin/help#comments">Instructions</a></div>
 			</div>
-			<p class="warning">La modération des commentaires obéie à des règles strictes, tout abus ou entrave délibérée aux règles de modération établies par Campus Citizens peut engager ta responsabilité pénale. En modérant les commentaires, tu reconnais avoir pris connaissance des <a href="/admin/help#comments">instructions de modération des commentaires</a> [actually, rather the moderator agreement].</p>
+			<p class="warning">La modération des commentaires obéit à des règles strictes, tout abus ou entrave délibérée aux règles de modération établies par Campus Citizens peut engager ta responsabilité pénale. En modérant les commentaires, tu reconnais avoir pris connaissance des <a href="/admin/help#comments">instructions de modération des commentaires</a> [actually, rather the moderator agreement].</p>
 			<?=Helper::showErrors(@$errors)?>
 			<?=Helper::showInfo(@$info)?>
 <? if (sizeof($comments) == 0) { ?>

@@ -20,7 +20,7 @@ $title = "Assistance";
 				<li><a href="/admin/help#data">Données</a></li>
 				<ul>
 					<li><a href="/admin/help#data-moderate">Modération</a></li>
-					<li><a href="/admin/help#data-solve">Résolution des signalement</a></li>
+					<li><a href="/admin/help#data-solve">Résolution des signalements</a></li>
 				</ul>
 			</ul>
 			<h3><a name="ranks">Pouvoirs des modérateurs</a></h3>
@@ -121,7 +121,7 @@ $title = "Assistance";
 						<th>Pouvoirs</th>
 						<td>
 						<ul>
-							<li>Champ d'action : tout les établissements</li>
+							<li>Champ d'action : tous les établissements</li>
 							<li>Pouvoirs de Niveau 2</li>
 							<li>Peut modérer les commentaires pré-modérés</li>
 						</ul>
@@ -159,7 +159,7 @@ $title = "Assistance";
 						<th>Pouvoirs</th>
 						<td>
 						<ul>
-							<li>Champ d'action : tout les établissements et modérateurs</li>
+							<li>Champ d'action : tous les établissements et modérateurs</li>
 							<li>Pouvoirs de Niveau 3</li>
 							<li>Peut modérer les commentaires et les informations signalés</li>
 							<li>Peut vérouiller ou dévérouiller un modérateur de niveau inférieur</li>
