@@ -63,9 +63,9 @@ $title = "Mes Établissements";
 					<tbody>
 						<tr>
 							<td class="first check"><input type="checkbox" value="1" name="etblt[<?=htmlspecialchars($row["id"])?>]" /></td>
-							<td><a href="../indicatifs/<?=urlencode($row["cursus"])?>/"><?=htmlspecialchars(Geo::$COURSE[$row["cursus"]])?></a></td>
-							<th><a href="../profs/<?=urlencode($row["id"])?>/"><? if ($row["cursus"] == E_2ND) { ?><? $secondaire = explode(",", $row["secondaire"]); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?> <? } ?><?=htmlspecialchars($row["nom"])?></a></th>
-							<td><a href="../etblts/<?=urlencode($row["cursus"])?>/<?=urlencode($row["ville_id"])?>/"><?=htmlspecialchars($row["cp"])?>, <?=htmlspecialchars($row["commune"])?></a></td>
+							<td><a href="indicatifs/<?=urlencode($row["cursus"])?>/"><?=htmlspecialchars(Geo::$COURSE[$row["cursus"]])?></a></td>
+							<th><a href="profs/<?=urlencode($row["id"])?>/"><? if ($row["cursus"] == E_2ND) { ?><? $secondaire = explode(",", $row["secondaire"]); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?> <? } ?><?=htmlspecialchars($row["nom"])?></a></th>
+							<td><a href="etblts/<?=urlencode($row["cursus"])?>/<?=urlencode($row["ville_id"])?>/"><?=htmlspecialchars($row["cp"])?>, <?=htmlspecialchars($row["commune"])?></a></td>
 							<td class="check"><a href="etblt?id=<?=urlencode($row["id"])?>"><img src="img/edit.png" alt="Crayon" title="Éditer" height="16" width="16" /></a></td>
 						</tr>
 					</tbody>

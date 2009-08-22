@@ -70,7 +70,7 @@ if ($save)
     	$result = DBPal::query($query);
     	
     	// log
-    	Portal::log((empty($cur_pass))?"Changed account details":"Changed account password and possibly account details", "user", $user->uid, $user->uid, $prev_data);
+    	App::log((empty($cur_pass))?"Changed account details":"Changed account password and possibly account details", "user", $user->uid, $user->uid, $prev_data);
     	
     	// send refresh directly to userauth
     	$user->invalidateSessionData();
@@ -101,7 +101,7 @@ else if ($del)
     	$result = DBPal::query($query);
     	
     	// log
-    	Portal::log("Deleted account", "user", $user->uid, $user->uid);
+    	App::log("Deleted account", "user", $user->uid, $user->uid);
     	
     	// logout
     	$user->logout();
