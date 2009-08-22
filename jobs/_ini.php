@@ -2,7 +2,7 @@
 
 // TODO: clean-up of used libraries
 // TODO: no repeat with htaccess
-ini_set("include_path", ".:/home/frportal/www/notetonprof.fr/application");
+ini_set("include_path", ".:/home/frportal/trunk/application");
 ini_set("date.timezone", "Europe/Paris");
 
 // load portal settings
