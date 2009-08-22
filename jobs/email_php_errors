@@ -1,0 +1,17 @@
+#!/usr/local/bin/bash  
+# Mail out PHP errors that are in the apache error log.  
+# Note PHP's log_errors must be turned on  
+# Ben Dowling - www.coderholic.com  
+  
+errorLog=/www/logs/frportal/notetonprof.fr-error_log # Error log location  
+email=tech@campuscitizens.com # Send report here  
+  
+# Pull out the lines that mention PHP, and use AWK to get the column we're interested in  
+errors=$(cat $errorLog | grep PHP | awk -F'] ' '{print $4}')  
+# Remove referer information, sort, and remove duplicate entries  
+errors=$(echo "$errors" | awk -F', referer' '{print $1}' | sort | uniq)  
+# Check that we actually have some errors  
+if [ -n "$errors" ]  
+then  
+    echo "$errors" | mail "$email" -s "PHP Errors"  
+fi  

@@ -16,7 +16,7 @@ $map_haut = array(
 	<meta http-equiv="Content-language" content="fr" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<title>NoteTonProf.fr<?=(isset($title))?" &gt; ".$title:""?></title>
-	<base href="<?=Settings::WEB_ROOT?>" />
+	<base href="<?=Settings::WEB_ROOT?>/" />
 	
 	<meta name="revisit-after" content="7 days" />
 	<meta name="robots" content="index,follow" />

@@ -9,3 +9,6 @@ Also need domain specific migrates
 Symlink from Verio specific public folder to /home/user/trunk/
 Symlink from .htaccess to .htaccess.target
 Symlink from conf/Settings.php to conf/Settings.target.php
+
+prod php.ini:
+display_errors = On -> Off

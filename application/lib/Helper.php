@@ -10,6 +10,16 @@ class Helper
 	 * formatting
 	 */
 	
+	static function linkAndCurrent($path, $class = "")
+	{
+		if (Web::getPath() == Settings::WEB_PATH . "/$path")
+		{
+			$class = ((strlen($class))?' ':'') . 'current';
+		}
+		
+		return '<a href="' . $path . '"' . ((strlen($class))?' class="'. $class .'"':'') . '>';
+	}
+	
 	static function f_int($i)
 	{
 		$locale = localeconv();

@@ -12,7 +12,8 @@ class Settings
 	const LOCALE = 'fr_FR.UTF-8';
 	// timezone set in .htaccess
 	
-	const WEB_ROOT = 'http://localhost/~tarik/frportal/trunk/public/';
+	const WEB_ROOT = 'http://localhost/~tarik/frportal/trunk/public';
+	const WEB_PATH = '/~tarik/frportal/trunk/public';
 	
 	const COOKIE_DOMAIN = 'localhost';
 	
@@ -27,4 +28,3 @@ class Settings
 	
 	const COMMENT_MAX_LEN = 255;
 }
-

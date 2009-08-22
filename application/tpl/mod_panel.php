@@ -12,24 +12,24 @@
 		<div id="mod-header">
 			<div id="mod-status"><span id="mod-msg">Connecté en tant que : <strong><?=$user->username?></strong></span><span class="rank-img rank-<?=$user->power?>" title="<?=Admin::$RANKS[$user->power]?>"></span></div>
 			<div id="mod-account-actions">
-				<a href="/admin/account"<? if (Web::getPath() == '/admin/account') {?> class="current"<? } ?>>Mon Compte</a>
-				<a href="/admin/myschools"<? if (Web::getPath() == '/admin/myschools') {?> class="current"<? } ?>>Mes Établissements</a>
-				<a href="/admin/help"<? if (Web::getPath() == '/admin/help') {?> class="current"<? } ?>>Assistance</a>
-				<a class="special" href="/logout">Déconnexion</a>
+				<?=Helper::linkAndCurrent('admin/account')?>Mon Compte</a>
+				<?=Helper::linkAndCurrent('admin/myschools')?>Mes Établissements</a>
+				<?=Helper::linkAndCurrent('admin/help')?>Assistance</a>
+				<a class="special" href="logout">Déconnexion</a>
 			</div>
 		</div>
 		<div id="mod-tabs">
-			<a href="/admin/index" class="icon home <? if (Web::getPath() == '/admin/index') {?> current<? } ?>">Accueil</a>
+			<?=Helper::linkAndCurrent('admin/index', 'icon home')?>Accueil</a>
 			<? if ($user->power >= Admin::ACC_MONITOR) { ?>
-				<a href="/admin/monitor" class="icon monitoring<? if (Web::getPath() == '/admin/monitor') {?> current<? } ?>">Surveillance</a>
+				<?=Helper::linkAndCurrent('admin/monitor', 'icon monitoring')?>Surveillance</a>
 			<? } ?>
 			<? if ($user->power >= Admin::ACC_ADMINS) { ?>
-				<a href="/admin/admins"<? if (Web::getPath() == '/admin/admins') {?> class="current"<? } ?>>Modérateurs <em<? if ($mp_count->users == 0) { ?> class="empty"<? } ?>><?=$mp_count->users?></em></a>
+				<?=Helper::linkAndCurrent('admin/admins')?>Modérateurs <em<? if ($mp_count->users == 0) { ?> class="empty"<? } ?>><?=$mp_count->users?></em></a>
 			<? } ?>
 			<? if ($user->power >= Admin::ACC_DATA) { ?>
-				<a href="/admin/data"<? if (Web::getPath() == '/admin/data') {?> class="current"<? } ?>>Données <em<? if ($mp_count->data == 0) { ?> class="empty"<? } ?>><?=$mp_count->data?></em></a>
+				<?=Helper::linkAndCurrent('admin/data')?>Données <em<? if ($mp_count->data == 0) { ?> class="empty"<? } ?>><?=$mp_count->data?></em></a>
 			<? } ?>
-			<a href="/admin/comments"<? if (Web::getPath() == '/admin/comments') {?> class="current"<? } ?>>Commentaires <em<? if ($mp_count->comments == 0) { ?> class="empty"<? } ?>><?=$mp_count->comments?></em></a>
+			<?=Helper::linkAndCurrent('admin/comments')?>Commentaires <em<? if ($mp_count->comments == 0) { ?> class="empty"<? } ?>><?=$mp_count->comments?></em></a>
 		</div>
 	</div>
 	</div>
