@@ -883,6 +883,7 @@ dl.admin-id {
 }
 .admin-id dt {
 	position: absolute;
+	left: 0;
 	font-weight: bold;
 	font-size: .85em;
 	line-height: 20pt;
