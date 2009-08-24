@@ -14,7 +14,7 @@ class Helper
 	{
 		if (Web::getPath() == Settings::WEB_PATH . "/$path")
 		{
-			$class = ((strlen($class))?' ':'') . 'current';
+			$class = ((strlen($class))? "$class " : '') . 'current';
 		}
 		
 		return '<a href="' . $path . '"' . ((strlen($class))?' class="'. $class .'"':'') . '>';
