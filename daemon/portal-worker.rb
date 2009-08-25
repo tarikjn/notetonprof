@@ -51,7 +51,7 @@ Daemons.run_proc('portal-worker.rb') do
     	# execute job
       if ALLOWED_PROGRAMS.include?(message["job"])
         
-        command = "php ../jobs/#{message["job"]}.php #{message["args"]}"
+        command = "../jobs/#{message["job"]}.php #{message["args"]}"
         result = `#{command}`
       
       end
