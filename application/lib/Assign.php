@@ -328,7 +328,7 @@ class Assign
 	 */
 	private static function computeScore(&$task)
 	{
-		// TODO: after code optimizations
+		// TODO: move code here after code optimizations
 	}
 	
 	private static function getLevelActivityBeta($score)

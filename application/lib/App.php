@@ -1,5 +1,8 @@
 <?php
 
+// beanstalkd PHP client, required for the job queue
+require_once("third-party/pheanstalk/pheanstalk_init.php");
+
 // used statically
 class App
 {
@@ -49,15 +52,28 @@ class App
 	}
 	
 	/* queue
-	 * send action to message queue
+	 * send job to message queue (beanstalkd)
 	 *
-	 * $msg: action identifier
+	 * $action: action identifier
 	 * $params: array of parameters
 	 * $p: priority
 	 */
-	static function queue($msg, $params = null, $p = 0)
+	static function queue($action, $params = null, $p = 0)
 	{
-		// send msg to beanstalkd
+		// format message
+		$message = array(
+			'job'  => $action,
+			'args' => Helper::flatten($params)
+		);
+		$message = json_encode($message);
+		
+		// connect to beanstalkd
+		$pheanstalk = new Pheanstalk(Settings::BEANSTALKQ);
+		
+		// send message
+		$pheanstalk->put($message);
+		
+		// TODO: does Pheanstalk automatically disconnect after garbage collection?
 	}
 	
 	// TODO set $user as param for all methods

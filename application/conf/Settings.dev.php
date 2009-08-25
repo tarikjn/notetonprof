@@ -12,12 +12,14 @@ class Settings
 	const LOCALE = 'fr_FR.UTF-8';
 	// timezone set in .htaccess
 	
-	const WEB_ROOT = 'http://localhost/~tarik/frportal/trunk/public';
+	const WEB_ROOT = 'http://macintosh-4.home/~tarik/frportal/trunk/public';
 	const WEB_PATH = '/~tarik/frportal/trunk/public';
 	
-	const COOKIE_DOMAIN = 'localhost';
+	const COOKIE_DOMAIN = 'macintosh-4.home';
 	
 	const SESSION_PATH = '/var/tmp';
+	
+	const BEANSTALKQ = 'localhost:11300';
 	
 	static $objType2tabName = Array(
 	    "user"    => "delegues",

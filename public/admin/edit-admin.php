@@ -75,7 +75,7 @@ if (!@$err)
 			RealSession::replace($current_data->session_id, array('UserAuth', 'sessionSetRevalidate'));
 		
 		// refresh assignements
-		App::queue('refresh-assignments', array('prof', $id));
+		App::queue('refresh-assignments', array('of-object', 'prof', $id));
 		
 		$success = "Modifications enregistrées avec succès.";
 		

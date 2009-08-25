@@ -111,8 +111,12 @@ if (!@$err)
 		    	// log
 		    	App::log($log_msg, "school", $id, $user->uid, $updated_data, $notes);
 		    	
-		    	// refresh assignements
-		    	App::queue('refresh-assignments', array('school', $id));
+		    	// TODO: clear assignments
+		    	// if no more tickets and moderated -> clear all
+		    	// else if raised or no moderation and no tickets or tickets are defered -> clear specific to modo
+		    	
+		    	// refresh assignments
+		    	App::queue('refresh-assignments', array('of-object', 'school', $id));
 		    	
 		    	$success = "Modifications enregistrées avec succès.";
 		    	

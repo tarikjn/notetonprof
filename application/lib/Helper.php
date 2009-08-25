@@ -20,6 +20,21 @@ class Helper
 		return '<a href="' . $path . '"' . ((strlen($class))?' class="'. $class .'"':'') . '>';
 	}
 	
+	static function flatten($v)
+	{
+		if (is_array($v))
+		{
+			$f = '';
+			
+			foreach ($v as $s)
+				$f .= " $s";
+			
+			$v = $f;
+		}
+		
+		return $v;
+	}
+	
 	static function f_int($i)
 	{
 		$locale = localeconv();

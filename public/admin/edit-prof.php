@@ -121,7 +121,7 @@ if (!@$err)
 		    	App::log($log_msg, "prof", $id, $user->uid, $updated_data, $notes);
 		    	
 		    	// refresh assignements
-		    	App::queue('refresh-assignments', array('prof', $id));
+		    	App::queue('refresh-assignments', array('of-object', 'prof', $id));
 		    	
 		    	$success = "Modifications enregistrées avec succès.";
 		    	

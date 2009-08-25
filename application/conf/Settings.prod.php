@@ -19,6 +19,8 @@ class Settings
 	
 	const SESSION_PATH = '/var/tmp';
 	
+	const BEANSTALKQ = 'localhost:11300';
+	
 	static $objType2tabName = Array(
 	    "user"    => "delegues",
 	    "school"  => "etablissements",

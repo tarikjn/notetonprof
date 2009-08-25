@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
 		// = take action =
 		// clear assignments
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'comment' AND object_id = $id");
-		$queue_params = array('comment', $id);
+		$queue_params = array('of-object', 'comment', $id);
 		
 		switch ($action)
 		{
