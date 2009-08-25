@@ -94,7 +94,7 @@ if (!@$err)
 			RealSession::replace($current_data->session_id, array('UserAuth', 'sessionSetRevalidate'));
 		
 		// if no more tickets and moderated -> clear assignments
-		if ($current_data->open_ticket == null or @$new_open_ticket === false)
+		if ($current_data->open_ticket == null or @$new_open_ticket == false)
 		{
 		    DBPal::query("DELETE FROM assignments WHERE object_type = 'user' AND object_id = $id");
 		}
