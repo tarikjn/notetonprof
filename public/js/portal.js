@@ -20,7 +20,7 @@ $(document).ready(function() {
 		$(this).addClass("selected");
 		
 		// select radio button
-		$(this).find("input:eq(0)").select();
+		$(this).find("input:eq(0)").attr("checked", "checked");
 		
 		// color comment
 		$(block).attr("class", action);
