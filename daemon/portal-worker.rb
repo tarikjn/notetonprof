@@ -30,7 +30,7 @@ Daemons.run_proc('portal-worker.rb') do
   
 
   
-  log = Logger.new('/Users/tarik/Sites/frportal/trunk/daemon/logs/portal-worker.log', 'daily')
+  log = Logger.new('logs/portal-worker.log', 'daily')
   log.level = Logger::INFO
 
   beanstalk = Beanstalk::Pool.new(['localhost:11300'])
