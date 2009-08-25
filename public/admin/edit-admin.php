@@ -96,7 +96,7 @@ if (!@$err)
 		// if no more tickets and moderated -> clear assignments
 		if ($current_data->open_ticket == null or @$new_open_ticket === false)
 		{
-		    DBPall::query("DELETE FROM assignments WHERE object_type = 'user' AND object_id = $id");
+		    DBPal::query("DELETE FROM assignments WHERE object_type = 'user' AND object_id = $id");
 		}
 		else
 		{
