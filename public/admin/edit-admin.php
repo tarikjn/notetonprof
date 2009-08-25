@@ -51,11 +51,29 @@ if (!@$err)
 		    
 		    if ($updated_data["level"])
 		    	$log_msg[] = ($power > $prev_data->level) ? "Promoted" : "Demoted";
+		    
+		    // TODO: add changePower and lock/unlock object model methods
+		    
+		    if ($prev_data->locked != 'yes' or $new_data->locked != 'yes')
+		 	// means: does not apply if going from a locked to a locked state
+		    {
+		    	if ($locked == 'yes' or ($power < $prev_data->level and $prev_data->locked != 'yes'))
+		    	{
+		    		App::queue('refresh-assignments', array('of-admin', $id));
+		    	}
+		    	else if ($power < Admin::ACC_ALL_DATA)
+		    	{
+		    		App::queue('refresh-assignments', array('for-admin', $id));
+		    	}
+		    	else
+		    	{
+		    		App::queue('refresh-assignments', 'all');
+		    	}
 		}
 		
 		// process reports
 		if (@$_POST['report'])
-		    App::processReports($_POST['report'], array('user', $id), $user, $current_data->open_ticket);
+		    $new_open_ticket = App::processReports($_POST['report'], array('user', $id), $user, $current_data->open_ticket);
 		
 		// update
 		DBPal::query(
@@ -67,6 +85,7 @@ if (!@$err)
 		    . " WHERE id = $id"
 		  );
 		
+		// TODO: what if no update at all?
 		// log
 		App::log($log_msg, "user", $id, $user->uid, $updated_data, $notes);
 		
@@ -74,8 +93,18 @@ if (!@$err)
 		if ($updated_data["locked"] or $updated_data["level"])
 			RealSession::replace($current_data->session_id, array('UserAuth', 'sessionSetRevalidate'));
 		
-		// refresh assignements
-		App::queue('refresh-assignments', array('of-object', 'prof', $id));
+		// if no more tickets and moderated -> clear assignments
+		if ($current_data->open_ticket == null or @$new_open_ticket === false)
+		{
+		    DBPall::query("DELETE FROM assignments WHERE object_type = 'user' AND object_id = $id");
+		}
+		else
+		{
+		    // TODO: if no tickets or tickets are defered -> clear specific to admin
+		    
+		    // refresh assignments
+			App::queue('refresh-assignments', array('for-object', 'user', $id));
+		}
 		
 		$success = "Modifications enregistrées avec succès.";
 		

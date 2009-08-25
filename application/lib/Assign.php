@@ -5,8 +5,9 @@
  * its main role is to compute priority scores
  *
  * MUST NOT be called on concurrency, may corrupt table
+ * TODO: verify the above statement, may not be true
  *
- * Assignements are deleted LIVE by the website when no more
+ * Assignments are deleted LIVE by the website when no more
  * current after an action taken on a ticketed object
  * -> action stats refresh?
  *
@@ -36,16 +37,15 @@ class Assign
 		4 => 250
 	);
 	
-	const DEFAULT_ACTIVITY_SCORE = 100; // TOOD: move to ActivityScore
+	const DEFAULT_ACTIVITY_SCORE = 100; // TODO: move to ActivityScore
 	
 	const EXPIRATION_DELTA = 604800; // 1 week in seconds
 	
 	/*
 	 * called when:
-	 * - a new admin is created
-	 * - an admin is promoted
-	 * - an admin is unlocked
-	 * - table needs to be regenerated (manual)
+	 * - an admin is promoted to a level of unlimited range of power
+	 * - an admin is unlocked to a level of unlimited range of power
+	 * - table needs to be regenerated (manual) + TODO: delete all existing assignments
 	 */
 	static function refreshAll()
 	{
@@ -67,12 +67,14 @@ class Assign
 	}
 	
 	/*
+	 * refresh assignments ALREADY assigned to an admin
+	 *
 	 * called when an admin is:
 	 * - demoted
 	 * - locked
 	 * - deleted (unsubscribe)
 	 *
-	 * will also update assignements for which priority score was too low
+	 * will also update assignments for which priority score was too low
 	 */
 	static function refreshAssignedToAdmin($user_id)
 	{
@@ -85,11 +87,59 @@ class Assign
 	
 	/*
 	 * called when:
+	 * - an admin is promoted to a level of limited range of power
+	 * - an admin is unlocked to a level of limited range of power
+	 */
+	static function refreshForAdmin($user_id)
+	{
+		$schools = DBPal::getList("SELECT etblt_id FROM delegues_etblts WHERE delegue_id = $user_id");
+		foreach ($schools as $school_id)
+		{
+			self::refreshForSchool($school_id);
+		}
+	}
+	
+	/*
+	 * called when:
+	 * - an admin is moderating a new school
+	 * - an admin stops moderating a school
+	 */
+	static function refreshForSchool($school_id)
+	{
+		// refresh assignments for the school object
+		// note: the school object may not need any action
+		self::refreshForObject('school', $school_id);
+		
+		// refresh teachers
+		$res = DBPal::query("SELECT * FROM professeurs WHERE etblt_id = $school_id AND status = 'ok'");
+		while ($prof = $res->fetch_object())
+		{
+			// does the prof need any action?
+			if ($prof->moderated != 'yes' or $prof->open_ticket)
+			{
+		    	self::refreshForObject('prof', $prof->id, $prof);
+		    }
+		    
+		    // refresh comments needing action
+		    $comment_res = DBPal::query("SELECT * FROM notes WHERE prof_id = {$prof->id} AND ((moderated != 'yes' AND LENGTH(comment) > 0) OR open_ticket IS NOT NULL) AND status = 'ok'");
+		    while ($comment = $comment_res->fetch_object())
+			{
+				self::refreshForObject('comment', $comment->id, $comment);
+			}
+		}
+	}
+	
+	/*
+	 * called when:
+	 * - a new object is created and requires moderation
 	 * - a report is done
 	 * - any ticketed object gets a ticket update (report, delete, raise, dismiss, accept)
 	 *
 	 * $object_data is feed by refreshAll for speed optimization
 	 * parameters are trusted to be valid and secure
+	 *
+	 * this function needs to be atomic when it operates on an object to avoid duplicate assignments
+	 * TODO: make thread-safe
 	 */
 	static function refreshForObject($object_type, $object_id, $object_data = null)
 	{
@@ -106,10 +156,10 @@ class Assign
 		if (!$object_data)
 			return;
 		
-		// delete current assignements
+		// delete current assignments
 		DBPal::query("DELETE FROM assignments WHERE object_type = '$object_type' AND object_id = $object_id");
 		
-		// redo assignements
+		// redo assignments
 		$task = self::findAdminsForObject($object_type, $object_id, $object_data);
 		$levels = array();
 		$indexes = array();

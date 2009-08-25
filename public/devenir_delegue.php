@@ -51,11 +51,13 @@ if (!$erreur_url && !$erreur_var)
 	    else
 	    {
 	    	// enregistrement
-	    	$query = "INSERT INTO delegues_etblts (etblt_id, delegue_id) VALUES ($e_id, {$user->uid})";
-	    	DBPal::query($query);
+	    	DBPal::query("INSERT INTO delegues_etblts (etblt_id, delegue_id) VALUES ($e_id, {$user->uid})");
 	    	
 	    	// log
 	    	App::log("Enlisted as a moderator on school", "user", $user->uid, $user->uid, array("school_id" => $e_id));
+	    	
+	    	// refresh assignments for that school
+    		App::queue('refresh-assignments', array('for-school', $e_id));
 	    	
 	    	$_SESSION["msg"] = "Tu es maintenant délégué de cet établisssement.";
 	    }

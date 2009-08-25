@@ -40,7 +40,7 @@ if (!@$err)
 		
 		if (@$_POST["action"] == "Supprimer") // TODO: must be independant from template for i18n
 		{
-			// delete prof and orphan dependant data in cascade, log and remove associated assignements
+			// delete prof and orphan dependant data in cascade, log and remove associated assignments
 		    App::deleteProf($id, $notes);
 		    		    
 		    $_SESSION[($return)? "success" : "msg"] = "La fiche professeur #$id a été supprimé.";
@@ -102,7 +102,7 @@ if (!@$err)
 		    	
 		    	// process reports
 		    	if (@$_POST['report'])
-					App::processReports($_POST['report'], array('prof', $id), $user, $test_row->open_ticket);
+					$new_open_ticket = App::processReports($_POST['report'], array('prof', $id), $user, $test_row->open_ticket);
 		    		
 		    	// update
 		    	DBPal::query(
@@ -120,8 +120,19 @@ if (!@$err)
 		    	// log
 		    	App::log($log_msg, "prof", $id, $user->uid, $updated_data, $notes);
 		    	
-		    	// refresh assignements
-		    	App::queue('refresh-assignments', array('of-object', 'prof', $id));
+		    	// if no more tickets and moderated -> clear assignments
+		    	if (($test_row->moderate == 'yes' or @$new_moderate == 'yes')
+		    		and ($test_row->open_ticket == null or @$new_open_ticket === false))
+		    	{
+		    		DBPall::query("DELETE FROM assignments WHERE object_type = 'school' AND object_id = $id");
+		    	}
+		    	else
+		    	{
+		    		// TODO: if raised or no moderation and no tickets or tickets are defered -> clear specific to admin
+		    		
+		    		// refresh assignments
+		    		App::queue('refresh-assignments', array('for-object', 'prof', $id));
+		    	}
 		    	
 		    	$success = "Modifications enregistrées avec succès.";
 		    	

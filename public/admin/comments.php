@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
 		// = take action =
 		// clear assignments
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'comment' AND object_id = $id");
-		$queue_params = array('of-object', 'comment', $id);
+		$queue_params = array('for-object', 'comment', $id);
 		
 		switch ($action)
 		{
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
 				}
 				else
 				{
-					// clear assignements
+					// clear assignments
 					DBPal::query("DELETE FROM assignments WHERE object_type = 'comment' AND object_id = $id");
 					
 					// we also assume a comment cannot have a ticket if it is not moderated
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
 	// TODO: location redirect for refresh-friendly page
 }
 
-// not checking rights or if there is something to do, assuming assignements are up to date
+// not checking rights or if there is something to do, assuming assignments are up to date
 $comments_q = DBPal::query(
     "SELECT * FROM notes AS o, assignments AS a "
   . "  WHERE o.status = 'ok' "

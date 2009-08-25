@@ -75,7 +75,11 @@ if (!$erreur_url && !$erreur_var)
 			App::appendSecondary($new_school, $cursus, $secondaire);
 			
 			// insert school and log
-			App::createObjectAndLog('school', $new_school);
+			$i_id = App::createObjectAndLog('school', $new_school);
+			
+			// assign moderation of the school
+			if (Admin::MOD_SCHOOL)
+				App::queue('refresh-assignments', array('for-object', 'school', $i_id));
 				
 			// changement de page
 			$_SESSION["msg"] = (Admin::MOD_SCHOOL)?"Ton établissement a bien été soumis, il apparaîtra dans la liste ci-dessous dès qu'il aura été validé par un administrateur.":"Ton établissement a été ajouté avec succès.";

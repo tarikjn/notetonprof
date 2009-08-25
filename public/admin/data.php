@@ -16,7 +16,7 @@ $assignments = DBPal::query(
 $objects = array();
 while ($assignment = $assignments->fetch_object())
 {
-	// not checking rights or if there is something to do, assuming assignements are up to date
+	// not checking rights or if there is something to do, assuming assignments are up to date
 	$object = DBPal::getRow(
 	    "SELECT * FROM " . Settings::$objType2tabName[$assignment->object_type]
 	  . " WHERE id = {$assignment->object_id} AND status = 'ok'"

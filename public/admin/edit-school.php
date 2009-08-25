@@ -21,7 +21,7 @@ else
 	else if ($user->power < Admin::ACC_ALL_DATA && !DBPal::getOne("SELECT COUNT(*) FROM delegues_etblts WHERE etblt_id = $id AND delegue_id = {$user->uid}"))
     	$err = "Tu n'es pas délégué pour cet établissement.";
     else if ($test_row->open_ticket and $user->power < Admin::ACC_DATA_TICKET)
-		$err = "Pouvoirs insuffisants pour opérer sur un établissement avec siglement(s).";
+		$err = "Pouvoirs insuffisants pour opérer sur un établissement avec signalement(s).";
 	else if ($test_row->moderated = 'raised' and $user->power < Admin::ACC_RAISED_OBJECT)
 		$err = "Établissement en attente de vérification par un Administrateur.";
 }
@@ -40,7 +40,7 @@ if (!@$err)
 		
 		if (@$_POST["action"] == "Supprimer") // TODO: must be independant from template for i18n
 		{
-			// delete school and orphan dependant data in cascade, log and remove associated assignements
+			// delete school and orphan dependant data in cascade, log and remove associated assignments
 		    App::deleteSchool($id, $notes);
 		    		    
 		    $_SESSION[($return)? "success" : "msg"] = "L'établissement #$id a été supprimé.";
@@ -74,7 +74,7 @@ if (!@$err)
 		    	$new_data = array(
 		    	    "nom" => $nom
 		    	  );
-		    	App::appendSecondary($new_data, $cursus, $secondaire);
+		    	App::appendSecondary($new_data, $cursus, @$secondaire);
 		    	
 		    	$prev_data = (array) DBPal::getRow("SELECT nom".(($cursus == E_2ND)?", secondaire":"")." FROM etablissements WHERE id = $id");
 		    	
@@ -93,7 +93,7 @@ if (!@$err)
 		    	
 		    	// process reports
 		    	if (@$_POST['report'])
-					App::processReports($_POST['report'], array('school', $id), $user, $test_row->open_ticket);
+					$new_open_ticket = App::processReports($_POST['report'], array('school', $id), $user, $test_row->open_ticket);
 		    	
 		    	// update
 		    	DBPal::query(
@@ -111,12 +111,19 @@ if (!@$err)
 		    	// log
 		    	App::log($log_msg, "school", $id, $user->uid, $updated_data, $notes);
 		    	
-		    	// TODO: clear assignments
-		    	// if no more tickets and moderated -> clear all
-		    	// else if raised or no moderation and no tickets or tickets are defered -> clear specific to modo
-		    	
-		    	// refresh assignments
-		    	App::queue('refresh-assignments', array('of-object', 'school', $id));
+		    	// if no more tickets and moderated -> clear assignments
+		    	if (($test_row->moderate == 'yes' or @$new_moderate == 'yes')
+		    		and ($test_row->open_ticket == null or @$new_open_ticket === false))
+		    	{
+		    		DBPall::query("DELETE FROM assignments WHERE object_type = 'school' AND object_id = $id");
+		    	}
+		    	else
+		    	{
+		    		// TODO: if raised or no moderation and no tickets or tickets are defered -> clear specific to admin
+		    		
+		    		// refresh assignments
+		    		App::queue('refresh-assignments', array('for-object', 'school', $id));
+		    	}
 		    	
 		    	$success = "Modifications enregistrées avec succès.";
 		    	

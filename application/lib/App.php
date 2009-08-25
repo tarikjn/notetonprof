@@ -166,6 +166,8 @@ class App
 			    . " WHERE id = $object_id"
 			  );
 		}
+		
+		return $new_report;
 	}
 	
 	static function appendSecondary(&$arr, $cursus, $secondary)
@@ -242,6 +244,6 @@ class App
 		}
 		
 		// update first report if changed
-		self::updateFirstReport($obj_arr[0], $obj_arr[1], $current_report);
+		return self::updateFirstReport($obj_arr[0], $obj_arr[1], $current_report);
 	}
 }

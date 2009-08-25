@@ -145,11 +145,15 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 			// log it
 			App::log('Submitted Review', 'comment', $i_id, $user->uid);
 			
+			// assign moderation of the comment
+			if (strlen($comment))
+				App::queue('refresh-assignments', array('for-object', 'comment', $i_id));
+			
 			// enregistrement du cookie
 			setcookie("votes[$p_id][$i_id]", 1, time() + 3600 * 24 * 30 * 4, "/", Settings::COOKIE_DOMAIN);
 			
 			// changement de page
-			$_SESSION["msg"] = (MOD_NTES)?"Ton évaluation a bien été prise en compte, ton commentaire apparaîtra dès qu'il aura été validé par un délégué.":"Ton évaluation a bien été prise en compte.";
+			$_SESSION["msg"] = (strlen($comment))?"Ton évaluation a bien été prise en compte, ton commentaire apparaîtra dès qu'il aura été validé par un délégué.":"Ton évaluation a bien été prise en compte.";
 			Web::redirect("/notes2/".rawurlencode($p_id)."/");
 		}
 		

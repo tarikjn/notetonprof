@@ -5,13 +5,17 @@ require(ROOT_DIR."_ini.php");
 $user->requireOrRedirect();
 
 // initialisation des variables
-$q_add = "";
+$change_pass_q = "";
 unset($success, $notice, $noticeD);
 
 /* début - traitement des données HTTP POST */
 $save = @$_POST["save"];
 $del = @$_POST["del"];
 /* fin - traitement des données HTTP POST */
+
+// get user data
+$query = "SELECT * FROM delegues WHERE id = {$user->uid}";
+$row = DBPal::getRow($query);
 
 if ($save)
 {
@@ -28,7 +32,7 @@ if ($save)
     	$notice["email"] = "Ce n'est pas une adresse <cite>E-mail</cite> valide !";
     else
     {
-    	$query = "SELECT COUNT(*) FROM delegues WHERE email=".DBPal::quote($email)." && id != {$user->uid}";
+    	$query = "SELECT COUNT(*) FROM delegues WHERE email=".DBPal::quote($email)." AND id != {$user->uid} AND status = 'ok'";
     	$isUsed = DBPal::getOne($query);
     	
     	if ($isUsed)
@@ -37,7 +41,7 @@ if ($save)
     
     if (!empty($cur_pass))
     {
-    	$query = "SELECT COUNT(*) FROM delegues WHERE id = {$user->uid} && md5_pass=".DBPal::quote(md5($cur_pass));
+    	$query = "SELECT COUNT(*) FROM delegues WHERE id = {$user->uid} AND md5_pass=".DBPal::quote(md5($cur_pass));
     	$passOk = DBPal::getOne($query);
     	
     	if ($passOk)
@@ -58,24 +62,52 @@ if ($save)
     
     if (!@$notice)
     {
+    	$log_msg = array();
+    	
+    	// determine updated data
+		$new_data = array(
+			"email" => $email,
+		    "nom" => $nom,
+		    "prenom" => $prenom
+		  );
+		  
+		$prev_data = (array) $row;
+		$updated_data = array_diff_assoc($new_data, $prev_data);
+		
     	if (!empty($cur_pass))
-    		$q_add = ", md5_pass='".md5($pass)."'";
+    	{
+    		$change_pass_q = ", md5_pass='".md5($pass)."'";
+    		$log_msg[] = 'Changed account password';
+    	}
     	
-    	// TODO: change to log new data
-    	// get previous data for log before overriding
-    	$query = "SELECT nom, prenom, email FROM delegues WHERE id = {$user->uid}";
-    	$prev_data = DBPal::getRow($query);
+    	if (sizeof($updated_data))
+    		$log_msg[] = 'Changed account details';
     	
-    	$query = "UPDATE delegues SET email=".DBPal::quote($email).", nom=".DBPal::quote($nom).", prenom=".DBPal::quote($prenom)."$q_add WHERE id = {$user->uid}";
-    	$result = DBPal::query($query);
-    	
-    	// log
-    	App::log((empty($cur_pass))?"Changed account details":"Changed account password and possibly account details", "user", $user->uid, $user->uid, $prev_data);
-    	
-    	// send refresh directly to userauth
-    	$user->invalidateSessionData();
-    	
-    	$success = "Modifications enregistrées avec succès.";
+    	if (sizeof($log_msg))
+    	{
+    		// update
+			DBPal::query(
+			      "UPDATE delegues SET id = id"
+			    		    		
+			    . ((sizeof($updated_data))?
+			      "  , " . DBPal::arr2set($updated_data) : "")
+			    
+			    . $change_pass_q
+			    
+			    . " WHERE id = {$user->uid}"
+			  );
+    		
+    		// log
+    		App::log($log_msg, "user", $user->uid, $user->uid, $updated_data);
+    		
+    		// send refresh directly to UserAuth
+    		// TODO: how about password change? -> disconnect/avoid foreign sessions
+    		$user->invalidateSessionData();
+    		
+    		$success = "Modifications enregistrées avec succès.";
+    	}
+    	else
+    		$success = "Aucune modifications.";
     }
 }
 else if ($del)
@@ -91,20 +123,21 @@ else if ($del)
     	if (!DBPal::getOne($query))
     		$noticeD["pass"] = "Mot de passe incorrect.";
     }
-    echo $pass;
     
     if (!@$noticeD)
     {
-    	$query = "INSERT INTO deleted_moderators SELECT * FROM delegues WHERE id = {$user->uid}";
-    	$result = DBPal::query($query);
-    	$query = "DELETE FROM delegues WHERE id = {$user->uid}";
-    	$result = DBPal::query($query);
+    	// delete user
+    	DBPal::query("UPDATE delegues SET status = 'deleted' WHERE id = {$user->uid}");
     	
     	// log
     	App::log("Deleted account", "user", $user->uid, $user->uid);
     	
+    	// refresh assignments of dependant objects
+    	App::queue('refresh-assignments', array('of-admin', $user->uid));
+    	
     	// logout
     	$user->logout();
+    	
 		// redirect
 		$_SESSION['auth.message'] = "Ton compte a été supprimé avec succès";	
 		Web::redirect($_SERVER["REQUEST_URI"]);
@@ -113,9 +146,6 @@ else if ($del)
 
 if (!$save)
 {
-    $query = "SELECT * FROM delegues WHERE id = {$user->uid}";
-    $row = DBPal::getRow($query);
-    
     $nom = $row->nom;
     $prenom = $row->prenom;
     $email = $row->email;

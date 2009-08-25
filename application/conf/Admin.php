@@ -4,7 +4,7 @@ class Admin
 {
 	const MOD_SCHOOL = false;
 	const MOD_PROF = false;
-	const MOD_COMMENT = true;
+	const MOD_COMMENT = true; // not used in code, assumed always true
 	
 	const COMMENTS_ON = true; // not in use
 	

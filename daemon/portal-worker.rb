@@ -11,16 +11,13 @@ require 'beanstalk-client'
 
 # TODO: concurrent execution issues?? -- locking? (keep message in queue, wait for finish)
 # -> solution: use tubes
-# specific tube for assignements
-# TODO: auto-eliminate duplicate messages for assignements tube
+# specific tube for assignments
+# TODO: auto-eliminate duplicate messages for assignments tube
 
 # TODO: secure beanstalkd: only accept localhost connections
 
 ALLOWED_PROGRAMS = ['refresh-assignments']
 WD = Dir.pwd
-
-# trap Ctrl-C
-trap("INT") { puts "interrupted"; exit; }
 
 Daemons.run_proc('portal-worker.rb') do
   # start of the daemon
@@ -28,7 +25,8 @@ Daemons.run_proc('portal-worker.rb') do
   # for some reason, the working directory need to be restored
   Dir.chdir(WD)
   
-
+  # trap Ctrl-C
+  trap("INT") { puts "interrupted"; exit; }
   
   log = Logger.new('logs/portal-worker.log', 'daily')
   log.level = Logger::INFO

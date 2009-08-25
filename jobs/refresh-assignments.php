@@ -53,6 +53,8 @@ else
 			break;
 		
 		case 'of-admin':
+		case 'for-admin':
+		case 'for-school':
 			if ($argc != 3)
 			{
 				fwrite(STDERR, "incorrect number of arguments\n");
@@ -64,13 +66,26 @@ else
 				
 				if (!$id)
 				{
-					fwrite(STDERR, "incorrect admin id\n");
+					fwrite(STDERR, "incorrect object id\n");
 					exit();
 				}
 				else
 				{
-					fwrite(STDOUT, "Refreshing assignments of admin...\n");
-					Assign::refreshAssignedToAdmin($id);
+					if ($argv[1] == 'of-admin')
+					{
+						fwrite(STDOUT, "Refreshing existing assignments of admin...\n");
+						Assign::refreshAssignedToAdmin($id);
+					}
+					else if ($argv[1] == 'for-admin')
+					{
+						fwrite(STDOUT, "Refreshing assignments for admin...\n");
+						Assign::refreshForAdmin($id);
+					}
+					else
+					{
+						fwrite(STDOUT, "Refreshing assignments for school...\n");
+						Assign::refreshForSchool($id);
+					}
 				}
 			}
 			break;

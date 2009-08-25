@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
     	
     	// log
     	App::log("Unenlisted as a moderator from school", "user", $user->uid, $user->uid, array("school_id" => $e_id));
+    	
+    	// refresh assignments for that school
+    	App::queue('refresh-assignments', array('for-school', $e_id));
     }		
     
     $query = "DELETE FROM delegues_etblts WHERE delegue_id = {$user->uid} && (0$q_add)";

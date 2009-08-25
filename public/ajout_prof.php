@@ -73,7 +73,11 @@ if (!$erreur_url && !$erreur_var)
 			
 			// TODO: howto not log columns that won't change?
 			// insert prof and log
-			App::createObjectAndLog('prof', $new_prof);
+			$i_id = App::createObjectAndLog('prof', $new_prof);
+			
+			// assign moderation of the prof
+			if (Admin::MOD_PROF)
+				App::queue('refresh-assignments', array('for-object', 'prof', $i_id));
 				
 			// changement de page
 			$_SESSION["msg"] = (Admin::MOD_PROF)?"Ce professeur a bien été référencé, il apparaîtra dans la liste ci-dessous dès qu'il aura été validé par un délégué.":"Ce professeur a été référencé avec succès.";
