@@ -106,7 +106,16 @@ $title = "Ton Prof";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; <a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt; <a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$dept]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$dept]["ind"])?></a> &gt; <a href="villes/<?=urlencode($cursus)?>/<?=urlencode($dept)?>/"><?=htmlspecialchars($dept)?> - <?=htmlspecialchars(Geo::$DEPT[$dept]["nom"])?></a> &gt; <a href="etblts/<?=urlencode($cursus)?>/<?=urlencode($c_id)?>/"><?=htmlspecialchars($cp)?> - <?=htmlspecialchars($c_nom)?></a> &gt; <a href="profs2/<?=urlencode($e_id)?>/"><span class="etab"><?=htmlspecialchars($e_nom)?></span></a> &gt; <?=htmlspecialchars($prenom)?> <span class="up"><?=htmlspecialchars($nom)?></span></div>
+		<div class="navi">
+			<?=Helper::navPath(array(
+				$cursus,
+				Geo::$DEPT[$dept]['ind'],
+				$dept,
+				array($c_id, $cp, $c_nom),
+				array($e_id, $e_nom),
+				array($p_id, $prenom, $nom)
+			), true)?>
+		</div>
 		<hr />
 		<div>
 			<table class="fiche">

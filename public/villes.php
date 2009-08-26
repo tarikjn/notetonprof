@@ -36,7 +36,9 @@ $title = "Sélection d'une ville";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; <a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt; <a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$dept]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$dept]["ind"])?></a> &gt; <?=htmlspecialchars($dept)?> - <?=htmlspecialchars(Geo::$DEPT[$dept]["nom"])?></div>
+		<div class="navi">
+			<?=Helper::navPath(array($cursus, Geo::$DEPT[$dept]['ind'], $dept), true)?>
+		</div>
 		<hr />
 		<div>
 			<h2>Séléctionne la commune de ton établissement</h2>

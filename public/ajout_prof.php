@@ -102,7 +102,16 @@ $title = "Ajout d'un professeur";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; <a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt; <a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$dept]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$dept]["ind"])?></a> &gt; <a href="villes/<?=urlencode($cursus)?>/<?=urlencode($dept)?>/"><?=htmlspecialchars($dept)?> - <?=htmlspecialchars(Geo::$DEPT[$dept]["nom"])?></a> &gt; <a href="etblts/<?=urlencode($cursus)?>/<?=urlencode($c_id)?>/"><?=htmlspecialchars($cp)?> - <?=htmlspecialchars($c_nom)?></a> &gt; <a href="profs2/<?=urlencode($e_id)?>/"><span class="etab"><?=htmlspecialchars($e_nom)?></span></a> &gt; <?=htmlspecialchars($title)?></div>
+		<div class="navi">
+			<?=Helper::navPath(array(
+				$cursus,
+				Geo::$DEPT[$dept]['ind'],
+				$dept,
+				array($c_id, $cp, $c_nom),
+				array($e_id, $e_nom)
+			))?>
+			&gt; <?=htmlspecialchars($title)?>
+		</div>
 		<hr />
 		<div>
 			<h2>Formulaire d'ajout d'un professeur</h2>

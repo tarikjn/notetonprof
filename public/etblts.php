@@ -44,7 +44,14 @@ $title = "Sélection d'un établissement";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; <a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt; <a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$dept]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$dept]["ind"])?></a> &gt; <a href="villes/<?=urlencode($cursus)?>/<?=urlencode($dept)?>/"><?=htmlspecialchars($dept)?> - <?=htmlspecialchars(Geo::$DEPT[$dept]["nom"])?></a> &gt; <?=htmlspecialchars($cp)?> - <?=htmlspecialchars($c_nom)?></div>
+		<div class="navi">
+			<?=Helper::navPath(array(
+				$cursus,
+				Geo::$DEPT[$dept]['ind'],
+				$dept,
+				array($c_id, $cp, $c_nom)
+			), true)?>
+		</div>
 		<hr />
 		<div>
 			<h2>Séléctionne ton établissement</h2>

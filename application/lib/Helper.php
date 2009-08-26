@@ -10,6 +10,70 @@ class Helper
 	 * formatting
 	 */
 	
+	/* $params: array of parameters
+	 * - course: course identifier (required)
+	 * - area: area identifier
+	 * - dept: department identifier
+	 * - city: [city id, zip code, city name]
+	 * - school: [school id, school name]
+	 * - prof: [prof id, first name, last name]
+	 */
+	static function navPath($params, $end = false)
+	{
+		$s = '<a href=".">Accueil</a>';
+		$f = '<a href="%s">%s</a>';
+		$e = '%2$s';
+	
+		for ($i = 0; list(, $p) = each($params); $i++)
+		{
+			// output '>'
+			$s .= ' &gt; ';
+			
+			$b = ($end and $i + 1 == sizeof($params)) ? $e : $f;
+			
+			switch ($i)
+			{
+				case 0:
+					$s .= sprintf($b,
+					        'indicatifs/' . urlencode($p) .'/',
+					        'Enseignement ' . Geo::$COURSE[$p] );
+					break;
+				
+				case 1:
+					$s .= sprintf($b,
+					        'depts/' . urlencode($params[0]) . '/' . urlencode($p) . '/',
+					        'Indicatif ' . htmlspecialchars($p) );
+					break;
+				
+				case 2:
+					$s .= sprintf($b,
+					        'villes/' . urlencode($params[0]) . '/' . urlencode($p) . '/',
+					        htmlspecialchars($p) . ' - ' . htmlspecialchars(Geo::$DEPT[$p]["nom"]) );
+					break;
+				
+				case 3:
+					$s .= sprintf($b,
+					        'etblts/' . urlencode($params[0]) . '/' . urlencode($p[0]) . '/',
+					        htmlspecialchars($p[1]) . ' - ' . htmlspecialchars($p[2]) );
+					break;
+				
+				case 4:
+					$s .= sprintf($b,
+					        'profs2/' . $p[0] . '/',
+					        '<span class="etab">' . htmlspecialchars($p[1]) . '</span>' );
+					break;
+				
+				case 5:
+					$s .= sprintf($b,
+					        'notes2/' . $p[0] . '/',
+					        htmlspecialchars($p[1]) . ' <span class="up">' . htmlspecialchars($p[2]) . '</span>' );
+					break;	
+			}
+		}
+		
+		return $s;	
+	}
+	
 	static function linkAndCurrent($path, $class = "")
 	{
 		if (Web::getPath() == Settings::WEB_PATH . "/$path")

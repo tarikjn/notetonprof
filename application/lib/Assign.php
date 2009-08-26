@@ -205,6 +205,7 @@ class Assign
 			$score -= round(self::getLevelActivityBeta($level_activity) * self::$SCORE_LEVEL_DIFF[0]);
 			
 			// * at this point score needs to be higher than MIN_SCORE no matter what
+			// TODO: performance can be optimized by stopping here otherwise
 			
 			// for each level under you (d = number of level under you: eg. 1 -> 3 if levels: 1, 2, 4, [5]
 			for ($i = 0; $i < $li; $i++)

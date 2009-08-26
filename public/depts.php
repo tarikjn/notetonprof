@@ -26,7 +26,7 @@ $title = "Sélection d'un département";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; <a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt; Indicatif <?=htmlspecialchars($ind)?></div>
+		<div class="navi"><?=Helper::navPath(array($cursus, $ind), true)?></div>
 		<hr />
 		<div>
 			<h2>Séléctionne ton département</h2>

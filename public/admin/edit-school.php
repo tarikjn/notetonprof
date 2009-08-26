@@ -160,13 +160,14 @@ $title = "Éditer un établissement";
 		<div class="navi"><a href=".">Accueil</a> &gt; <a href="admin/index">Espace Délégué</a> &gt; <?=htmlspecialchars($title)?></div>
 <? } else { ?>
 		<div class="navi">
-			<a href=".">Accueil</a> &gt;
-			<a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt;
-			<a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$etblt['dept']]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$etblt['dept']]["ind"])?></a> &gt;
-			<a href="villes/<?=urlencode($cursus)?>/<?=urlencode($etblt['dept'])?>/"><?=htmlspecialchars($etblt['dept'])?> - <?=htmlspecialchars(Geo::$DEPT[$etblt['dept']]["nom"])?></a> &gt;
-			<a href="etblts/<?=urlencode($cursus)?>/<?=urlencode($etblt['c_id'])?>/"><?=htmlspecialchars($etblt['cp'])?> - <?=htmlspecialchars($etblt['commune'])?></a> &gt;
-			<a href="profs2/<?=urlencode($id)?>/"><span class="etab"><?=htmlspecialchars($nom)?></span></a> &gt;
-			Éditer
+			<?=Helper::navPath(array(
+				$cursus,
+				Geo::$DEPT[$etblt['dept']]["ind"],
+				$etblt['dept'],
+				array($etblt['c_id'], $etblt['cp'], $etblt['commune']),
+				array($id, $nom)
+			))?>
+			&gt; Éditer
 		</div>
 <? } ?>
 		<hr />

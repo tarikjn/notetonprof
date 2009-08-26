@@ -16,6 +16,7 @@ if (isset($_GET["ntp_q"]) && isset($_GET["sent"]))
 		$q_etblt = "SELECT etablissements.id AS id, etablissements.nom AS nom, cursus, secondaire, villes.nom AS commune, cp, ville_id $w_etblt LIMIT 20";
 		$c_etblt = "SELECT COUNT(*) $w_etblt";
 		
+		// TODO: add %first last_name% and %last first_name%
 		$w_prof = "FROM professeurs, etablissements, villes WHERE etablissements.status = 'ok' AND professeurs.status = 'ok' AND CONCAT(professeurs.nom, ' ', professeurs.prenom) LIKE $q && etablissements.id = professeurs.etblt_id && villes.id = etablissements.ville_id".((Admin::MOD_PROF)?" && professeurs.moderated = 'yes'":"").((Admin::MOD_SCHOOL)?" && etablissements.moderated = 'yes'":"");
 		$q_prof = "SELECT professeurs.id AS id, professeurs.nom AS nom, professeurs.prenom AS prenom, etablissements.nom AS etblt, etablissements.id AS etblt_id, cursus, secondaire, villes.nom AS commune, villes.cp AS cp, ville_id $w_prof LIMIT 20";
 		$c_prof = "SELECT COUNT(*) $w_prof";

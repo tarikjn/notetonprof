@@ -29,7 +29,7 @@ else
 
 if (!@$err)
 {
-	$result = DBPal::query("SELECT etablissements.nom AS etblt, etablissements.id AS etblt_id, cursus, secondaire, villes.nom AS commune, dept, cp FROM professeurs, etablissements, villes WHERE professeurs.id = $id && professeurs.status = 'ok' && etablissements.id = professeurs.etblt_id && villes.id = etablissements.ville_id;");
+	$result = DBPal::query("SELECT etablissements.nom AS etblt, etablissements.id AS etblt_id, cursus, secondaire, villes.nom AS commune, villes.id AS c_id, dept, cp FROM professeurs, etablissements, villes WHERE professeurs.id = $id && professeurs.status = 'ok' && etablissements.id = professeurs.etblt_id && villes.id = etablissements.ville_id;");
 	$school = $result->fetch_assoc();
 	$cursus = $school["cursus"];
 	
@@ -175,14 +175,15 @@ $title = "Éditer un professeur";
 		<div class="navi"><a href=".">Accueil</a> &gt; <a href="/admin/index">Espace Délégué</a> &gt; <?=htmlspecialchars($title)?></div>
 <? } else { ?>
 		<div class="navi">
-			<a href=".">Accueil</a> &gt;
-			<a href="indicatifs/<?=urlencode($cursus)?>">Enseignement <?=Geo::$COURSE[$cursus]?></a> &gt;
-			<a href="depts/<?=urlencode($cursus)?>/<?=urlencode(Geo::$DEPT[$school['dept']]["ind"])?>/">Indicatif <?=htmlspecialchars(Geo::$DEPT[$school['dept']]["ind"])?></a> &gt;
-			<a href="villes/<?=urlencode($cursus)?>/<?=urlencode($school['dept'])?>/"><?=htmlspecialchars($school['dept'])?> - <?=htmlspecialchars(Geo::$DEPT[$school['dept']]["nom"])?></a> &gt;
-			<a href="etblts/<?=urlencode($cursus)?>/<?=urlencode($school['etblt_id'])?>/"><?=htmlspecialchars($school['cp'])?> - <?=htmlspecialchars($school['commune'])?></a> &gt;
-			<a href="profs2/<?=$school["etblt_id"]?>/"><span class="etab"><?=htmlspecialchars($school["etblt"])?></span></a> &gt;
-			<a href="notes2/<?=urlencode($id)?>/"><?=htmlspecialchars($prenom)?> <span class="up"><?=htmlspecialchars($nom)?></span></a> &gt;
-			Éditer
+			<?=Helper::navPath(array(
+				$cursus,
+				Geo::$DEPT[$school['dept']]["ind"],
+				$school['dept'],
+				array($school['c_id'], $school['cp'], $school['commune']),
+				array($school["etblt_id"], $school["etblt"]),
+				array($id, $prenom, $nom)
+			))?>
+			&gt; Éditer
 		</div>
 <? } ?>
 		<hr />

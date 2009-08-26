@@ -25,7 +25,7 @@ $title = "Sélection d'un indicatif";
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
-		<div class="navi"><a href=".">Accueil</a> &gt; Enseignement <?=Geo::$COURSE[$cursus]?></div>
+		<div class="navi"><?=Helper::navPath(array($cursus), true)?></div>
 		<hr />
 		<h2>Séléctionne ta zone géographique</h2>
 		<p>Les zones sont définies selon les indicatifs téléphoniques.</p>
