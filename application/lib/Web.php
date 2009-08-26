@@ -3,10 +3,10 @@
 // used statically
 class Web
 {
-	static function redirect($path = '/')
+	static function redirect($path = '/', $fullpath = false)
 	{
 		DBPal::finish();
-		header("Location: " . Settings::WEB_ROOT . $path);
+		header("Location: " . (($fullpath)?'':Settings::WEB_ROOT) . $path);
 		//header("Location: http://" . $_SERVER["HTTP_HOST"] . $path);
 		exit();
 	}

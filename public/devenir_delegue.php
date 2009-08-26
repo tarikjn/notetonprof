@@ -63,7 +63,7 @@ if (!$erreur_url && !$erreur_var)
 	    }
 	    	
 	    // redirect
-	    Web::redirect("/profs2/$e_id");
+	    Web::redirect("/profs2/$e_id/");
 	}
 }
 // fin traitement formulaire

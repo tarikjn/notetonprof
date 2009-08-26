@@ -51,7 +51,7 @@ if ($sent)
     	// changement de page
     	if (@$_GET['return'])
     	{
-    		Web::redirect($_SESSION['auth.previous_page']);
+    		Web::redirect($_SESSION['auth.previous_page'], true);
     	}
     	else
     	{

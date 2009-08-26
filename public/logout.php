@@ -8,4 +8,4 @@ $user->logout();
 $_SESSION['auth.message'] = "Tu as été deconnecté avec succès";		
 
 // redirect
-Web::redirect($_SESSION['auth.previous_page']);
+Web::redirect($_SESSION['auth.previous_page'], true);

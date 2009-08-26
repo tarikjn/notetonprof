@@ -30,7 +30,7 @@ if (isset($_GET["type"]) && isset($_GET["id"]))
 			{
 				case 'school':
 					$concerne = "Établissement : " . Helper::schoolTitle($obj->cursus, $obj->secondaire, $obj->nom, $id);
-					$return_url = "/prof2/$id/";
+					$return_url = "/profs2/$id/";
 					break;
 					
 				case "prof":

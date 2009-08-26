@@ -69,15 +69,15 @@ $title = "Liste des professeurs";
 <? if ($nb_deleg) { ?>
 				Cet établissement est modéré par <?=$nb_deleg?> délégué<?=($nb_deleg == 1)?"":"s"?> actif<?=(($nb_deleg == 1)?"":"s")."\n"?>
 <? } else { ?>
-				Il n'y a aucun délégué actif pour cet établissement, <a href="devenir_delegue?etblt_id=<?=urlencode($e_id)?>">propose-toi</a> !
+				Il n'y a aucun délégué actif pour cet établissement, <a href="devenir_delegue?etblt_id=<?=$e_id?>">propose-toi</a> !
 <? } ?>
 			</div>
 			<h2><span class="etab"><?=htmlspecialchars($e_nom)?></span><? if ($cursus == E_2ND) { ?> (<? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?>)<? } ?><? if ($user->hasAccess($e_id)) { ?> <a href="admin/edit-school?id=<?=$e_id?>"><img src="img/edit.png" alt="Crayon" title="Éditer" height="16" width="16" /></a><? } ?></h2>
-<? if ($message = Web::flash('message')) { ?>
+<? if ($message = Web::flash('msg')) { ?>
 			<p class="msg"><?=$message?></p>
 <? } ?>
 			<p class="rapport"><a href="signaler?type=school&amp;id=<?=$e_id?>"><img src="img/attention.png" height="15" width="9" alt="" />Signaler une erreur sur cet établissement</a></p>
-<? if ($nb_deleg < ceil($rnb / Admin::QUOTA_PROFS_PER_ADMIN) * Admin::QUOTA_MAX_REDONDANCY || $rnb == 0) { ?>
+<? if (($nb_deleg < ceil($rnb / Admin::QUOTA_PROFS_PER_ADMIN) * Admin::QUOTA_MAX_REDONDANCY || $rnb == 0) and !$user->hasSchool($e_id)) { ?>
 			<p class="action"><a href="devenir_delegue?etblt_id=<?=urlencode($e_id)?>">Devenir délégué</a></p>
 <? } ?>
 			<p style="clear: both; text-align: left;"><?=$rnb?> professeurs référencé(s) pour l'établissement : <span class="etab"><? if ($cursus == E_2ND) { ?><? foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":" ")?><? } ?><? } ?><?=htmlspecialchars($e_nom)?></span> (<?=htmlspecialchars($c_nom)?>) :</p>
