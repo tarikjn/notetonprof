@@ -12,7 +12,7 @@ if (@strlen($expl[1]) > 0)
 
 	// début vérification des variables
 	$query =	"SELECT COUNT( notes.id ) AS notes, etablissements.nom AS etblt, etablissements.id AS e_id, etablissements.cursus, secondaire, dept, cp, villes.nom AS commune, villes.id AS c_id, professeurs.*, matieres.nom AS matiere, AVG( interet + pedagogie + connaissances ) / 3 AS moy, AVG( interet ) AS interet, AVG( pedagogie ) AS pedagogie, AVG( connaissances ) AS connaissances, AVG( regularite ) AS regularite, AVG( ambiance ) AS ambiance, AVG( justesse ) AS justesse, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS extra, AVG( FIND_IN_SET( 'pop', extra ) > 0 ) AS pop,  AVG( FIND_IN_SET( 'in', extra ) > 0 ) AS style ".
-			"FROM professeurs, matieres, etablissements, villes ".
+			"FROM (professeurs, matieres, etablissements, villes) ".
 			"LEFT JOIN notes ON notes.prof_id = professeurs.id && notes.status = 'ok' ".
 			"WHERE professeurs.status = 'ok' && professeurs.id = $p_id && etablissements.id = professeurs.etblt_id AND etablissements.status = 'ok' && villes.id = etablissements.ville_id && matieres.id = professeurs.matiere_id".((Admin::MOD_SCHOOL)?" && etablissements.moderated = 'yes'":"").((Admin::MOD_PROF)?" && professeurs.moderated = 'yes'":"")." ".
 			"GROUP BY professeurs.id";

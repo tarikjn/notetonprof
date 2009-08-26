@@ -399,6 +399,7 @@ dd.warn {
 	width: 60px;
 	margin-top: 1.25em;
 	margin-left: 1em;
+	image-rendering: -moz-crisp-edges;
 }
 .left-box {
 	float: left;
@@ -1262,4 +1263,16 @@ table.rank-table tr.promotion th { border-left: 8px solid #a0ffbc; }
 table.rank-table tr.powers th { border-left: 8px solid gray; }
 table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 
-/* moderation help */
+/* !moderation help */
+
+/* new styles */
+
+.comment-view {
+	margin-top: .5em;
+	padding: 5px 10px;
+	background-color: #f8f8f8;
+	font-size: .75em;
+	border: 1px dashed gray;
+}
+
+/* !new styles */

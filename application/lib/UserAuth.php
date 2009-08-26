@@ -23,6 +23,9 @@ class UserAuth
 	public $power = 0;
 	public $username = '';
 	
+	// used on demand
+	public $mod_school = null;
+	
 	const REQ_QUERY = "locked = 'no' AND checked = 1 AND status = 'ok'";
 	
 	// private
@@ -65,6 +68,23 @@ class UserAuth
 			// neeeds 2nd level previous_page and test to use previous_page and avoid redirect loop
 			Web::redirect('/login?return=1');
 		}
+	}
+	
+	function hasAccess($school_id)
+	{
+		if ($this->power < Admin::ACC_ALL_DATA)
+		{
+			if (!isset($this->mod_school))
+			{
+				$this->mod_school = DBPal::getList("SELECT etblt_id FROM delegues_etblts WHERE delegue_id = {$this->uid}");
+			}
+			
+			$has_access = in_array($school_id, $this->mod_school);
+		}
+		else
+			$has_access = true;
+		
+		return $has_access;
 	}
 	
 	function logout()

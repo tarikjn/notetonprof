@@ -72,10 +72,11 @@ $title = "Liste des professeurs";
 				Il n'y a aucun délégué actif pour cet établissement, <a href="devenir_delegue?etblt_id=<?=urlencode($e_id)?>">propose-toi</a> !
 <? } ?>
 			</div>
-			<h2><span class="etab"><?=htmlspecialchars($e_nom)?></span><? if ($cursus == E_2ND) { ?> (<? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?>)<? } ?><? if (@$_COOKIE["active_deleg"]) { ?> <a href="delegues/etblt?id=<?=urlencode($e_id)?>" onclick="var w=window.open(this.href, 'ntp_edit'); w.focus(); return false;"><img src="delegues/img/edit.png" class="edit" alt="Crayon" title="Modifier" height="16" width="16" /></a><? } ?></h2>
+			<h2><span class="etab"><?=htmlspecialchars($e_nom)?></span><? if ($cursus == E_2ND) { ?> (<? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?>)<? } ?><? if ($user->hasAccess($e_id)) { ?> <a href="admin/edit-school?id=<?=$e_id?>"><img src="img/edit.png" alt="Crayon" title="Éditer" height="16" width="16" /></a><? } ?></h2>
 <? if ($message = Web::flash('message')) { ?>
 			<p class="msg"><?=$message?></p>
 <? } ?>
+			<p class="rapport"><a href="signaler?type=school&amp;id=<?=$e_id?>"><img src="img/attention.png" height="15" width="9" alt="" />Signaler une erreur sur cet établissement</a></p>
 <? if ($nb_deleg < ceil($rnb / Admin::QUOTA_PROFS_PER_ADMIN) * Admin::QUOTA_MAX_REDONDANCY || $rnb == 0) { ?>
 			<p class="action"><a href="devenir_delegue?etblt_id=<?=urlencode($e_id)?>">Devenir délégué</a></p>
 <? } ?>
@@ -87,7 +88,7 @@ $title = "Liste des professeurs";
 						<th class="nom">Nom</th>
 						<th class="nom"><span class="abbr" title="ou Civilité">Prénom</span></th>
 						<th class="nom">Matière</th>
-<? if (@$_COOKIE["active_deleg"]) { ?>
+<? if ($user->hasAccess($e_id)) { ?>
 						<th></th>
 <? } ?>
 						<th class="nbre"><span class="abbr" title="Moyenne">Moy.</span></th>
@@ -102,8 +103,8 @@ $title = "Liste des professeurs";
 						<th class="nom up"><a title="Voir/Noter ce professeur" href="notes2/<?=urlencode($row["id"])?>/"><?=htmlspecialchars($row["nom"])?></a></th>
 						<td class="nom"><a title="Voir/Noter ce professeur" href="notes2/<?=urlencode($row["id"])?>/"><?=htmlspecialchars($row["prenom"])?></td>
 						<td class="nom small"><?=htmlspecialchars($row["matiere"])?></th>
-<? if (@$_COOKIE["active_deleg"]) { ?>
-						<td><a href="delegues/prof?id=<?=urlencode($row["id"])?>" onclick="var w=window.open(this.href, 'ntp_edit'); w.focus(); return false;"><img src="delegues/img/edit.png" class="edit" alt="Crayon" title="Modifier" height="16" width="16" /></a></td>
+<? if ($user->hasAccess($e_id)) { ?>
+						<td><a href="admin/edit-prof?id=<?=$row["id"]?>"><img src="img/edit.png" alt="Crayon" title="Éditer" height="16" width="16" /></a></td>
 <? } ?>
 						<td class="nbre"><?=($row["moy"]) ? number_format($row["moy"], 1) : "<em>-</em>"?></td>
 						<td class="nbre"><?=$row["notes"]?></td>

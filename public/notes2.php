@@ -152,7 +152,7 @@ $title = "Ton Prof";
 				</tr>
 			</table>
 			<div class="left-box">
-				<h2 class="over"><?=htmlspecialchars($prenom)?> <span class="up"><?=htmlspecialchars($nom)?></span><? if (@$_COOKIE["active_deleg"]) { ?> <a href="delegues/prof?id=<?=urlencode($p_id)?>" onclick="var w=window.open(this.href, 'ntp_edit'); w.focus(); return false;"><img src="delegues/img/edit.png" class="edit" alt="Crayon" title="Modifier" height="16" width="16" /></a><? } ?></h2>
+				<h2 class="over"><?=htmlspecialchars($prenom)?> <span class="up"><?=htmlspecialchars($nom)?></span><? if ($user->hasAccess($e_id)) { ?> <a href="admin/edit-prof?id=<?=$p_id?>"><img src="img/edit.png" alt="Crayon" title="Éditer" height="16" width="16" /></a><? } ?></h2>
 				<div class="under">
 					<a href="profs/<?=urlencode($e_id)?>/"><?=htmlspecialchars($e_nom)?><? if ($cursus == E_2ND) { ?> (<? $secondaire = explode(",", $secondaire); foreach ($secondaire as $key => $val) { ?><?=Geo::$SECONDARY[$val].((isset($secondaire[$key + 1]))?", ":"")?><? } ?>)<? } ?></a><br />
 					<?=htmlspecialchars($c_nom)?> (<?=htmlspecialchars($dept)?>)
@@ -181,9 +181,6 @@ $title = "Ton Prof";
 						<th class="eval"><span class="abbr" title="Régularité">Rég.</span></th>
 						<th class="eval"><span class="abbr" title="Ambiance">Amb.</span></th>
 						<th class="eval"><span class="abbr" title="Justesse">Just.</span></th>
-<? if (@$_COOKIE["active_deleg"]) { ?>
-						<th></th>
-<? } ?>
 						<th class="nom" style="width: 100%">Commentaire</th>
 						<th></th>
 					</tr>
@@ -199,9 +196,6 @@ $title = "Ton Prof";
 						<th class="eval"><span class="abbr" title="Régularité">Rég.</span></th>
 						<th class="eval"><span class="abbr" title="Ambiance">Amb.</span></th>
 						<th class="eval"><span class="abbr" title="Justesse">Just.</span></th>
-<? if (@$_COOKIE["active_deleg"]) { ?>
-						<th></th>
-<? } ?>
 						<th class="nom" style="width: 100%">Commentaire</th>
 						<th></th>
 					</tr>
@@ -222,13 +216,6 @@ $title = "Ton Prof";
 						<td class="eval"><?=$row["regularite"]?></td>
 						<td><div class="smilep"><?=Helper::ambiance($row["ambiance"])?></div></td>
 						<td><div class="smilep"><?=Helper::ambiance($row["justesse"], 0)?></div></td>
-<? if (@$_COOKIE["active_deleg"]) { ?>
-						<td>
-<? if (strlen($row["comment"]) > 0 && (!Admin::MOD_COMMENT || $row["moderated"] == 'yes')) { ?>
-							<a href="delegues/comment?id=<?=urlencode($row["id"])?>" onclick="var w=window.open(this.href, 'ntp_edit'); w.focus(); return false;"><img src="delegues/img/edit.png" class="edit" alt="Crayon" title="Re-modérer" height="16" width="16" /></a>
-<? } ?>
-						</td>
-<? } ?>
 						<td class="comment" style="width: 100%">
 <? if (Admin::MOD_COMMENT && $row["moderated"] != 'yes') { ?>
 <? if (strlen($row["comment"]) > 0) { ?>

@@ -41,7 +41,7 @@ class Helper
 		return number_format($i, 0, $locale['decimal_point'], $locale['thousands_sep']);
 	}
 
-	static function schoolTitle($course, $secondary, $name)
+	static function schoolTitle($course, $secondary, $name, $id = null)
 	{
 		$extra = "";
 		
@@ -53,12 +53,22 @@ class Helper
 			}
 		}
 		
-		return $extra . $name;
+		$retval = $extra . $name;
+		
+		if ($id)
+			$retval = '<a href="profs2/' . $id . '/">' . $retval . '</a>';
+		
+		return $retval;
 	}
 	
-	static function profTitle($firstName, $lastName)
+	static function profTitle($firstName, $lastName, $id = null)
 	{
-		return htmlspecialchars($firstName) . ' <span class="up">' . htmlspecialchars($lastName) . '</span>';
+		$retval = htmlspecialchars($firstName) . ' <span class="up">' . htmlspecialchars($lastName) . '</span>';
+		
+		if ($id)
+			$retval = '<a href="notes2/' . $id . '/">' . $retval . '</a>';
+		
+		return $retval;
 	}
 	
 	static function formatPath($title, $args)

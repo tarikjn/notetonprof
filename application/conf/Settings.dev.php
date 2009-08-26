@@ -25,7 +25,8 @@ class Settings
 	    "user"    => "delegues",
 	    "school"  => "etablissements",
 	    "prof"    => "professeurs",
-	    "comment" => "notes"
+	    "comment" => "notes",
+	    "report"  => "reports"
 	  );
 	
 	const COMMENT_MAX_LEN = 255;

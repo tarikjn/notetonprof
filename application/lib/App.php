@@ -149,6 +149,8 @@ class App
 	
 	static function updateFirstReport($object_type, $object_id, $current_report = false)
 	{
+		// NOTE: should this method call refresh-assignments?
+		
 		$object_where = " WHERE object_type = '$object_type' AND object_id = $object_id";
 		
 		$new_report = DBPal::getOne(
@@ -183,6 +185,15 @@ class App
 		    
 		    $arr['secondaire'] = implode(",", $arr['secondaire']);
 		}
+	}
+	
+	static function addReport($report_data, $current_report)
+	{
+		// create and log report
+		self::createObjectAndLog('report', (object) $report_data, true);
+		
+		// reset open_ticket on object
+		self::updateFirstReport($report_data->object_type, $report_data->object_id, $current_report);
 	}
 	
 	static function createObjectAndLog($object_type, $object_data, $create_record = false)

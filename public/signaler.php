@@ -15,99 +15,64 @@ if (isset($_GET["type"]) && isset($_GET["id"]))
 	$id = (int) $_GET["id"];
 	
 	$erreur_url = FALSE;
+	$erreur_var = true;
 
-	// début vérification des variables
-	if ( in_array($type, array("prof", "comment")) )
+	// vérification des variables
+	if ( in_array($type, array('school', 'prof', 'comment')) )
 	{
-		switch ($type)
-		{
-			// TODO: add school
-			case "prof":
-				$concerne = "La fiche d'un professeur";
-				$query = "SELECT professeurs.id AS id, etablissements.id AS e_id FROM professeurs, etablissements WHERE professeurs.status = 'ok' AND professeurs.id = $id AND etablissements.id = professeurs.etblt_id";
-				break;
-			case "comment":
-				$concerne = "Le commentaire d'un visiteur";
-				$query = "SELECT prof_id AS id, etablissements.id AS e_id FROM notes, professeurs, etablissements WHERE notes.id = $id && notes.status = 'ok' && professeurs.id = notes.prof_id && etablissements.id = professeurs.etblt_id";
-				break;
-		}
+		$obj = DBPal::getRow("SELECT * FROM " . Settings::$objType2tabName[$type] . " WHERE id = $id AND status = 'ok'");
 		
-		$result = DBPal::query($query);
-		$rnb = $result->num_rows;
-	}
-	
-	if ($rnb > 0)
-	{
-		$row = $result->fetch_assoc();
-		$r_id = $row["id"];
-		$e_id = $row["e_id"];
-		
-		$sent = @$_POST["sent"];
-	
-		if ($sent)
+		if ($obj)
 		{
-			$probleme = @$_POST["probleme"];
+			$erreur_var = false;
 			
-			// log
-			App::log("Reported issue", $type, $id, null, array("issue" => $probleme));
-			
-			// envoi du signalement par mail
-			ob_start();
-			require("tpl/emails/signalement.html.php");
-			$mail_html = ob_get_clean();
-			ob_start();
-			require("tpl/emails/signalement.text.php");
-			$mail_text = ob_get_clean();
-			
-			$mail = new PHPMailer();
-			$mail->CharSet = "UTF-8";
-			$mail->IsSMTP();
-			$mail->Host = $smtp;
-			if ($smtpA)
+			switch ($type)
 			{
-				$mail->SMTPAuth = true;
-				$mail->Username = $smtpUser;
-				$mail->Password = $smtpPass;
+				case 'school':
+					$concerne = "Établissement : " . Helper::schoolTitle($obj->cursus, $obj->secondaire, $obj->nom, $id);
+					$return_url = "/prof2/$id/";
+					break;
+					
+				case "prof":
+					$concerne = "Professeur : " . Helper::profTitle($obj->prenom, $obj->nom, $id);
+					$return_url = "/notes2/$id/";
+					break;
+					
+				case "comment":
+					$concerne = "Commentaire : "
+					          . '<div class="comment-view">' . htmlspecialchars($obj->comment) .'</div>';
+					$return_url = "/notes2/{$obj->prof_id}/";
+					break;
 			}
 			
-			$mail->From = $botMail;
-			$mail->FromName = $botName;
-			
-			// sélection des adresses emails à alerter
-			$q_emails_deleg = "SELECT delegues.email FROM delegues_etblts, delegues WHERE delegues.id = delegues_etblts.delegue_id && delegues_etblts.etblt_id = $e_id AND status = 'ok' && checked = 1 && locked = 'no'";
-			$r_emails_deleg = DBPal::query($q_emails_deleg);
-			
-			while ($row = $r_emails_deleg->fetch_assoc())
-				$mail->AddAddress($row["email"]);
-			
-			$q_emails_nbactive = "SELECT COUNT(*) FROM delegues_etblts, delegues WHERE delegues.id = delegues_etblts.delegue_id && delegues_etblts.etblt_id = $e_id AND status = 'ok' && checked = 1 && locked = 'no' && TO_DAYS(NOW()) - TO_DAYS(last_conn) < 31";
-			$nbactive = DBPal::getOne($q_emails_nbactive);
-			
-			if ($type == "comment" || !$nbactive)
-				$mail->AddAddress("modos@notetonprof.fr");
-			// fin
-			
-			$mail->Subject = "Signalement concernant : $concerne";
-			$mail->AddEmbeddedImage("img/titre-lite.png", "titre");
-			$mail->Body = $mail_html;
-			$mail->AltBody = $mail_text;
-			
-			if (!$mail->Send())
-				$notice["mail"] = "Un problème technique est survenu lors de l'envoi, veuillez réessayer, et dans le cas échéant contacter le <a href=\"webmestre@notetonprof.fr\">Webmestre</a>.";
-			
-			if (!$notice)
+			// has the form been posted?
+			if ($_SERVER["REQUEST_METHOD"] == 'POST')
 			{
-				// changement de page
-				$_SESSION["msg"] = ($type == "comment" || !$nbactive)?"Ton signalement a bien été pris en compte, nous feront le nécessaire dans les plus bref délais.":"Ton signalement a été envoyé aux délégués concernés.";
-				Web::redirect("/notes2/".rawurlencode($r_id)."/");
+				$probleme = @$_POST["probleme"];
+			
+				if (!$notice)
+				{
+					// report data
+					$report = (object) array(
+						'object_type' => $type,
+						'object_id' => $id,
+						'description' => $probleme
+					);
+				
+					// add report (will also log and ticket object)
+					App::addReport($report, $obj->open_ticket);
+					
+					// refresh assignments
+					App::queue('refresh-assignments', array('for-object', $type, $id));
+					// TODO: should now take care of emailing assignments
+					
+					// changement de page
+					$_SESSION["msg"] = "Ton signalement a bien été pris en compte, nous ferons le nécessaire dans les plus bref délais.";
+					Web::redirect($return_url);
+				}
 			}
 		}
-		
-		$erreur_var = FALSE;
 	}
-	else
-		$erreur_var = TRUE;
-	// fin vérification des variables
 }
 else	$erreur_url = TRUE;
 // fin traitement des variables URL
@@ -124,10 +89,10 @@ $title = "Signaler un problème";
 		<div>
 			<h2>Signaler un problème</h2>
 			<p>
-<? if ($type == "prof") { ?>
-				Ce formulaire te permet de nous faire remonter rapidement une erreur sur la fiche d'un professeur :
+<? if ( in_array($type, array('school', 'prof')) ) { ?>
+				Ce formulaire te permet de nous signaler une erreur ou un problème.
 <? } else if ($type == "comment") { ?>
-				Ce formulaire te permet de nous faire remonter rapidement un commentaire qui ne respecterait pas les <a href="regles">règles</a>.
+				Ce formulaire te permet de nous signaler un commentaire qui ne respecte pas les <a href="regles">règles</a>.
 <? } ?>
 			</p>
 <? if ($notice) { ?>
@@ -136,17 +101,16 @@ $title = "Signaler un problème";
 				<ul><? foreach ($notice as $alert) { ?><li><?=$alert?></li><? } ?></ul>
 			</div>
 <? } ?>
-			<form action="<?=$_SERVER["SCRIPT_NAME"]?>?type=<?=urlencode($type)?>&amp;id=<?=urlencode($id)?>" method="post" class="form">
-				<input type="hidden" name="sent" value="1" />
+			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form">
 				<dl>
 					<dt>Concerne :</dt>
-					<dd><?=htmlspecialchars($concerne)?> (#<?=$id?>)</dd>
+					<dd><?=$concerne?></dd>
 					<dt>Détails :</dt>
 					<dd>
 						<label for="probleme" class="facultatif">Problème* : <input type="text" name="probleme" id="probleme" value="<?=@htmlspecialchars($probleme)?>" size="65" maxlength="255" /></label>
 						<p class="facultatif etoile">*Champ facultatif</p>
 						<p class="indic">
-<? if ($type == "prof") { ?>
+<? if ( in_array($type, array('school', 'prof')) ) { ?>
 							S'il s'agit d'une correction à effectuer, merci de donner les bonnes informations au complet. Ce n'est pas forcément quelqu'un de votre établissement qui sera chargé d'effectuer la correction.
 <? } else if ($type == "comment") { ?>
 							La seule action que nous prenons vis à vis des commentaires est la suppression des évaluations comportant un commentaire qui ne respecte pas les règles. Nous ne pouvons supprimer une évaluation ou la modifier pour une quelque autre raison.
