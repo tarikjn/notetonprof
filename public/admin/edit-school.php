@@ -253,7 +253,7 @@ $title = "Éditer un établissement";
 ?>
 			    	<div class="report <?=($report->actor_id === 0)? 'system' : 'alert'?><?=($report->defered)?' defered':''?>">
 			    	    <div class="date"><?=strftime("%x", $report->time)?></div>
-			    	    <div class="notes"><?=htmlspecialchars($report->note)?></div>
+			    	    <div class="notes"><?=htmlspecialchars($report->description)?></div>
 			    	    <div class="action">
 			    	    	Action : 
 							<select name="report[<?=$report->id?>]">
