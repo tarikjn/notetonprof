@@ -33,6 +33,12 @@ $map_haut = array(
 	
 	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" src="js/portal.js"></script>
+	<script>
+		var RecaptchaOptions = {
+		   theme: 'white',
+		   lang: 'fr'
+		};
+	</script>
 </head>
 <body>
 <? if ($user->uid) require('tpl/mod_panel.php') ?>

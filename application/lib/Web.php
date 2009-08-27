@@ -1,8 +1,31 @@
 <?php
 
+// load reCAPTCHA for forms
+require_once('third-party/recaptchalib.php');
+
 // used statically
 class Web
 {
+	static function getReCaptcha($user = null, $ly = 'dl')
+	{
+		return sprintf(Helper::$RC_LAYOUTS[$ly], recaptcha_get_html(Settings::RC_PUBLIC_K));
+		
+		// TODO: display mode for logged in user
+	}
+	
+	static function checkReCaptcha($user, &$notice)
+	{
+		$rc_resp = recaptcha_check_answer(Settings::RC_PRIVATE_K,
+	                               $_SERVER["REMOTE_ADDR"],
+	                               $_POST["recaptcha_challenge_field"],
+	                               $_POST["recaptcha_response_field"]);
+
+		if (!$rc_resp->is_valid)
+			$notice["recaptcha"] = "le reCAPTCHA entré est incorrect.";
+		
+		// TODO: use this for action counter
+	}
+	
 	static function redirect($path = '/', $fullpath = false)
 	{
 		DBPal::finish();

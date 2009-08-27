@@ -59,6 +59,10 @@ if (!$erreur_url && !$erreur_var)
 		// vérification fantôme
 		if (!$rnb)
 			$notice["matiere"] = "Identifiant de la matière incorrect.";
+		
+		// check the reCAPTCHA
+		Web::checkReCaptcha($user, $notice);
+		
 		if (!$notice)
 		{
 			// create associative array for prof data
@@ -164,6 +168,7 @@ $title = "Ajout d'un professeur";
 						<p class="facultatif etoile" id="facultatif">*Champ facultatif</p>
 <? } ?>
 					</dd>
+					<?=Web::getReCaptcha($user)?>
 					<dt>Validation</dt>
 					<dd><input type="submit" value="Terminer" /></dd>
 				</dl>

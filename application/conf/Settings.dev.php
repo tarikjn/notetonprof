@@ -21,6 +21,10 @@ class Settings
 	
 	const BEANSTALKQ = 'localhost:11300';
 	
+	// reCAPTCHA keys
+	const RC_PUBLIC_K = '6LerAwgAAAAAANeKUYMeBlgJiJHhOT22JbKNtgGC';
+	const RC_PRIVATE_K = '6LerAwgAAAAAAAxCA_qmwO2WRilg273eYUzPNwl-';
+	
 	static $objType2tabName = Array(
 	    "user"    => "delegues",
 	    "school"  => "etablissements",

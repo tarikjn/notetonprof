@@ -48,6 +48,9 @@ if ($sent)
 	if (empty($nom))
 		$notice["nom"] = "Remplis le champ <cite>Nom</cite>.";
 	
+	// check the reCAPTCHA
+	Web::checkReCaptcha($user, $notice);
+	
 	if (!$notice)
 	{
 		$check_id = Web::genPass();
@@ -150,6 +153,7 @@ $title = "Inscription délégué";
 						</fieldset>
 						<p class="facultatif etoile" id="facultatif">*Champ facultatif, 5 caractères minimum (caractères quelconques)</p>
 					</dd>
+					<?=Web::getReCaptcha()?>
 					<dt>Validation</dt>
 					<dd><input type="submit" value="Terminer" /></dd>
 				</dl>

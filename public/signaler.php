@@ -49,7 +49,10 @@ if (isset($_GET["type"]) && isset($_GET["id"]))
 			if ($_SERVER["REQUEST_METHOD"] == 'POST')
 			{
 				$probleme = @$_POST["probleme"];
-			
+				
+				// check the reCAPTCHA
+				Web::checkReCaptcha($user, $notice);
+				
 				if (!$notice)
 				{
 					// report data
@@ -117,6 +120,7 @@ $title = "Signaler un problème";
 <? } ?>
 						</p>
 					</dd>
+					<?=Web::getReCaptcha($user)?>
 					<dt>Validation</dt>
 					<dd><input type="submit" value="Terminer" /></dd>
 				</dl>

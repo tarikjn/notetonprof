@@ -64,6 +64,10 @@ if (!$erreur_url && !$erreur_var)
 		// vérification fantôme
 		if (!$rnb)
 			$notice["c_id"] = "Identifiant de la commune incorrect.";
+		
+		// check the reCAPTCHA
+		Web::checkReCaptcha($user, $notice);
+		
 		if (!$notice)
 		{
 			// create associative array for school data
@@ -155,6 +159,7 @@ $title = "Ajout d'un établissement";
 						</fieldset>
 <? } ?>
 					</dd>
+					<?=Web::getReCaptcha($user)?>
 					<dt>Validation</dt>
 					<dd><input type="submit" value="Terminer" /></dd>
 				</dl>

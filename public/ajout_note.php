@@ -136,6 +136,10 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 		// vérification fantôme
 		if (!in_array($statut, array("on", "off")))
 			$notice["statut"] = "Statut incorrect.";
+		
+		// check the reCAPTCHA
+		Web::checkReCaptcha($user, $notice);
+		
 		if (!@$notice)
 		{
 			// enregistrement
@@ -331,6 +335,7 @@ $title = "Note Ton Prof";
 							</label>
 						</fieldset>
 					</dd>
+					<?=Web::getReCaptcha($user)?>
 					<dt>Validation</dt>
 					<dd><input type="submit" value="Terminer" /></dd>
 				</dl>

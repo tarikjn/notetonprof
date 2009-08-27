@@ -6,6 +6,12 @@ require_once('conf/Ratings.php');
 // used statically
 class Helper
 {
+	// reCAPTCHA layouts
+	static $RC_LAYOUTS = array(
+	    'dl'    => '<dt>Étape Anti-spam et robots</dt><dd>%s</dd>',
+		'plain' => ''
+	  );
+
 	/* *****************
 	 * formatting
 	 */
