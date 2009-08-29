@@ -29,7 +29,7 @@ if ($sent)
 	
 	if (!$notice)
 	{
-		$check_id = Web::genPass();
+		$check_id = UserAuth::genPass();
 		
 		// enregistrement
 		DBPal::query("UPDATE delegues SET check_id = " . DBPal::quote($check_id) . ", change_pwd = 1 WHERE email = " . DBPal::quote($email) . " AND status = 'ok' AND locked = 'no' AND checked = 1");
@@ -37,43 +37,20 @@ if ($sent)
 		// log
 		App::log("Requested password reinitialization", "user", $rnb, null, null, null, true);
 		
-		// envoi du mail de recréation d'un mot de passe
-		ob_start();
-		require("tpl/emails/ini_pass.html.php");
-		$mail_html = ob_get_clean();
-		ob_start();
-		require("tpl/emails/ini_pass.text.php");
-		$mail_text = ob_get_clean();
+		// setup email template vars
+		$email_vars = array(
+		    'email' => $email,
+		    'check_id' => $check_id
+		  );
 		
-		$mail = new PHPMailer();
-		$mail->CharSet = "UTF-8";
-		$mail->IsSMTP();
-		$mail->Host = $smtp;
-		if ($smtpA)
-		{
-			$mail->SMTPAuth = true;
-			$mail->Username = $smtpUser;
-			$mail->Password = $smtpPass;
-		}
-		
-		$mail->From = $botMail;
-		$mail->FromName = $botName;
-		$mail->AddReplyTo($rootMail, $rootName);
-		$mail->AddAddress($email);
-		$mail->Subject = "Réinitialisation de ton mot de passe";
-		$mail->AddEmbeddedImage("img/titre-lite.png", "titre");
-		$mail->Body = $mail_html;
-		$mail->AltBody = $mail_text;
-		
-		if(!$mail->Send())
-		{  
-			//echo "There was an error sending the message<br/>"; 
-			//echo $mail->ErrorInfo;
-			//exit;
-		}
+		// send password reinitialization email
+		Mail::sendMail($email,
+		               "Réinitialisation de ton mot de passe",
+		               'ini_pass',
+		               $email_vars);
 			
 		// changement de page
-		$success = TRUE;
+		$success = true;
 	}
 }
 else

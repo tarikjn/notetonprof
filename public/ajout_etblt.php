@@ -33,7 +33,7 @@ if (!$erreur_url && !$erreur_var)
 	{
 		$s_cp = @$_GET["s_cp"];
 		
-		if (!ereg("^[0-9]{".$cp_length."}$", $s_cp))
+		if (!preg_match("/^[0-9]{".$cp_length."}$/", $s_cp))
 			$notice["s_cp"] = "Suffixe du code postal incorrect, celui-ci doit être composé de $cp_length chiffres.";
 		else
 		{

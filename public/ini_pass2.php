@@ -19,7 +19,7 @@ if (isset($_GET["email"]) && isset($_GET["code"]))
 	
 	if ($rnb)
 	{
-		$pass = Web::genPass();
+		$pass = UserAuth::genPass();
 		
 		$query = "UPDATE delegues SET md5_pass = " . DBPal::quote(md5($pass)) . ", change_pwd = 0 WHERE email = " . DBPal::quote($email) . " && status = 'ok' AND check_id = " . DBPal::quote($code) . " && checked = 1 && change_pwd = 1 && locked = 'no'";
 		$result = DBPal::query($query);
@@ -27,37 +27,20 @@ if (isset($_GET["email"]) && isset($_GET["code"]))
 		// log
 		App::log("Completed password reinitialization", "user", $rnb, null);
 		
-		// envoi du mot de passe par mail
-		ob_start();
-		require("tpl/emails/ini_pass2.html.php");
-		$mail_html = ob_get_clean();
-		ob_start();
-		require("tpl/emails/ini_pass2.text.php");
-		$mail_text = ob_get_clean();
+		// setup email template vars
+		$email_vars = array(
+		    'email' => $email,
+		    'pass' => $pass,
+		    'check_id' => $check_id
+		  );
 		
-		$mail = new PHPMailer();
-		$mail->CharSet = "UTF-8";
-		$mail->IsSMTP();
-		$mail->Host = $smtp;
-		if ($smtpA)
-		{
-			$mail->SMTPAuth = true;
-			$mail->Username = $smtpUser;
-			$mail->Password = $smtpPass;
-		}
+		// send new password email
+		Mail::sendMail($email,
+		               "Nouveau mot de passe",
+		               'ini_pass2',
+		               $email_vars);
 		
-		$mail->From = $botMail;
-		$mail->FromName = $botName;
-		$mail->AddReplyTo($rootMail, $rootName);
-		$mail->AddAddress($email);
-		$mail->Subject = "Nouveau mot de passe";
-		$mail->AddEmbeddedImage("img/titre-lite.png", "titre");
-		$mail->Body = $mail_html;
-		$mail->AltBody = $mail_text;
-		
-		$mail->Send();
-		
-		$erreur_var = FALSE;
+		$erreur_var = false;
 	}
 	else
 		$erreur_var = TRUE;

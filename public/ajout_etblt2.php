@@ -57,8 +57,6 @@ if (!$erreur_url && !$erreur_var)
 		
 		if (strlen($nom) < 1)
 			$notice["nom"] = "Remplis le champ <cite>Nom</cite>.";
-		else if (eregi("efrei", $nom))
-			$notice["nom"] = "Cet établissement n'est pas autorisé.";
 		if ($cursus == E_2ND && (!isset($secondaire["college"]) && !isset($secondaire["lycee"])))
 			$notice["secondaire"] = "Sélectionne au moins un type d'enseignement secondaire.";
 		// vérification fantôme

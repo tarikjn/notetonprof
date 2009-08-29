@@ -64,24 +64,4 @@ class Web
 		$encoded = '%'.substr($encoded, 0, strlen($encoded) - 1); 
 		return $encoded; 
 	}
-	
-	/* *****************
-	 * authentication
-	 */
-	
-	static function isEmail($string)
-	{
-		return eregi('^[\._a-z0-9-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$', $string);
-	}
-	
-	static function genPass($length = 8)
-	{
-		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.";
-		$pass = "";
-		
-		for($i = 0; $i < $length; $i++)
-			$pass .= $chars{mt_rand(0, strlen($chars) - 1)};
-		
-		return $pass;
-	}
 }

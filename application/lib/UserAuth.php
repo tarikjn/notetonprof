@@ -138,6 +138,21 @@ class UserAuth
 		$this->checkSession();
 	}
 	
+	/* *****************
+	 * helper methods
+	 */
+	 
+	static function genPass($length = 8)
+	{
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.";
+		$pass = "";
+		
+		for($i = 0; $i < $length; $i++)
+			$pass .= $chars{mt_rand(0, strlen($chars) - 1)};
+		
+		return $pass;
+	}
+	
 	/* ******************************
 	 * session manipulation methods
 	 */

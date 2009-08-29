@@ -22,7 +22,7 @@ if ($sent)
 	
 	if (empty($email))
 		$notice["email"] = "Indique ton adresse <cite>E-mail</cite> pour l'identifiant.";
-	else if (!Web::isEmail($email))
+	else if (!Mail::isValidEmail($email))
 		$notice["email"] = "Ce n'est pas une adresse <cite>E-mail</cite> valide !";
 	else
 	{
@@ -34,7 +34,7 @@ if ($sent)
 	}
 	
 	if (empty($pass))
-		$pass = Web::genPass();
+		$pass = UserAuth::genPass();
 	else
 	{
 		if (strlen($pass) < 5)
@@ -53,7 +53,7 @@ if ($sent)
 	
 	if (!$notice)
 	{
-		$check_id = Web::genPass();
+		$check_id = UserAuth::genPass();
 		
 		// TODO: rule out check_id and md5_pass when logging creation
 		$new_admin = array(
@@ -68,38 +68,22 @@ if ($sent)
 		// insert admin and log, 3rd param means setup create_record
 		App::createObjectAndLog('user', $new_admin, true);
 		
-		// envoi du mail d'activation
-		ob_start();
-		require("tpl/emails/activation.html.php");
-		$mail_html = ob_get_clean();
-		ob_start();
-		require("tpl/emails/activation.text.php");
-		$mail_text = ob_get_clean();
+		// setup email template vars
+		$email_vars = array(
+		    'prenom' => $prenom,
+		    'email' => $email,
+		    'pass' => $pass,
+		    'check_id' => $check_id
+		  );
 		
-		$mail = new PHPMailer();
-		$mail->CharSet = "UTF-8";
-		$mail->IsSMTP();
-		$mail->Host = $smtp;
-		if ($smtpA)
-		{
-			$mail->SMTPAuth = true;
-			$mail->Username = $smtpUser;
-			$mail->Password = $smtpPass;
-		}
-		
-		$mail->From = $botMail;
-		$mail->FromName = $botName;
-		$mail->AddReplyTo($rootMail, $rootName);
-		$mail->AddAddress($email, "$prenom $nom");
-		$mail->Subject = "Ton inscription sur noteTonProf.fr";
-		$mail->AddEmbeddedImage("img/titre-lite.png", "titre");
-		$mail->Body = $mail_html;
-		$mail->AltBody = $mail_text;
-		
-		$mail->Send();
+		// send activation email
+		Mail::sendMail($email,
+		               "Ton inscription sur noteTonProf.fr",
+		               'activation',
+		               $email_vars);
 		
 		// changement de page
-		$success = TRUE;
+		$success = true;
 	}
 }
 // fin traitement formulaire

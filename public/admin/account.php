@@ -28,7 +28,7 @@ if ($save)
     
     if (empty($email))
     	$notice["email"] = "Indique ton adresse <cite>E-mail</cite> pour l'identifiant.";
-    else if (!Web::isEmail($email))
+    else if (!Mail::isValidEmail($email))
     	$notice["email"] = "Ce n'est pas une adresse <cite>E-mail</cite> valide !";
     else
     {
