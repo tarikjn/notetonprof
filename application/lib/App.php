@@ -105,7 +105,7 @@ class App
 		
 		// set profs and comments orphans + clear assignments
 		// TODO: should that be done by a separate job?
-		$profs = DBPal::getList("SELECT id FROM professeurs WHERE etblt_id = $id");
+		$profs = DBPal::getList("SELECT id FROM professeurs WHERE etblt_id = $id AND status = 'ok'");
 		while ($prof_id = array_shift($profs))
 		{
 			self::deleteProf($prof_id, null, true);
@@ -125,13 +125,13 @@ class App
 	{
 		global $user;
 		
-		$comments = DBPal::getList("SELECT id FROM notes WHERE prof_id = $prof_id");
+		$comments = DBPal::getList("SELECT id FROM notes WHERE prof_id = $prof_id AND status = 'ok'");
 		while ($comment_id = array_shift($comments))
 		{
-		    self::deleteComment($comment_id);
+		    self::deleteComment($comment_id, true);
 		}
 		
-		DBPal::query("UPDATE professeurs SET status = '".(($orphan)?'orphan':'deleted')."' WHERE id = $prof_id");
+		DBPal::query("UPDATE professeurs SET status = '".(($orphan)?'orphaned':'deleted')."' WHERE id = $prof_id");
 		self::log(($orphan)?'Orphaned':'Deleted', "prof", $prof_id, $user->uid, null, $notes);
 		
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'prof' AND object_id = $prof_id");
@@ -141,7 +141,7 @@ class App
 	{
 		global $user;
 		
-		DBPal::query("UPDATE notes SET status = '".(($orphan)?'orphan':'deleted')."' WHERE id = $comment_id");
+		DBPal::query("UPDATE notes SET status = '".(($orphan)?'orphaned':'deleted')."' WHERE id = $comment_id");
 		self::log(($orphan)?'Orphaned':'Deleted', "comment", $comment_id, $user->uid);
 		    
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'comment' AND object_id = $comment_id");
