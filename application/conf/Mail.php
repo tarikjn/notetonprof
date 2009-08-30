@@ -26,11 +26,13 @@ class Mail
     static function sendMail($recipient, $subject, $tpl_name, $tpl_vars = null)
     {
     	//Create the Transport
-		$transport = Swift_SmtpTransport::newInstance(self::SMTP_HOST, self::SMTP_PORT)
-		  ->setUsername(self::SMTP_USER)
-		  ->setPassword(self::SMTP_PASS)
-		  ;
-		//$transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
+    	if (!Settings::USE_SENDMAIL)
+			$transport = Swift_SmtpTransport::newInstance(self::SMTP_HOST, self::SMTP_PORT)
+			  ->setUsername(self::SMTP_USER)
+			  ->setPassword(self::SMTP_PASS)
+			  ;
+		else
+			$transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
 		
 		//Create the Mailer using your created Transport
 		$mailer = Swift_Mailer::newInstance($transport);

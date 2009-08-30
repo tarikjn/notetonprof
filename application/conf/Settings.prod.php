@@ -25,6 +25,9 @@ class Settings
 	const RC_PUBLIC_K = '6LelAwgAAAAAANse8DMTFjj-eajQn1li3PrMwjI4';
 	const RC_PRIVATE_K = '6LelAwgAAAAAAFGacfyA3yQf75G12uNoUbV3EGW3';
 	
+	// Mail settings
+	const USE_SENDMAIL = false;
+	
 	static $objType2tabName = Array(
 	    "user"    => "delegues",
 	    "school"  => "etablissements",
