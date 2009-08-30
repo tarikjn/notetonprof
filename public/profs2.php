@@ -47,9 +47,6 @@ if (@strlen($expl[1]) > 0)
 	}
 	else
 		$erreur_var = TRUE;
-	
-	if (!isset(Geo::$DEPT[$dept]))
-		$erreur_var = TRUE;
 	// fin vérification des variables
 }
 else	$erreur_url = TRUE;

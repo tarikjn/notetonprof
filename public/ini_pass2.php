@@ -3,7 +3,7 @@ define("ROOT_DIR", "");
 require(ROOT_DIR."_ini.php");
 
 // load mail functions
-require_once("conf/Mail.php");
+require_once("lib/Mail.php");
 
 // début traitement des variables URL
 if (isset($_GET["email"]) && isset($_GET["code"]))

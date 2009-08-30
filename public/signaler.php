@@ -2,9 +2,6 @@
 define("ROOT_DIR", "");
 require(ROOT_DIR."_ini.php");
 
-// load mail functions
-require_once("conf/Mail.php");
-
 $rnb = 0;
 $notice = FALSE;
 
