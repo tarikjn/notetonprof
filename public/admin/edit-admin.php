@@ -69,6 +69,7 @@ if (!@$err)
 		    	{
 		    		App::queue('refresh-assignments', 'all');
 		    	}
+		    }
 		}
 		
 		// process reports
