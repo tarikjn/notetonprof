@@ -43,10 +43,10 @@ if (!@$err)
 			// delete prof and orphan dependant data in cascade, log and remove associated assignments
 		    App::deleteProf($id, $notes);
 		    		    
-		    $_SESSION[($return)? "success" : "msg"] = "La fiche professeur #$id a été supprimé.";
+		    $_SESSION[($return)? "success" : "msg"] = "Le professeur #$id a été supprimé.";
 		    
 		    // redirect to appropriate page
-		    Web::redirect(($return)? "/admin/data" : "/profs/" . $school->id);
+		    Web::redirect(($return)? "/admin/data" : "/profs/" . $school['etblt_id']);
 		}
 		else // normal update
 		{
