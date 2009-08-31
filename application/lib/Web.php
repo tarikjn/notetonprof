@@ -65,3 +65,9 @@ class Web
 		return $encoded; 
 	}
 }
+
+// short function wrapper
+function h($s)
+{
+	return htmlspecialchars($s);
+}
