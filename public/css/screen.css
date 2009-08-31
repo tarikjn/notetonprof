@@ -439,8 +439,7 @@ td.eval {
 }
 .comment div {
 	line-height: 1em;
-      	overflow: auto;
-	height: 3em;
+	padding: .5em .5em .5em 0;
 }
 .large {
 	width: 100%;

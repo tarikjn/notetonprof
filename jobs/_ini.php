@@ -20,6 +20,9 @@ require_once("lib/DBPal.php");
 // portal application static
 require_once("lib/App.php");
 
+// mail library static
+require_once("lib/Mail.php");
+
 // load geographical settings
 require_once("conf/Geo.php");
 

@@ -313,4 +313,21 @@ class Helper
 		<table>
 		<?
 	}
+	
+	static function selectHelper($values, $match)
+	{
+		$s = '';
+		  
+		for ($i = 0; list($value, $title) = each($values); $i++)
+		{
+			if ($match == $value)
+				$selected = ' selected="selected"';
+			else
+				$selected = null;
+			  	
+			$s .= "<option value=\"" . h($value) . "\"$selected>" . h($title) . "</option>";
+		}
+		
+		return $s;
+	}
 }

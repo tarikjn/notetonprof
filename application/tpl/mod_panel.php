@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div id="mod-tabs">
-			<?=Helper::linkAndCurrent('admin/index', 'icon home')?>Accueil</a>
+			<?=Helper::linkAndCurrent('admin/index', 'icon home')?>Vue d'ensemble</a>
 			<? if ($user->power >= Admin::ACC_MONITOR) { ?>
 				<?=Helper::linkAndCurrent('admin/monitor', 'icon monitoring')?>Surveillance</a>
 			<? } ?>

@@ -13,6 +13,8 @@ class Mail
 	static $FROM = array("root@notetonprof.fr" => "NoteTonProf.fr");
 	static $REPLY_TO = array("info@notetonprof.fr" => "NoteTonProf.fr");
 	
+	private static $mailer = null;
+	
 	// source: http://codingforums.com/showthread.php?t=93453
 	static function isValidEmail($string)
 	{
@@ -23,7 +25,26 @@ class Mail
     	else return false;
     }
     
+    
+    
     static function sendMail($recipient, $subject, $tpl_name, $tpl_vars = null)
+    {
+    	if (!self::$mailer)
+    		self::setMailer();
+		
+		//Create a message
+		$message = Swift_Message::newInstance($subject)
+		  ->setFrom(self::$FROM)
+		  ->setReplyTo(self::$REPLY_TO)
+		  ->setTo($recipient)
+		  ->setBody(self::loadTemplate($tpl_name, $tpl_vars))
+		  ;
+  		
+		//Send the message
+		$result = self::$mailer->send($message);
+    }
+    
+    private static function setMailer()
     {
     	//Create the Transport
     	if (!Settings::USE_SENDMAIL)
@@ -35,18 +56,7 @@ class Mail
 			$transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
 		
 		//Create the Mailer using your created Transport
-		$mailer = Swift_Mailer::newInstance($transport);
-		
-		//Create a message
-		$message = Swift_Message::newInstance($subject)
-		  ->setFrom(self::$FROM)
-		  ->setReplyTo(self::$REPLY_TO)
-		  ->setTo($recipient)
-		  ->setBody(self::loadTemplate($tpl_name, $tpl_vars))
-		  ;
-  		
-		//Send the message
-		$result = $mailer->send($message);
+		self::$mailer = Swift_Mailer::newInstance($transport);
     }
     
     private static function loadTemplate($template_name, $var)

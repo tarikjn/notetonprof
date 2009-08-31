@@ -26,6 +26,12 @@ if ($save)
     $prenom = @$_POST["prenom"];
     $nom = @$_POST["nom"];
     
+    // all others
+    $val = (object) array(
+        'mail_assignments' => @$_POST["mail_assignments"],
+        'mail_admins' => (@$_POST["mail_admins"])? 'on' : 'off'
+      );
+    
     if (empty($email))
     	$notice["email"] = "Indique ton adresse <cite>E-mail</cite> pour l'identifiant.";
     else if (!Mail::isValidEmail($email))
@@ -68,7 +74,9 @@ if ($save)
 		$new_data = array(
 			"email" => $email,
 		    "nom" => $nom,
-		    "prenom" => $prenom
+		    "prenom" => $prenom,
+		    'mail_assignments' => $val->mail_assignments,
+		    'mail_admins' => $val->mail_admins
 		  );
 		  
 		$prev_data = (array) $row;
@@ -149,6 +157,9 @@ if (!$save)
     $nom = $row->nom;
     $prenom = $row->prenom;
     $email = $row->email;
+    
+    // all others
+    $val = $row;
 }
 
 // Controller-View limit
@@ -191,6 +202,26 @@ $title = "Mon Compte";
 					<label for="prenom"<?=(@$notice["prenom"])?" class=\"notice\"":""?>>Prénom : <input type="text" name="prenom" id="prenom" value="<?=@htmlspecialchars($prenom)?>" maxlength="50" /></label>
 					<label for="nom"<?=(@$notice["nom"])?" class=\"notice\"":""?>>Nom : <input type="text" name="nom" id="nom" value="<?=@htmlspecialchars($nom)?>" maxlength="50" /></label>
 					<p class="indic">Ton nom ne sert qu'à l'équipe de <cite>noteTonProf.fr</cite>, il ne sera en aucun cas affiché sur le site.</p>
+				</fieldset>
+				<fieldset>
+					<legend>Préférences de notification</legend>
+					<label for="mail_assignments">
+						Réception des tâches : 
+						<select name="mail_assignments" id="mail_assignments">
+							<?=Helper::selectHelper(
+								array(
+								  'daily' => 'Quotidienne',
+								  'weekly' => 'Hebdomadaire',
+								  'off' => 'Désactivée' ),
+								$val->mail_assignments
+							)?>
+						</select>
+					</label>
+					<p class="indic">Si tu n'as aucune tâche en attente, tu ne reçevera aucun courriel.</p>
+					<label for="mail_admins">
+						<input type="checkbox" name="mail_admins" id="mail_admins" value="on" <?=(($val->mail_admins == 'on')?'checked="checked" ':'')?>/>
+						Reçevoir les messages d'information envoyés aux modérateurs (recommendé)
+					</label>
 				</fieldset>
 				<p class="facultatif etoile">*Champ facultatif, 5 caractères minimum (caractères quelconques)</p>
 				<div class="save"><input type="submit" value="Enregistrer" /></div>

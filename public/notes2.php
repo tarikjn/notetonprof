@@ -233,7 +233,7 @@ $title = "Ton Prof";
 							<em></em>
 <? } ?>
 <? } else { ?>
-							<div><br /><?=htmlspecialchars($row["comment"])?></div>
+							<div><?=h($row["comment"])?></div>
 <? } ?>
 						</td>
 						<td><?=Helper::smiley($row["moy"], $row["pop"])?></td>

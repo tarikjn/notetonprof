@@ -26,7 +26,7 @@ class Settings
 	const RC_PRIVATE_K = '6LerAwgAAAAAAAxCA_qmwO2WRilg273eYUzPNwl-';
 	
 	// Mail settings
-	const USE_SENDMAIL = true;
+	const USE_SENDMAIL = false;
 	
 	static $objType2tabName = Array(
 	    "user"    => "delegues",
