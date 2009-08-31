@@ -211,7 +211,12 @@ $title = "Éditer un établissement";
 ?>
 				<h3>Modération</h3>
 				<div class="info-section">
-					<p>Cet établissement nécessite une action de modération de ta part :</p>
+					<p>
+						<?=(Admin::MOD_PROF)?
+							  "Cet établissement nécessite une action de modération de ta part :"
+							: "Ce établissement n'a pas encore été vérifié / modéré"
+						?>
+					</p>
 					<div class="info"><a href="/admin/help#data-moderate">Aide</a></div>
 				</div>
 				<div class="highlight-select">

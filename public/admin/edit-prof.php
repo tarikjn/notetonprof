@@ -248,7 +248,12 @@ $title = "Éditer un professeur";
 ?>
 				<h3>Modération</h3>
 				<div class="info-section">
-					<p>Ce professeur nécessite une action de modération de ta part :</p>
+					<p>
+						<?=(Admin::MOD_PROF)?
+							  "Ce professeur nécessite une action de modération de ta part :"
+							: "Ce professeur n'a pas encore été vérifié / modéré"
+						?>
+					</p>
 					<div class="info"><a href="/admin/help#data-moderate">Aide</a></div>
 				</div>
 				<div class="highlight-select">

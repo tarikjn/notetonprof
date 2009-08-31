@@ -11,7 +11,7 @@ if ($argc < 1)
 }
 else
 {
-	if (in_array($argv[1], array('daily', 'weekly')))
+	if (in_array(@$argv[1], array('daily', 'weekly')))
 	{
 		fprintf(STDOUT, "Mailing %s assignments...\n", $argv[1]);
 		

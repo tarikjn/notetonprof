@@ -50,9 +50,17 @@ class Assign
 	static function refreshAll()
 	{
 		$queries = array(
-			'comment' => "SELECT * FROM notes WHERE ((moderated != 'yes' AND LENGTH(comment) > 0) OR open_ticket IS NOT NULL) AND status = 'ok'",
-			'prof' => "SELECT * FROM professeurs WHERE (moderated != 'yes' OR open_ticket IS NOT NULL) AND status = 'ok'",
-			'school' => "SELECT * FROM etablissements WHERE (moderated != 'yes' OR open_ticket IS NOT NULL) AND status = 'ok'",
+			'comment' => "SELECT * FROM notes WHERE "
+			           . "((moderated != 'yes' AND LENGTH(comment) > 0) OR open_ticket IS NOT NULL) AND status = 'ok'",
+			
+			'prof' => "SELECT * FROM professeurs WHERE ("
+			        . ((Admin::MOD_PROF)?"moderated != 'yes' OR ":'')
+			        . "open_ticket IS NOT NULL) AND status = 'ok'",
+			 
+			'school' => "SELECT * FROM etablissements WHERE ("
+			          . ((Admin::MOD_SCHOOL)?"moderated != 'yes' OR ":'')
+			          . "open_ticket IS NOT NULL) AND status = 'ok'",
+			
 			'user' => "SELECT * FROM delegues WHERE open_ticket IS NOT NULL AND status = 'ok'",
 		);
 		
@@ -107,7 +115,7 @@ class Assign
 	static function refreshForSchool($school_id)
 	{
 		// refresh assignments for the school object
-		// note: the school object may not need any action
+		// note: the school object may not need any action, determined by refreshForObject
 		self::refreshForObject('school', $school_id);
 		
 		// refresh teachers
@@ -115,7 +123,7 @@ class Assign
 		while ($prof = $res->fetch_object())
 		{
 			// does the prof need any action?
-			if ($prof->moderated != 'yes' or $prof->open_ticket)
+			if (($prof->moderated != 'yes' and Admin::MOD_PROF) or $prof->open_ticket)
 			{
 		    	self::refreshForObject('prof', $prof->id, $prof);
 		    }
@@ -146,11 +154,20 @@ class Assign
 		//TODO: action stats refresh message?
 		
 		if (!$object_data)
+		{
+			if ($object_type == 'comment'
+			  or ($object_type == 'prof' and Admin::MOD_PROF)
+			  or ($object_type == 'school' and Admin::MOD_SCHOOL))
+				$moderated = " OR moderated != 'yes'";
+			else
+				$moderated = '';
+			
 			$object_data = DBPal::getRow(
 			  "SELECT * FROM ".Settings::$objType2tabName[$object_type]
 			 ."  WHERE status = 'ok' AND id = $object_id"
-			 ."    AND (open_ticket IS NOT NULL" . (($object_type != 'user')? " OR moderated != 'yes'":"") . ")"
+			 ."    AND (open_ticket IS NOT NULL$moderated)"
 			);
+		}
 		
 		// nothing to do on that object
 		if (!$object_data)
