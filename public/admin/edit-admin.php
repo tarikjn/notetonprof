@@ -207,7 +207,7 @@ $title = "Éditer un Modérateur";
 				<h3>Signalements ouverts</h3>
 				<div class="info-section">
 					<p>Cet administrateur a des signalements non résolus qui requièrent une action de ta part :</p>
-					<div class="info"><a href="/admin/help#admin-solve">Aide</a></div>
+					<div class="info"><a href="admin/help#admin-solve">Aide</a></div>
 				</div>
 				<div class="report-list">
 <?

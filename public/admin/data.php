@@ -46,7 +46,7 @@ $title = "Données";
 		<div>
 			<div class="info-section">
 				<h2><?=htmlspecialchars($title)?></h2>
-			    <div class="info"><a href="/admin/help#data">Instructions</a></div>
+			    <div class="info"><a href="admin/help#data">Instructions</a></div>
 			</div>
 			<? if ($message = Web::flash('success')) { ?>
 				<p class="msg"><?=$message?></p>

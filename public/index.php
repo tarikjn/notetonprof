@@ -56,13 +56,9 @@ $title = NULL;
 		<hr />
 		<div class="message">
 			<p>
-				<strong>Un outil critique à la disposition des élèves.</strong>
+				<strong>Un outil essentiel à la disposition des élèves.</strong>
 				Pour permettre aux enseignants d'améliorer et de perfectionner leurs méthodes d'apprentissage.<br />
 				Et récompenser le travail formidable effectué par les professeurs brillants et pédagogues dont on ne parle pas assez.
-			</p>
-			<p>
-				<!--La lettre du webmaster : -->« L'évaluation démocratique des profs, une première en France ! »<br />
-				<a href="#">Lire la suite&hellip;</a>
 			</p>
 			<!-- Dernière info -->
 		</div>

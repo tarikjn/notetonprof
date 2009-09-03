@@ -10,9 +10,14 @@ $title = "Annoncer";
 		<hr />
 		<div>
 			<h2>Informations pour les annonceurs</h2>
-			<p>Vous voulez être annonceur sur un site qui va bientôt faire un effet de tremblement de terre en France ?</p>
-			<p>Vous recherchez un site populaire susceptible d'être fréquenté par tout les élèves et les étudiants connectés ? (et quelques professeurs perdus ;)</p>
-			<p>Vous souhaitez être un partenaire ou sponsor privilégié ?</p>
-			<p>Contactez : <a href="mailto:<?=Web::emailEncode("tarik@notetonprof.fr")?>">Tarik ANSARI</a></p>
+			<p>NoteTonProf.fr c'est : </p>
+			<ul>
+				<li>Un concept unique et novateur</li>
+				<li>Un profil d'utilisateur type bien défini</li>
+				<li>Une configuration idéale pour promouvoir des services liés à l'enseignement, secteur en plein développement</li>
+				<li>Un nombre de possibilités presque illimitées en termes de ciblage de la publicité</li>
+			</ul>
+			<p>Vous souhaitez être un partenaire, sponsor ou tout simplement diffuser votre campagne publicitaire sur noteTonProf.fr ?</p>
+			<p>Contactez : <a href="mailto:<?=Web::emailEncode("contact@campuscitizens.com")?>">contact@campuscitizens.com</a></p>
 		</div>
 <? require("tpl/bas.php"); ?>

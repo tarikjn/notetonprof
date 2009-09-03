@@ -11,24 +11,27 @@ $title = "Contact";
 		<div class="navi"><a href=".">Accueil</a> &gt; <?=htmlspecialchars($title)?></div>
 		<hr />
 		<div>
+			<h2>Forum</h2>
+			<p>Les <a href="http://forums.notetonprof.fr">forums</a> sont à votre disposition pour échanger vos avis sur le site, vos idées ou débatre sur tout ce qui s'y rapporte.</p>
 			<h2>Nous contacter</h2>
-			<p>Merci d'envoyer ton message à l'adresse appropriée.</p>
+			<p>Pour nous signaler une erreur sur un professeur ou un établissement, ou signaler un commentaire qui ne respecte pas les <a href="regles">règles du site</a>, merci d'utiliser la fonction « Signaler » (représentée par un <img src="img/attention.png" />) à coté de l'établissement, du professeur ou du commentaire concerné.</p>
+			<p>Merci d'envoyer votre message à l'adresse appropriée.</p>
 			<ul class="contact">
 				<li>
-					Pour contacter les modérateurs :<br />
-					<a href="mailto:<?=Web::emailEncode("modos@notetonprof.fr")?>">&#109;&#111;&#100;&#111;&#115;&#64;&#110;&#111;&#116;&#101;&#116;&#111;&#110;&#112;&#114;&#111;&#102;&#46;&#102;&#114;</a>
+					Pour signaler une erreur sur le site qui ne peut être signalée via la fonction « Signaler », ou pour toute problème de modération rencontré :<br />
+					<a href="mailto:<?=Web::emailEncode("ops@notetonprof.fr")?>">ops@notetonprof.fr</a>
 				</li>
 				<li>
-					Pour nous faire part de ton avis sur le site :<br />
-					<a href="mailto:<?=Web::emailEncode("comment@notetonprof.fr")?>">&#99;&#111;&#109;&#109;&#101;&#110;&#116;&#64;&#110;&#111;&#116;&#101;&#116;&#111;&#110;&#112;&#114;&#111;&#102;&#46;&#102;&#114;</a>
+					Pour nous faire part de votre avis sur le site :<br />
+					<a href="mailto:<?=Web::emailEncode("feedback@notetonprof.fr")?>">feedback@notetonprof.fr</a>
 				</li>
 				<li>
-					Pour nous transmettre ou nous demander une information :<br />
-					<a href="mailto:<?=Web::emailEncode("infos@notetonprof.fr")?>">&#105;&#110;&#102;&#111;&#115;&#64;&#110;&#111;&#116;&#101;&#116;&#111;&#110;&#112;&#114;&#111;&#102;&#46;&#102;&#114;</a>
+					Pour signaler un problème technique ou de sécurité sur le site :<br />
+					<a href="mailto:<?=Web::emailEncode("tech@notetonprof.fr")?>">tech@notetonprof.fr</a>
 				</li>
 				<li>
-					Pour signaler un problème technique sur le site :<br />
-					<a href="mailto:<?=Web::emailEncode("webmestre@notetonprof.fr")?>">&#119;&#101;&#98;&#109;&#101;&#115;&#116;&#114;&#101;&#64;&#110;&#111;&#116;&#101;&#116;&#111;&#110;&#112;&#114;&#111;&#102;&#46;&#102;&#114;</a>
+					Pour tout autre raison :<br />
+					<a href="mailto:<?=Web::emailEncode("info@notetonprof.fr")?>">info@notetonprof.fr</a>
 				</li>
 			</ul>
 		</div>

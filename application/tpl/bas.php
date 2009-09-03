@@ -1,6 +1,6 @@
 		<hr />
 		<p class="pied">
-			<a href="http://www.campuscitizens.com">Campus Citizens</a> - Tous droits réservés. - <a href="dessin">Dessin</a>
+			Notetonprof.fr est un site de <a href="http://www.campuscitizens.com">Campus Citizens</a> - Tous droits réservés. - <a href="dessin">Dessin</a>
 			</p>
 	</div>
 </body>

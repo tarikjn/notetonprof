@@ -43,11 +43,10 @@ if (!$erreur_url && !$erreur_var)
 {
 	if ($user->uid)
 	{
-	    $query = "SELECT COUNT(*) FROM delegues_etblts WHERE delegue_id = {$user->uid} && etblt_id = {$e_id}";
-	    $rnb = DBPal::getOne($query);
-	    
-	    if ($rnb)
+	    if (in_array($e_id, $user->getSchools()))
 	    	$_SESSION["msg"] = "Tu es déjà délégué de cet établissement !";
+	    else if (sizeof($user->getSchools()) >= Admin::$MAX_SCHOOLS[$user->power] and $user->power < Admin::ACC_ALL_DATA)
+	    	$_SESSION["msg"] = "Tu ne peux pas modérer d'autres établissements que ceux que tu modères déjà.";
 	    else
 	    {
 	    	// enregistrement

@@ -187,7 +187,7 @@ $title = "Éditer un établissement";
 			<h3>Commune</h3>
 			<p class="upper"><?=htmlspecialchars($etblt["commune"])?> (<?=htmlspecialchars($etblt["cp"])?>)</p>
 			<p><strong>Cursus :</strong> <?=htmlspecialchars(Geo::$COURSE[$cursus])?></p>
-			<p class="indic">TODO: change here directly -- Pour changer la commune ou le cursus, contacte les <a href="mailto:modos@notetonprof.fr">modérateurs</a>.</p>
+			<p class="indic"><!--TODO: change here directly -->Pour changer la commune ou le cursus, contacte les <a href="mailto:ops@notetonprof.fr">opérateurs</a>.</p>
 			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post">
 				<h3>Données</h3>
 				<label for="nom"<?=(@$notice["nom"])?" class=\"notice\"":""?>>Nom de l'établissement : <input type="text" name="nom" id="nom" value="<?=@htmlspecialchars($nom)?>" maxlength="50" /></label>
@@ -217,7 +217,7 @@ $title = "Éditer un établissement";
 							: "Ce établissement n'a pas encore été vérifié / modéré"
 						?>
 					</p>
-					<div class="info"><a href="/admin/help#data-moderate">Aide</a></div>
+					<div class="info"><a href="admin/help#data-moderate">Aide</a></div>
 				</div>
 				<div class="highlight-select">
 					<label class="selected">
@@ -250,7 +250,7 @@ $title = "Éditer un établissement";
 				<h3>Signalements ouverts</h3>
 				<div class="info-section">
 					<p>Cet établissement a des signalements non résolus qui requièrent une action de ta part :</p>
-					<div class="info"><a href="/admin/help#data-solve">Aide</a></div>
+					<div class="info"><a href="admin/help#data-solve">Aide</a></div>
 				</div>
 				<div class="report-list">
 <?

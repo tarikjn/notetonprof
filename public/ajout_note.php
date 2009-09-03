@@ -302,13 +302,13 @@ $title = "Note Ton Prof";
 							</tbody>
 						</table>
 						<p class="facultatif etoile">Ne rentre pas en compte dans la note globale de ton professeur.</p>
-						<p class="indic">Pour les deux derniers critères, la meilleure évaluation se trouve au centre.</p>
+						<p class="indic">Pour les deux DERNIERS critères, la meilleure évaluation se trouve au CENTRE.</p>
 					</dd>
 					<dt>Commentaire</dt>
 					<dd<?=(@$notice["comment"])?" class=\"notice\"":""?>>
 						<textarea style="background-color: #DFECFF;" rows="3" cols="66" name="comment" onkeydown="limite(this, <?=Settings::COMMENT_MAX_LEN?>);" onkeyup="limite(this, <?=Settings::COMMENT_MAX_LEN?>);"><?=@htmlspecialchars($comment)?></textarea>
 						<p class="facultatif etoile">Champ facultatif, <?=Settings::COMMENT_MAX_LEN?> caractères maximum.</p>
-						<div class="indic longue">Aie des propos constructifs et en relation avec l'efficacité de ton prof en classe. Justifie l'évaluation que tu lui as laissée. Il est interdit de signer d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
+						<div class="indic longue">Aie des propos constructifs en relation avec la qualité d'enseignement de ton prof. Ton commentaire doit justifier l'évaluation que tu lui as laissé. Il est interdit de signer d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé avec l'évaluation.</div>
 					</dd>
 					<dt>Informations</dt>
 					<dd class="bg">

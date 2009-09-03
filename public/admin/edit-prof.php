@@ -254,7 +254,7 @@ $title = "Éditer un professeur";
 							: "Ce professeur n'a pas encore été vérifié / modéré"
 						?>
 					</p>
-					<div class="info"><a href="/admin/help#data-moderate">Aide</a></div>
+					<div class="info"><a href="admin/help#data-moderate">Aide</a></div>
 				</div>
 				<div class="highlight-select">
 					<label class="selected">
@@ -287,7 +287,7 @@ $title = "Éditer un professeur";
 				<h3>Signalements ouverts</h3>
 				<div class="info-section">
 					<p>Ce professeur a des signalements non résolus qui requièrent une action de ta part :</p>
-					<div class="info"><a href="/admin/help#data-solve">Aide</a></div>
+					<div class="info"><a href="admin/help#data-solve">Aide</a></div>
 				</div>
 				<div class="report-list">
 <?

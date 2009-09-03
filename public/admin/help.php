@@ -12,18 +12,31 @@ $title = "Assistance";
 <? require("tpl/haut.php"); ?>
 		<div class="navi"><a href=".">Accueil</a> &gt; <a href="/admin/index">Espace Délégué</a> &gt; <?=htmlspecialchars($title)?></div>
 		<hr />
-		<div>
+		<div class="text-page">
 			<h2><?=htmlspecialchars($title)?></h2>
 			<h3>Sommaire</h3>
 			<ul>
-				<li><a href="/admin/help#ranks">Pouvoirs des modérateurs</a></li>
-				<li><a href="/admin/help#data">Données</a></li>
+				<li><a href="admin/help#moderator-agreement">Conditions de modération</a></li>
+				<li><a href="admin/help#ranks">Pouvoirs des modérateurs</a></li>
+				<li><a href="admin/help#data">Données</a></li>
 				<ul>
-					<li><a href="/admin/help#data-moderate">Modération</a></li>
-					<li><a href="/admin/help#data-solve">Résolution des signalements</a></li>
+					<li><a href="admin/help#data-moderate">Modération</a></li>
+					<li><a href="admin/help#data-solve">Résolution des signalements</a></li>
+				</ul>
+				<li><a href="admin/help#data">Commentaires</a></li>
+				<ul>
+					<li><a href="admin/help#data-moderate">Modération</a></li>
+					<li><a href="admin/help#data-solve">Résolution des signalements</a></li>
 				</ul>
 			</ul>
+			<h3><a name="moderator-agreement">Conditions de modération</a></h3>
+			<div class="legal">
+				<? require('tpl/legal/moderator_agreement.html'); ?>
+			</div>
 			<h3><a name="ranks">Pouvoirs des modérateurs</a></h3>
+<? if ($user->power == 5) { ?>
+			<p class="information">Les sections <em>Contrôles</em> ci-dessous ne sont visibles qu'aux <?=Admin::$RANKS[5]?>s.</p>
+<? } ?>
 			<table class="rank-table">
 				<thead>
 					<tr>
@@ -35,7 +48,7 @@ $title = "Assistance";
 						<th>Promotion</th>
 						<td>
 							<ol>
-								<li>Acceptation des règles de modération générales</li>
+								<li>Acceptation des conditions de modération</li>
 								<li>Inscription</li>
 								<li>Validation de l'addresse E-mail</li>
 							</ol>
@@ -56,8 +69,8 @@ $title = "Assistance";
 						<td>
 							<ul>
 								<li>[Auto] Bloquage après plus de 3 changements d'établissement en 1 semaine</li>
-								<li>[Auto] Bloquage après plus de 60 actions en 1 minute</li>
-								<li>[Auto] Bloquage si plus de 5% des commentaires modérés en 1 semaine sont contestés (50 commentaires minimum)</li>
+								<li>[Auto] Bloquage après plus de 15 actions en 1 minute</li>
+								<li>[Auto] Bloquage si plus de 8% des commentaires validés en 1 semaine sont contestés (sur 50 commentaires minimum)</li>
 							</ul>
 						</td>
 					</tr>
@@ -74,7 +87,7 @@ $title = "Assistance";
 						<td>
 							<ol>
 								<li>Être <?=Admin::$RANKS[1]?></li>
-								<li>[Auto] Avoir 1 semaine ET accepter 25 commentaires avec moins de 2% de contestation</li>
+								<li>[Auto] Avoir 10 jours d'ancienneté ET avoir validé au moins 50 commentaires avec moins de 3% de contestation</li>
 							</ol>
 						</td>
 					</tr>
@@ -112,7 +125,7 @@ $title = "Assistance";
 							<ol>
 								<li>[Auto] Avoir été <?=Admin::$RANKS[2]?> pendant 3 mois</li>
 								<li>Un <?=Admin::$RANKS[5]?> doit approuver qu'il n'y a eu qu'un minimum d'incidents</li>
-								<li>Doit fournir un numéro de téléphone de contact</li>
+								<li>Doit fournir des information de contact supplémentaires</li>
 								<li>Doit accepter un nouveau contrat</li>
 							</ol>
 						</td>
@@ -210,5 +223,4 @@ $title = "Assistance";
 				</tbody>
 			<table>
 		</div>
-
 <? require("tpl/bas.php"); ?>

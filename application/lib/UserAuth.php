@@ -86,6 +86,19 @@ class UserAuth
 		return in_array($school_id, $this->getSchools());
 	}
 	
+	function getSchools()
+	{
+		if (!isset($this->mod_school))
+		{
+			if ($this->uid)
+				$this->mod_school = DBPal::getList("SELECT etblt_id FROM delegues_etblts WHERE delegue_id = {$this->uid}");
+			else
+				$this->mod_school = array();
+		}
+		
+		return $this->mod_school;
+	}
+	
 	function logout()
 	{
 		// if the user has a cookie delete it
@@ -181,19 +194,6 @@ class UserAuth
 	/* *****************
 	 * private methods
 	 */
-	
-	private function getSchools()
-	{
-		if (!isset($this->mod_school))
-		{
-			if ($this->uid)
-				$this->mod_school = DBPal::getList("SELECT etblt_id FROM delegues_etblts WHERE delegue_id = {$this->uid}");
-			else
-				$this->mod_school = array();
-		}
-		
-		return $this->mod_school;
-	}
 	
 	private function setSession(&$values, $init = false, $remember = false, $revalidate = false)
 	{

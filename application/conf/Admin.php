@@ -16,6 +16,11 @@ class Admin
 	    5 => 'Opérateur'
 	  );
 	
+	static $MAX_SCHOOLS = array(
+	    1 => 2,
+	    2 => 5
+	  );
+	
 	const MIN_SCORE = 350;
 	
 	const ACC_SHOW_SCORE = 4;

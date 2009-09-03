@@ -30,14 +30,14 @@ a:visited, a:active {
 
 .centre {
 	position: absolute;
-	right: 25%;
-	left: 25%;
+	right: 270px;
+	left: 270px;
 	margin: 1em 0;
 }
 .page {
 	position: absolute;
 	right: 3%;
-	left: 25%;
+	left: 270px;
 	margin: 1em 0;
 }
 .gauche {
@@ -51,7 +51,7 @@ a:visited, a:active {
 .gauche, .droite {
 	position: relative;
 	top: 1em;
-	width: 18%;
+	width: 200px;
 	text-align: center;
 	padding-bottom: 1em;
 }
@@ -117,33 +117,27 @@ hr {
 
 /* - vnav */
 
+.gauche h2 {
+	display: none;
+	visibility: hidden;
+}
 .vnav {
 	padding-top: 1.3em;
 	padding-bottom: .5em;
 }
 .vnav h3 {
-	background-color: #A77A00;
 	border-top: 1px black solid;
 	border-bottom: 1px #B5A169 solid;
+	background: #A77A00 url(../img/menu-h3-bg.gif) top left repeat-y;
 	height: 26px;
 	padding: 0;
 	margin: 0;
-}
-.vnav h3 span {
-	display: none;
-}
-.vnav h3#site {
-	background: #A77A00 url(../img/menu-h3-site.gif) no-repeat left;
-}
-.vnav h3#evaluations {
-	background: #A77A00 url(../img/menu-h3-evaluations.gif) no-repeat left;
-}
-.vnav h3#classements {
-	background: #A77A00 url(../img/menu-h3-classements.gif) no-repeat left;
-	cursor: help;
-}
-.vnav h3#delegues {
-	background: #A77A00 url(../img/menu-h3-delegues.gif) no-repeat left;
+	
+	color: white;
+	font-size: 110%;
+	vertical-align: middle;
+	line-height: 26px;
+	padding-left: .5em;
 }
 .vnav ul {
 	margin: 0;
@@ -668,6 +662,12 @@ td.eval {
 	font-size: .8em;
 	border: 1px solid #fbec72;
 	background: #fffee8 url(../img/warning.png) 10px 10px no-repeat;
+	padding: 10px 10px 10px 36px;
+}
+.information {
+	font-size: .8em;
+	border: 1px solid #859eff;
+	background: #e8efff url(../img/info.png) 10px 10px no-repeat;
 	padding: 10px 10px 10px 36px;
 }
 
@@ -1272,6 +1272,63 @@ table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 	background-color: #f8f8f8;
 	font-size: .75em;
 	border: 1px dashed gray;
+}
+
+.global-link {
+	position: relative;
+}
+.global-link {
+	position: absolute;
+	top: 100px;
+	padding-left: 20px;
+	background: url(../img/globe.png) transparent left center no-repeat;
+}
+.global-link div.box {
+	border-left: 1px dotted gray;
+	padding-left: 6px;
+	background: white;
+	line-height: 1.3em;
+}
+.cc-txt-logo {
+	font-size: 1.15em;
+	color: #2b2b2b;
+	word-spacing: -3px;
+}
+.cc-txt-logo .head {
+	color: #2d44a6;
+}
+.cc-goto-link a {
+	text-decoration: none;
+	font-size: .9em;
+	background: #e8ecff;
+	padding-right: 6px;
+	color: #71737c;
+}
+
+.text-page h3 {
+	margin-top: 2em;
+}
+
+.legal {
+	font-size: 85%;
+}
+.legal h4 {
+	color: black;
+	text-transform: uppercase;
+	font-size: 110%;
+}
+.legal li {
+	margin-top: .25em;
+}
+.legal p em, .legal li em {
+	text-transform: uppercase;
+	font-style: normal;
+}
+.legal p, .legal li {
+	text-align: justify;
+}
+.legal p.strong {
+	font-weight: bold;
 }
 
 /* !new styles */

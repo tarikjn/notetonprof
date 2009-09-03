@@ -14,11 +14,8 @@ $title = "L'objectif du site";
 			<p>Chacun a eut, ou a des professeurs passionnés, passionnants, doués pour transmettre leur savoir et faire aimer leur matière aux élèves.</p>
 			<p>Pour les faire connaître, et &mdash; peut-être &mdash; donner envie aux autres de leur ressembler, il est temps d'inverser les rôles et de laisser les élèves noter les professeurs.</p>
 			<p>Pour la première fois, c'est vous qui allez noter vos profs et consulter leurs bulletins de notes.</p>
-			<p>Nous espérons que cet espace de liberté sera pour les professeurs l'occasion espéré de savoir enfin ce que pensent les élèves (et non seulement l'Éducation Nationale) de leur enseignement.</p>
-			<p>Il faut bien comprendre cependant que ce site est un moyen d'expression pour les élèves, et que les notes sont des appréciations personnelles, elles ne viennent donc d'aucune manière remettre en question les évaluations faites par l'Éducation Nationale.</p>
-			<p>Nota Bene : Ce site n'est en aucun cas destiné à monter les élèves contre leurs professeurs, encore moins un prétexte pour leur manquer de respect. Nous demandons aux élèves de noter jusqu'à quel point ils aiment la façon d'enseigner de leur professeur, de 1/5 (je n'aime pas du tout) à 5/5 (j'adore).</p>
-			<h2>Affiche de présentation</h2>
-			<p>Tu veux faire connaître ce site ? Utilise cette affiche : <a href="doc/affiche.pdf">affiche.pdf</a></p>
-			<p>Assure-toi que tu as le droit de l'afficher là où tu veux la mettre.</p>
+			<p>Nous espérons que cet espace de liberté sera pour les professeurs l'occasion espéré de savoir enfin ce que pensent les élèves (et non seulement l'administration) de leur enseignement.</p>
+			<p>Il faut bien comprendre cependant que ce site est un moyen d'expression pour les élèves, et que les notes sont des appréciations personnelles, elles ne viennent donc d'aucune manière remettre en question les évaluations faites par des entités agréés professionnellement.</p>
+			<p>Nota Bene : Ce site n'est en aucun cas destiné à monter les élèves contre leurs professeurs, encore moins un prétexte pour leur manquer de respect. Nous demandons aux élèves de noter jusqu'à quel point ils aiment la façon d'enseigner de leur professeur, de 1/5 (je n'aime pas du tout) à 5/5 (j'adore), et de éventuellement de justifier leur évaluation avec un commentaire devant respecter des règles précises.</p>
 		</div>
 <? require("tpl/bas.php"); ?>
