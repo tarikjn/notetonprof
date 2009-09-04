@@ -15,6 +15,10 @@ $title = "Informations légales";
 				<li><a href="legal#legal">Informations légales</a></li>
 				<li><a href="legal#privacy">Données personelles</a></li>
 			</ul>
+			<h3><a name="terms">Conditions d'utilisation</a></h3>
+			<div class="legal">
+				<? require('tpl/legal/terms.html'); ?>
+			</div>
 			<h3><a name="privacy">Données Personelles</a></h3>
 			<div class="legal">
 				<? require('tpl/legal/privacy_policy.html'); ?>

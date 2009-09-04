@@ -11,7 +11,7 @@ $title = "Règles de notation";
 		<div>
 			<h2>Règles de notation</h2>
 			<p><strong>En utilisant ce site, tu acceptes de noter et de commenter <em>uniquement</em> tes professeurs, administrateurs, conseillers ou autres profesionnels qui affectent ton éducation. Tu ne peux évaluer un professeur (ou autre) qu'une seule fois.</strong></p>
-			<p>Une fois que tu as laissé une évaluation, il t'est impossible de la modifier ou de la supprimer.</p>
+			<p>Une fois que tu as laissé une évaluation, il t'es impossible de la modifier ou de la supprimer.</p>
 			<h3><a name="comment">Commentaire</a></h3>
 			<p>
 				Ton commentaire doit être utile, constructif, il doit avant tout être en rapport avec l'enseignement et le déroulement des cours avec ton professeur.<br />
@@ -21,14 +21,14 @@ $title = "Règles de notation";
 			<ul class="soft-list">
 				<li>contenant des mots ou un langage vulgaire</li>
 				<li>de nature sexuelle (sexy, bonne, etc.)</li>
-				<li>en relation avec l'apparence physique (grande, gros, mignon, sent bon/mauvais, vêtements class/pourris, etc.)</li>
+				<li>en relation avec l'apparence physique (grande, gros, mignon, odeur, vêtements, etc.)</li>
 				<li>en relation avec un handicap physique (bégaie, boîte, etc.)</li>
-				<li>d'une nature insultante (gros naze, idiot, etc.)</li>
+				<li>d'une nature insultante (naze, idiot, etc.)</li>
 				<li>faisant référence à l'état mental, à l'alcool ou à l'utilisation de drogues ou de médicaments</li>
 				<li>faisant référence à des problèmes avec la loi</li>
 				<li>faisant référence à la nationalité, religion, ethnicité, orientation sexuelle, âge</li>
 				<li>comprenant le nom ou les initiales de l'auteur ou d'un autre élève, une adresse ou un numéro de téléphone</li>
-				<li>faisant référence à la vie personnelle ou familiale du professeur (viens de se marier, sa fille est craquante, plein aux as, etc.)</li>
+				<li>faisant référence à la vie personnelle ou familiale du professeur (viens de se marier, fille charmante, plein aux as, etc.)</li>
 				<li>une diffamation évidente</li>
 				<li>incompréhensible</li>
 				<li>contenant une publicité, adresse de site ou écrit tout en MAJUSCULES</li>

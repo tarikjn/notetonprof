@@ -187,7 +187,7 @@ class App
 		}
 	}
 	
-	static function addReport($report_data, $current_report)
+	static function addReport($report_data, $current_report = null)
 	{
 		// create and log report
 		self::createObjectAndLog('report', (object) $report_data, true);

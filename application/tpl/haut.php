@@ -2,8 +2,8 @@
 $current = basename($_SERVER["SCRIPT_FILENAME"]);
 $map_haut = array(
 	"regles.php"   => "règles",
-	"faq.php"      => "faq",
 	"objectif.php" => "objectif",
+	"faq.php"      => "faq",
 	"legal.php"  => "infos légales",
 	"annoncer.php" => "annoncez",
 	"contact.php"  => "contact",
