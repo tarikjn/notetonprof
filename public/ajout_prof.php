@@ -77,7 +77,7 @@ if (!$erreur_url && !$erreur_var)
 			
 			// TODO: howto not log columns that won't change?
 			// insert prof and log
-			$i_id = App::createObjectAndLog('prof', $new_prof);
+			$i_id = App::createObjectAndLog('prof', $new_prof, $user->uid);
 			
 			// assign moderation of the prof
 			if (Admin::MOD_PROF)

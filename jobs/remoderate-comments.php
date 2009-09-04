@@ -23,7 +23,8 @@ foreach ($comments as $comment)
 	);
 	
 	// add report (will also log and ticket object)
-	App::addReport($report);
+	// 0 for system user
+	App::addReport($report, 0);
 }
 // ends here
 

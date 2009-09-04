@@ -8,21 +8,21 @@ class App
 {
 	/* save_log
 	 *
-	 * $user: 0 (system/cron action), > 0 (logged) or null (guest)
+	 * $uid: 0 (system/cron action), > 0 (logged) or null (guest)
 	 * $did: > 0 or null
 	 */
-	static function log($mmsg, $otype, $oid, $user = null, $related_data = null, $note = null, $not_an_update = false)
+	static function log($mmsg, $otype, $oid, $uid = null, $related_data = null, $note = null, $not_an_update = false)
 	{
 		// $otype and $oid are trusted
 		
-		$ip = DBPal::str2null(($user !== 0)? $_SERVER["REMOTE_ADDR"] : null);
+		$ip = DBPal::str2null(($uid !== 0)? $_SERVER["REMOTE_ADDR"] : null);
 		$host = DBPal::str2null(
-		    ($user !== 0)?
+		    ($uid !== 0)?
 		      (empty($_SERVER["REMOTE_HOST"])) ? gethostbyaddr($_SERVER["REMOTE_ADDR"]) : $_SERVER["REMOTE_HOST"]
 		      : null
 		  );
 		$related_data = DBPal::str2null(($related_data) ? json_encode($related_data) : null);
-		$user = DBPal::int2null($user);
+		$uid = DBPal::int2null($uid);
 		
 		if (is_array($mmsg))
 		{
@@ -45,7 +45,7 @@ class App
 		$is_update = ($not_an_update)? 'no' : 'yes';
 			
 		$query = "INSERT INTO logs (log_msg, object_type, object_id, client_ip, client_host, related_data, actor_id, time, note, is_update) ".
-		         "VALUES ($msg, '$otype', $oid, $ip, $host, $related_data, $user, NOW(), $note, '$is_update')";
+		         "VALUES ($msg, '$otype', $oid, $ip, $host, $related_data, $uid, NOW(), $note, '$is_update')";
 		$iid = DBPal::insert($query);
 		
 		return $iid;
@@ -76,14 +76,11 @@ class App
 		// TODO: does Pheanstalk automatically disconnect after garbage collection?
 	}
 	
-	// TODO set $user as param for all methods
-	static function getReports($object_type, $object_id)
+	static function getReports($object_type, $object_id, $uid)
 	{
-		global $user;
-	
 		$result = DBPal::query(
 		      "SELECT reports.id AS id, description, actor_id, UNIX_TIMESTAMP(time) AS time,"
-		    . "  (SELECT COUNT(*) FROM defered_reports WHERE admin_id = {$user->uid} AND report_id = reports.id) AS defered"
+		    . "  (SELECT COUNT(*) FROM defered_reports WHERE admin_id = $uid AND report_id = reports.id) AS defered"
 		    . " FROM reports, logs"
 		    . " WHERE reports.object_type = '$object_type' AND reports.object_id = $object_id AND status = 'open'"
 		    . "  AND logs.id = reports.create_record"
@@ -99,50 +96,44 @@ class App
 		return $reports;
 	}
 	
-	static function deleteSchool($id, $notes = null)
+	static function deleteSchool($id, $uid, $notes = null)
 	{
-		global $user;
-		
 		// set profs and comments orphans + clear assignments
 		// TODO: should that be done by a separate job?
 		$profs = DBPal::getList("SELECT id FROM professeurs WHERE etblt_id = $id AND status = 'ok'");
 		while ($prof_id = array_shift($profs))
 		{
-			self::deleteProf($prof_id, null, true);
+			self::deleteProf($prof_id, $uid, null, true);
 		}
 		
 		// delete school
 		DBPal::query("UPDATE etablissements SET status = 'deleted' WHERE id = $id");		    
 		
 		// log
-		self::log("Deleted", "school", $id, $user->uid, null, $notes);
+		self::log("Deleted", "school", $id, $uid, null, $notes);
 		
 		// clear school's assignments
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'school' AND object_id = $id");
 	}
 	
-	static function deleteProf($prof_id, $notes = null, $orphan = false)
+	static function deleteProf($prof_id, $uid, $notes = null, $orphan = false)
 	{
-		global $user;
-		
 		$comments = DBPal::getList("SELECT id FROM notes WHERE prof_id = $prof_id AND status = 'ok'");
 		while ($comment_id = array_shift($comments))
 		{
-		    self::deleteComment($comment_id, true);
+		    self::deleteComment($comment_id, $uid, true);
 		}
 		
 		DBPal::query("UPDATE professeurs SET status = '".(($orphan)?'orphaned':'deleted')."' WHERE id = $prof_id");
-		self::log(($orphan)?'Orphaned':'Deleted', "prof", $prof_id, $user->uid, null, $notes);
+		self::log(($orphan)?'Orphaned':'Deleted', "prof", $prof_id, $uid, null, $notes);
 		
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'prof' AND object_id = $prof_id");
 	}
 	
-	static function deleteComment($comment_id, $orphan = false)
+	static function deleteComment($comment_id, $uid, $orphan = false)
 	{
-		global $user;
-		
 		DBPal::query("UPDATE notes SET status = '".(($orphan)?'orphaned':'deleted')."' WHERE id = $comment_id");
-		self::log(($orphan)?'Orphaned':'Deleted', "comment", $comment_id, $user->uid);
+		self::log(($orphan)?'Orphaned':'Deleted', "comment", $comment_id, $uid);
 		    
 		DBPal::query("DELETE FROM assignments WHERE object_type = 'comment' AND object_id = $comment_id");
 	}
@@ -187,26 +178,24 @@ class App
 		}
 	}
 	
-	static function addReport($report_data, $current_report = null)
+	static function addReport($report_data, $uid, $current_report = null)
 	{
 		// create and log report
-		self::createObjectAndLog('report', (object) $report_data, true);
+		self::createObjectAndLog('report', (object) $report_data, $uid, true);
 		
 		// reset open_ticket on object
 		self::updateFirstReport($report_data->object_type, $report_data->object_id, $current_report);
 	}
 	
-	static function createObjectAndLog($object_type, $object_data, $create_record = false)
+	static function createObjectAndLog($object_type, $object_data, $uid, $create_record = false)
 	{
-		global $user;
-		
 		$object_id = DBPal::insert(
 		      "INSERT INTO " . Settings::$objType2tabName[$object_type]
 		    . " " . DBPal::arr2values($object_data)
 		  );
 		
 		// log
-		$create_record_id = App::log("Created", $object_type, $object_id, $user->uid, $object_data);
+		$create_record_id = App::log("Created", $object_type, $object_id, $uid, $object_data);
 		
 		if ($create_record)
 		{
@@ -220,7 +209,7 @@ class App
 		return $object_id;
 	}
 	
-	static function processReports($reports_post, $obj_arr, $user, $current_report = false)
+	static function processReports($reports_post, $obj_arr, $uid, $current_report = false)
 	{
 		$object_where = " WHERE object_type = '" . $obj_arr[0] . "' AND object_id = " . $obj_arr[1];
 		
@@ -239,16 +228,16 @@ class App
 		    		
 		    		DBPal::query("UPDATE reports SET status = 'closed'" . $object_where . " AND id = $rid");
 		    		
-		    		self::log("Closed", "report", $rid, $user->uid);
+		    		self::log("Closed", "report", $rid, $uid);
 		    		
 		    		break;
 		    		
 		    	case 'defer':
 		    		
 		    		// no need to check that report is associated with object, affect only user
-		    		DBPal::query("INSERT INTO defered_reports (admin_id, report_id) VALUES ({$user->uid}, $rid)");
+		    		DBPal::query("INSERT INTO defered_reports (admin_id, report_id) VALUES ($uid, $rid)");
 		    		
-		    		self::log("Defered", "report", $rid, $user->uid);
+		    		self::log("Defered", "report", $rid, $uid);
 		    		
 		    		break;
 		    }

@@ -24,7 +24,7 @@ while ($assignment = $assignments->fetch_object())
 	if ($object)
 	{
 		if ($object->open_ticket) {
-		    $reports = App::getReports($assignment->object_type, $object->id);
+		    $reports = App::getReports($assignment->object_type, $object->id, $user->uid);
 		}
 	
 		$objects[] = (object) array(

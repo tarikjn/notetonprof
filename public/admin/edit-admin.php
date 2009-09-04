@@ -74,7 +74,7 @@ if (!@$err)
 		
 		// process reports
 		if (@$_POST['report'])
-		    $new_open_ticket = App::processReports($_POST['report'], array('user', $id), $user, $current_data->open_ticket);
+		    $new_open_ticket = App::processReports($_POST['report'], array('user', $id), $user->uid, $current_data->open_ticket);
 		
 		// update
 		DBPal::query(
@@ -119,7 +119,7 @@ if (!@$err)
 	$admin = DBPal::getRow("SELECT *, UNIX_TIMESTAMP(logs.time) AS sub_date, UNIX_TIMESTAMP(last_conn) AS last_conn FROM delegues, logs WHERE delegues.id = $id AND logs.id = create_record");
 	
 	if ($admin->open_ticket) {
-		 $reports = App::getReports('user', $id);
+		 $reports = App::getReports('user', $id, $user->uid);
 	}
 	
 	// log passif

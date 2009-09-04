@@ -60,7 +60,7 @@ if (isset($_GET["type"]) && isset($_GET["id"]))
 					);
 				
 					// add report (will also log and ticket object)
-					App::addReport($report, $obj->open_ticket);
+					App::addReport($report, $user->uid, $obj->open_ticket);
 					
 					// refresh assignments
 					App::queue('refresh-assignments', array('for-object', $type, $id));

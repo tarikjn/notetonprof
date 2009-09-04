@@ -41,7 +41,7 @@ if (!@$err)
 		if (@$_POST["action"] == "Supprimer") // TODO: must be independant from template for i18n
 		{
 			// delete prof and orphan dependant data in cascade, log and remove associated assignments
-		    App::deleteProf($id, $notes);
+		    App::deleteProf($id, $user->uid, $notes);
 		    		    
 		    $_SESSION[($return)? "success" : "msg"] = "Le professeur #$id a été supprimé.";
 		    
@@ -102,7 +102,7 @@ if (!@$err)
 		    	
 		    	// process reports
 		    	if (@$_POST['report'])
-					$new_open_ticket = App::processReports($_POST['report'], array('prof', $id), $user, $test_row->open_ticket);
+					$new_open_ticket = App::processReports($_POST['report'], array('prof', $id), $user->uid, $test_row->open_ticket);
 		    		
 		    	// update
 		    	DBPal::query(
@@ -159,7 +159,7 @@ if (!@$err)
 		$_matieres[$row["type"]][$row["id"]] = $row["nom"];
 	
 	if ($prof->open_ticket) {
-		 $reports = App::getReports('prof', $id);
+		 $reports = App::getReports('prof', $id, $user->uid);
 	}
 	
 	$logs = DBPal::query("SELECT *, UNIX_TIMESTAMP(time) AS time FROM logs LEFT JOIN delegues ON delegues.id = actor_id WHERE object_type = 'prof' AND object_id = $id ORDER BY time DESC");

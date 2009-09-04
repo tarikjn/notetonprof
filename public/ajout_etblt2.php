@@ -77,7 +77,7 @@ if (!$erreur_url && !$erreur_var)
 			App::appendSecondary($new_school, $cursus, $secondaire);
 			
 			// insert school and log
-			$i_id = App::createObjectAndLog('school', $new_school);
+			$i_id = App::createObjectAndLog('school', $new_school, $user->uid);
 			
 			// assign moderation of the school
 			if (Admin::MOD_SCHOOL)

@@ -63,7 +63,7 @@ if ($sent)
 		  );
 		
 		// insert admin and log, 3rd param means setup create_record
-		App::createObjectAndLog('user', $new_admin, true);
+		App::createObjectAndLog('user', $new_admin, $user->uid, true);
 		
 		// setup email template vars
 		$email_vars = array(
