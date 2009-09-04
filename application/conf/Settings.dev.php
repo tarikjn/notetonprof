@@ -36,5 +36,5 @@ class Settings
 	    "report"  => "reports"
 	  );
 	
-	const COMMENT_MAX_LEN = 255;
+	const COMMENT_MAX_LEN = 300;
 }
