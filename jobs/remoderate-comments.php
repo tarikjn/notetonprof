@@ -5,7 +5,7 @@ require("_ini.php");
 $time = time();
 
 
-fprintf(STDOUT, "Marking comments for remoderation...\n", $argv[1]);
+fprintf(STDOUT, "Marking comments for remoderation...\n");
 
 $comments = DBPal::getList(
       "SELECT DISTINCT object_id FROM `logs` WHERE `object_type` = 'comment'"

@@ -142,7 +142,7 @@ while ($comment = $comments_q->fetch_array())
 		$reports = DBPal::query(
 		      "SELECT description, actor_id, UNIX_TIMESTAMP(time) AS time"
 		    . " FROM reports, logs"
-		    . " WHERE reports.object_type = 'school' AND reports.object_id = $id AND status = 'open'"
+		    . " WHERE reports.object_type = 'comment' AND reports.object_id = " . $comment['id'] . " AND status = 'open'"
 		    . "  AND logs.id = reports.create_record"
 		    . " ORDER BY reports.id DESC"
 		  );
