@@ -11,7 +11,7 @@ $comments = DBPal::getList(
       "SELECT DISTINCT object_id FROM `logs` WHERE `object_type` = 'comment'"
     . "  AND `related_data` LIKE '%moderated_by%'"
     . "  AND `related_data` NOT LIKE '%deleted_by%'"
-    . "  AND `related_data` NOT LIKE '%moderated_by":"1%'"
+    . "  AND `related_data` NOT LIKE '%moderated_by\":\"1%'"
   );
 foreach ($comments as $comment)
 {
