@@ -1317,6 +1317,10 @@ table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 	text-transform: uppercase;
 	font-size: 110%;
 }
+.legal h5 {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
 .legal li {
 	margin-top: .25em;
 }

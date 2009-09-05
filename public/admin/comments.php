@@ -173,7 +173,7 @@ $title = "Commentaires";
 				<h2><?=htmlspecialchars($title)?></h2>
 			    <div class="info"><a href="admin/help#comments">Instructions</a></div>
 			</div>
-			<p class="warning">La modération des commentaires obéit à des règles strictes, tout abus ou entrave délibérée aux règles de modération établies par Campus Citizens peut engager ta responsabilité pénale. En modérant les commentaires, tu reconnais avoir lu et accepté les <a href="regles_moderation">Conditions de Modération</a>.</p>
+			<p class="warning">La modération des commentaires obéit à des règles strictes, tout abus ou entrave délibérée aux règles de modération établies par Campus Citizens peut engager ta responsabilité pénale. En modérant les commentaires, tu reconnais avoir lu et accepté les <a href="admin/help#moderator-agreement">Conditions de Modération</a>.</p>
 			<?=Helper::showErrors(@$errors)?>
 			<?=Helper::showInfo(@$info)?>
 <? if (sizeof($comments) == 0) { ?>
@@ -210,7 +210,7 @@ $title = "Commentaires";
 	{
 ?>
 			    		<tr class="notice-tr">
-			    			<td colspan="<?=SHOW_SCORE? 3:2?>" class="<?=($report->actor_id === 0)? 'system' : 'alert'?>">
+			    			<td colspan="<?=SHOW_SCORE? 3:2?>" class="<?=($report->actor_id === 0 or $report->actor_id === '0')? 'system' : 'alert'?>">
 			    				<div class="date"><?=strftime("%x", $report->time)?></div>
 			    				<div class="notes"><?=htmlspecialchars($report->description)?></div>
 			    			</td>

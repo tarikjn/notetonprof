@@ -29,7 +29,7 @@ $title = "Règles de notation";
 				<li>faisant référence à la nationalité, religion, ethnicité, orientation sexuelle, âge</li>
 				<li>comprenant le nom ou les initiales de l'auteur ou d'un autre élève, une adresse ou un numéro de téléphone</li>
 				<li>faisant référence à la vie personnelle ou familiale du professeur (viens de se marier, fille charmante, plein aux as, etc.)</li>
-				<li>une diffamation évidente</li>
+				<li>comprenant une diffamation évidente</li>
 				<li>incompréhensible, en langage SMS, ou truffé de fautes manifestement volontaires</li>
 				<li>contenant une publicité, adresse de site ou écrit tout en MAJUSCULES</li>
 			</ul>
