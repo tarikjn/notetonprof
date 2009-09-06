@@ -1,3 +1,7 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} !^www\.notetonprof\.com$ [NC]
+RewriteRule ^(.*)$ http://www.notetonprof.com/$1 [L,R=301]
+
 AuthType Basic
 AuthName "Restricted"
 AuthBasicProvider external
