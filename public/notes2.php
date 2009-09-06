@@ -46,7 +46,7 @@ if (@strlen($expl[1]) > 0)
 		$style = $row["style"];
 		$extra = $row["extra"];
 		
-		$query = "SELECT id, moderated, UNIX_TIMESTAMP( date ) AS date, pedagogie, interet, connaissances, regularite, ambiance, justesse, (interet + pedagogie + connaissances) / 3 AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
+		$query = "SELECT id, moderated, open_ticket, UNIX_TIMESTAMP( date ) AS date, pedagogie, interet, connaissances, regularite, ambiance, justesse, (interet + pedagogie + connaissances) / 3 AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
 		$result = DBPal::query($query);
 		$rnb = $result->num_rows;
 		
@@ -226,7 +226,7 @@ $title = "Ton Prof";
 						<td><div class="smilep"><?=Helper::ambiance($row["ambiance"])?></div></td>
 						<td><div class="smilep"><?=Helper::ambiance($row["justesse"], 0)?></div></td>
 						<td class="comment" style="width: 100%">
-<? if (Admin::MOD_COMMENT && $row["moderated"] != 'yes') { ?>
+<? if ((Admin::MOD_COMMENT && $row["moderated"] != 'yes') or $row["open_ticket"]) { ?>
 <? if (strlen($row["comment"]) > 0) { ?>
 							<em>Commentaire en cours de validation&hellip;</em>
 <? } else { ?>

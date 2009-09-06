@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
 				
 				// update comment, closes any open ticket
 				// we assume a comment with an open ticket cannot be pre-moderated
-				DBPal::query("UPDATE reports SET status = 'closed' WHERE object_type = 'comment' AND object_id = $id");
+				//DBPal::query("UPDATE reports SET status = 'closed' WHERE object_type = 'comment' AND object_id = $id");
 				DBPal::query(
 				    "UPDATE notes"
 				  . " SET moderated = '$moderate', status = '" . (($action == 'reject')? 'deleted' : 'ok') . "', open_ticket = NULL"
