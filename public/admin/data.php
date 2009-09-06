@@ -82,7 +82,7 @@ $title = "Données";
 	{
 ?>
 			    		<tr class="notice-tr">
-			    			<td colspan="<?=SHOW_SCORE? 3:2?>" class="<?=($report->actor_id === 0)? 'system' : 'alert'?><?=($report->defered)?' defered':''?>">
+			    			<td colspan="<?=SHOW_SCORE? 3:2?>" class="report <?=($report->actor_id === 0)? 'system' : 'alert'?><?=($report->defered)?' defered':''?>">
 			    				<div class="date"><?=strftime("%x", $report->time)?></div>
 			    				<div class="notes"><?=htmlspecialchars($report->description)?></div>
 			    			</td>
