@@ -45,7 +45,7 @@ $map_haut = array(
 <? if (@$_SESSION['auth.message']) require('tpl/auth_msg.php') ?>
 	<div class="haut">
 	<div>
-		<h1><a href="."><img src="img/titre.png" width="385" height="55" alt="notetonprof.fr" title="Retour à la page d'accueil" /></a></h1>
+		<h1><a href="."><img src="img/titre.png" width="419" height="55" alt="notetonprof.fr" title="Retour à la page d'accueil" /></a></h1>
 		<ul>
 <? $flag = 0; foreach($map_haut as $url => $cap) { ?>
 			<li<? if (!$flag) { $flag = 1; ?> class="first"<? } ?>><? if ($url == $current) { ?><?=$cap?><? } else { ?><a href="<?=basename($url, ".php")?>"><?=$cap?></a><? } ?></li>

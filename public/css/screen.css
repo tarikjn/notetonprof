@@ -1121,8 +1121,7 @@ input.label {
 	-moz-opacity: .50;
 	filter: alpha(opacity=50);
 }
-.mod-table .notice-tr td .notes,
-.report-list .notes {
+.report .notes {
 	margin-left: 130px;
 	background-color: white;
 	font-size: .85em;
@@ -1133,32 +1132,31 @@ input.label {
 .report-list .report .notes {
 	margin-right: 150px;
 }
-.mod-table .notice-tr .alert .notes,
-.report-list .alert .notes {
+.report.alert .notes {
 	color: #CC0000;
 }
-.mod-table .notice-tr .system .notes,
-.report-list .system .notes {
+.report.system .notes {
 	color: #000080;
 }
-.mod-table .notice-tr td .date,
-.report-list .date {
+.mod-table .notice-tr .report {
+	position: relative;
+}
+.report .date {
 	background-repeat: none;
 	background-position: center left;
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	position: absolute;
+	left: 0;
 	width: 130px;
 	font-size: .8em;
 	line-height: 16px;
 	vertical-align: middle;
 }
-.mod-table .notice-tr .alert .date,
-.report-list .alert .date {
+.report.alert .date {
 	background-image: url(../img/user-notice.png);
 }
-.mod-table .notice-tr .system .date,
-.report-list .system .date {
+.report.system .date {
 	background-image: url(../img/server-notice.png);
 }
 

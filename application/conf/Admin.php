@@ -18,7 +18,10 @@ class Admin
 	
 	static $MAX_SCHOOLS = array(
 	    1 => 2,
-	    2 => 5
+	    2 => 5,
+	    3 => null,
+	    4 => null,
+	    5 => null,
 	  );
 	
 	const MIN_SCORE = 350;

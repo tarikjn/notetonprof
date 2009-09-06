@@ -11,15 +11,19 @@ $title = "Informations légales";
 		<div class="text-page">
 			<h3>Sommaire</h3>
 			<ul>
-				<li><a href="legal#terms">Conditions d'utilisation</a></li>
-				<li><a href="legal#legal">Informations légales</a></li>
-				<li><a href="legal#privacy">Données personelles</a></li>
+				<li><a href="legal#terms">Conditions d'Utilisation</a></li>
+				<li><a href="legal#legal">Procédures Légales</a></li>
+				<li><a href="legal#privacy">Politique de Confidentialité</a></li>
 			</ul>
-			<h3><a name="terms">Conditions d'utilisation</a></h3>
+			<h3><a name="terms">Conditions d'Utilisation</a></h3>
 			<div class="legal">
 				<? require('tpl/legal/terms.html'); ?>
 			</div>
-			<h3><a name="privacy">Données Personelles</a></h3>
+			<h3><a name="legal">Procédures Légales</a></h3>
+			<div class="legal">
+				<? require('tpl/legal/legal_use.html'); ?>
+			</div>
+			<h3><a name="privacy">Politique de Confidentialité</a></h3>
 			<div class="legal">
 				<? require('tpl/legal/privacy_policy.html'); ?>
 			</div>
