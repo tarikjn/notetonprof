@@ -26,7 +26,7 @@ $title = NULL;
 <? require("tpl/haut.php"); ?>
 		<div class="cursus">
 			<p>
-				<strong>NoteTonProf.fr te permet de noter tes professeurs de façon totalement anonyme.</strong>
+				<strong>NoteTonProf.com te permet de noter tes professeurs de façon totalement anonyme.</strong>
 			</p>
 <? if ($last_etblt) { ?>
 			<div>

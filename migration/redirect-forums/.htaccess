@@ -1,2 +1,0 @@
-RewriteEngine on
-RewriteRule ^(.*)$ http://forums.notetonprof.com/$1 [L,R=301]

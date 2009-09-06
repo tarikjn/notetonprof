@@ -81,7 +81,7 @@ if (@strlen($expl[1]) > 0)
 				
 				if (!$rnb)
 				{
-					$message = "Ton évaluation précédente pour ce professeur a été effacée, elle devait certainement ne pas respecter <a href=\"regles\">les règles</a>. Si tu es persuadé du contraire, <a href=\"contact\">contacte</a> la team de noteTonProf.fr. Tu peux à nouveau noter ce professeur.";
+					$message = "Ton évaluation précédente pour ce professeur a été effacée, elle devait certainement ne pas respecter <a href=\"regles\">les règles</a>. Si tu es persuadé du contraire, <a href=\"contact\">contacte</a> la team de NoteTonProf.com. Tu peux à nouveau noter ce professeur.";
 				}
 			}
 		}

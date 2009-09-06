@@ -187,7 +187,7 @@ $title = "Éditer un établissement";
 			<h3>Commune</h3>
 			<p class="upper"><?=htmlspecialchars($etblt["commune"])?> (<?=htmlspecialchars($etblt["cp"])?>)</p>
 			<p><strong>Cursus :</strong> <?=htmlspecialchars(Geo::$COURSE[$cursus])?></p>
-			<p class="indic"><!--TODO: change here directly -->Pour changer la commune ou le cursus, contacte les <a href="mailto:ops@notetonprof.fr">opérateurs</a>.</p>
+			<p class="indic"><!--TODO: change here directly -->Pour changer la commune ou le cursus, contacte les <a href="mailto:ops@notetonprof.com">opérateurs</a>.</p>
 			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post">
 				<h3>Données</h3>
 				<label for="nom"<?=(@$notice["nom"])?" class=\"notice\"":""?>>Nom de l'établissement : <input type="text" name="nom" id="nom" value="<?=@htmlspecialchars($nom)?>" maxlength="50" /></label>

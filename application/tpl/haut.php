@@ -15,7 +15,7 @@ $map_haut = array(
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-language" content="fr" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
-	<title>NoteTonProf.fr<?=(isset($title))?" &gt; ".$title:""?></title>
+	<title>NoteTonProf.com<?=(isset($title))?" &gt; ".$title:""?></title>
 	<base href="<?=Settings::WEB_ROOT?>/" />
 	
 	<meta name="revisit-after" content="7 days" />
@@ -45,7 +45,7 @@ $map_haut = array(
 <? if (@$_SESSION['auth.message']) require('tpl/auth_msg.php') ?>
 	<div class="haut">
 	<div>
-		<h1><a href="."><img src="img/titre.png" width="419" height="55" alt="notetonprof.fr" title="Retour à la page d'accueil" /></a></h1>
+		<h1><a href="."><img src="img/titre.png" width="419" height="55" alt="NoteTonProf.com" title="Retour à la page d'accueil" /></a></h1>
 		<ul>
 <? $flag = 0; foreach($map_haut as $url => $cap) { ?>
 			<li<? if (!$flag) { $flag = 1; ?> class="first"<? } ?>><? if ($url == $current) { ?><?=$cap?><? } else { ?><a href="<?=basename($url, ".php")?>"><?=$cap?></a><? } ?></li>
@@ -81,7 +81,7 @@ $map_haut = array(
 			</ul>
 			<h3>Réagissez</h3>
 			<ul>
-				<li><a href="http://forums.notetonprof.fr">Forums</a></li>
+				<li><a href="http://forums.notetonprof.com">Forums</a></li>
 				<li><a href="reactions">Réactions</a></li>
 			</ul>
 			<ul>

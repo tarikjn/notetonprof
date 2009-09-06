@@ -5,13 +5,13 @@ require_once 'third-party/swiftmailer/swift_required.php';
 
 class Mail
 {
-	const SMTP_HOST = "smtp.notetonprof.fr";
+	const SMTP_HOST = "smtp.notetonprof.com";
 	const SMTP_PORT = 5190;
 	const SMTP_USER = "frportal";
 	const SMTP_PASS = "PehuF5Ac";
 	
-	static $FROM = array("root@notetonprof.fr" => "NoteTonProf.fr");
-	static $REPLY_TO = array("info@notetonprof.fr" => "NoteTonProf.fr");
+	static $FROM = array("root@notetonprof.com" => "NoteTonProf.com");
+	static $REPLY_TO = array("info@notetonprof.com" => "NoteTonProf.com");
 	
 	private static $mailer = null;
 	

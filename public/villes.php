@@ -42,7 +42,7 @@ $title = "Sélection d'une ville";
 		<hr />
 		<div>
 			<h2>Séléctionne la commune de ton établissement</h2>
-			<p>Seules les communes des établissements référencés sur noteTonProf.fr apparaissent dans la liste ci-dessous.</p>
+			<p>Seules les communes des établissements référencés sur NoteTonProf.com apparaissent dans la liste ci-dessous.</p>
 			<p><?=$rnb?> commune(s) et lieux dits pour le département <?=htmlspecialchars($dept)?> (<?=Geo::$DEPT[$dept]["nom"]?>) :</p>
 			<table class="liste petite">
 				<thead>

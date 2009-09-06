@@ -10,7 +10,7 @@ Nous te recommandons de changer ton mot de passe dès à présent à partir de �
 
 
 Amicalement,
-L'équipe de noteTonProf.fr,
+L'équipe de NoteTonProf.com,
 
 -- 
 <?=$var->base_url."\n"?>

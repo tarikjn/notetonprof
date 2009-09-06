@@ -6,7 +6,7 @@ Tu as demandé la réinitialisation de ton mot de passe, pour continuer, ouvre l
 
 
 Amicalement,
-L'équipe de noteTonProf.fr,
+L'équipe de NoteTonProf.com,
 
 -- 
 <?=$var->base_url."\n"?>

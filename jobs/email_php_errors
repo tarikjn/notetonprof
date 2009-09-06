@@ -3,7 +3,7 @@
 # Note PHP's log_errors must be turned on  
 # Ben Dowling - www.coderholic.com  
   
-errorLog=/www/logs/frportal/notetonprof.fr-error_log # Error log location  
+errorLog=/www/logs/frportal/notetonprof.com-error_log # Error log location  
 email=tech@campuscitizens.com # Send report here  
   
 # Pull out the lines that mention PHP, and use AWK to get the column we're interested in  

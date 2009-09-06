@@ -75,7 +75,7 @@ if ($sent)
 		
 		// send activation email
 		Mail::sendMail($email,
-		               "Ton inscription sur noteTonProf.fr",
+		               "Ton inscription sur NoteTonProf.com",
 		               'activation',
 		               $email_vars);
 		
@@ -130,7 +130,7 @@ $title = "Inscription délégué";
 							<legend>Identité</legend>
 							<label for="prenom"<?=(@$notice["prenom"])?" class=\"notice\"":""?>>Prénom : <input type="text" name="prenom" id="prenom" value="<?=@htmlspecialchars($prenom)?>" maxlength="50" /></label>
 							<label for="nom"<?=(@$notice["nom"])?" class=\"notice\"":""?>>Nom : <input type="text" name="nom" id="nom" value="<?=@htmlspecialchars($nom)?>" maxlength="50" /></label>
-							<p class="indic">Ton nom ne sert qu'à l'équipe de <cite>noteTonProf.fr</cite>, il ne sera en aucun cas affiché sur le site.</p>
+							<p class="indic">Ton nom ne sert qu'à l'équipe de <cite>NoteTonProf.com</cite>, il ne sera en aucun cas affiché sur le site.</p>
 						</fieldset>
 						<p class="facultatif etoile" id="facultatif">*Champ facultatif, 5 caractères minimum (caractères quelconques)</p>
 					</dd>

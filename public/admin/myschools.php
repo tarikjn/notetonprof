@@ -45,7 +45,7 @@ $title = "Mes Établissements";
 		<hr />
 		<div>
 			<h2>Établissements modérés</h2>
-			<p class="tip">Pour modérer un nouvel établissement, rends-toi sur la page de l'établissement que tu veux modérer à partir de la <a href="/">page d'accueil de noteTonProf.fr</a> et clique sur « Devenir délégué ».</p>
+			<p class="tip">Pour modérer un nouvel établissement, rends-toi sur la page de l'établissement que tu veux modérer à partir de la <a href="/">page d'accueil de NoteTonProf.com</a> et clique sur « Devenir délégué ».</p>
 			<p class="warning">Ton compte sera automatiquement bloqué si tu change trop souvent les établissements que tu modères.</p>
 <? if ($success) { ?>
 			<p class="msg"><?=$success?></p>

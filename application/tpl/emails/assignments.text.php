@@ -31,7 +31,7 @@ Tu peux changer tes préférences de notification lorsque tu es connecté dans l
 
 
 Amicalement,
-L'équipe de noteTonProf.fr,
+L'équipe de NoteTonProf.com,
 
 -- 
 <?=$var->base_url."\n"?>
