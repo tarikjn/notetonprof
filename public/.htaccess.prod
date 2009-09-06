@@ -2,13 +2,6 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} !^www\.notetonprof\.com$ [NC]
 RewriteRule ^(.*)$ http://www.notetonprof.com/$1 [L,R=301]
 
-AuthType Basic
-AuthName "Restricted"
-AuthBasicProvider external
-AuthExternal pwauth
-require valid-user
-require group devteam
-
 php_value include_path ".:/home/frportal/trunk/application"
 php_flag session.use_only_cookies on
 php_value date.timezone "Europe/Paris"
