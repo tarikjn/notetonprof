@@ -1147,11 +1147,13 @@ input.label {
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	position: absolute;
-	left: 0;
 	width: 130px;
 	font-size: .8em;
 	line-height: 16px;
 	vertical-align: middle;
+}
+.mod-table .notice-tr .report .date {
+	left: 10px;
 }
 .report.alert .date {
 	background-image: url(../img/user-notice.png);

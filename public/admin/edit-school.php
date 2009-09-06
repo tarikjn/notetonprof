@@ -112,7 +112,7 @@ if (!@$err)
 		    	App::log($log_msg, "school", $id, $user->uid, $updated_data, $notes);
 		    	
 		    	// if no more tickets and moderated -> clear assignments
-		    	if (($test_row->moderated == 'yes' or @$new_moderate == 'yes')
+		    	if (($test_row->moderated == 'yes' or @$new_moderate == 'yes' or !Admin::MOD_SCHOOL)
 		    		and ($test_row->open_ticket == null or @$new_open_ticket == false))
 		    	{
 		    		DBPal::query("DELETE FROM assignments WHERE object_type = 'school' AND object_id = $id");
