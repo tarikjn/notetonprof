@@ -8,7 +8,7 @@ class Mail
 	const SMTP_HOST = "smtp.notetonprof.com";
 	const SMTP_PORT = 5190;
 	const SMTP_USER = "frportal";
-	const SMTP_PASS = "PehuF5Ac";
+	const SMTP_PASS = "_pEbbliNg3";
 	
 	static $FROM = array("root@notetonprof.com" => "NoteTonProf.com");
 	static $REPLY_TO = array("info@notetonprof.com" => "NoteTonProf.com");

@@ -74,7 +74,7 @@ if (!$erreur_url && !$erreur_var)
 			    "ville_id" => $c_id,
 			    "nom" => $nom
 			  );
-			App::appendSecondary($new_school, $cursus, $secondaire);
+			App::appendSecondary($new_school, $cursus, @$secondaire);
 			
 			// insert school and log
 			$i_id = App::createObjectAndLog('school', $new_school, $user->uid);

@@ -12,7 +12,7 @@ if ($argc < 1)
 else
 {
 	$hash = $argv[1];
-	$filename = "emails/email.$hash.txt";
+	$filename = dirname($_SERVER['SCRIPT_NAME']) . "/emails/email.$hash.txt";
 	
 	// check file exist
 	if (file_exists($filename))
