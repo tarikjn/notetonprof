@@ -28,7 +28,7 @@ else
 		      "SELECT email FROM delegues"
 		    . " WHERE status = 'ok' AND mail_admins = 'on'"
 		  );
-		$admins = array('tarikjn@gmail.com', 'tarik@tajn.net', 'tarik@campuscitizens.com');
+		//$admins = array('tarikjn@gmail.com', 'tarik@tajn.net', 'tarik@campuscitizens.com');
 		
 		if (sizeof($admins) > 0)
 		{
