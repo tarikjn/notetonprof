@@ -58,7 +58,7 @@ class Mail
 		  ;
   		
 		//Send the message, returns the number of sent emails
-		return self::$mailer->batchSend($recipients);
+		return self::$mailer->batchSend($message);
     }
     
     private static function setMailer()
