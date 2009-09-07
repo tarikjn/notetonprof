@@ -41,7 +41,7 @@ else
 		                              $message);
 		    
 		    // TODO: find a way to log any issues
-		    fwrite(STDOUT, "Sent %d messages\n", $numSent);
+		    fprintf(STDOUT, "Sent %d messages\n", $numSent);
 		    
 		    // delete file
 		    unlink($filename);
@@ -50,7 +50,7 @@ else
 	}
 	else
 	{
-		fwrite(STDERR, "cannot find %s\n", $filename);
+		fprintf(STDERR, "cannot find %s\n", $filename);
 		exit();
 	}
 }
