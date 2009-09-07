@@ -31,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') // update
       	App::queue('mail-admins', $data->hash);
       	// TODO: have a separate process send emails, log it
 		
-		//$_SESSION["success"] = "Ok! Message en cours d'envoi...";
-		//Web::redirect("/admin/admins");
+		$_SESSION["success"] = "Ok! Message en cours d'envoi...";
+		Web::redirect("/admin/admins");
 	}	
 }
 

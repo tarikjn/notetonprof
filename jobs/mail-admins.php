@@ -11,14 +11,17 @@ if ($argc < 1)
 }
 else
 {
-	if (strlen(@$argv[1]) == 8)
+	$hash = $argv[1];
+	$filename = "emails/email.$hash.txt";
+	
+	// check file exist
+	if (file_exists($filename))
 	{
 		fprintf(STDOUT, "Sending email %s...\n", $argv[1]);
 		
 		// TODO: move code to a class method
 		// starts here
-		$hash = $argv[1];
-		$filename = "email/email.$hash.txt";
+		
 		
 		// TODO: add locked and level params
 		$admins = DBPal::getList(
@@ -33,7 +36,7 @@ else
 		    $message = file_get_contents($filename);
 		    
 		    // send activation email
-		    $numSent = Mail::sendMail($admins,
+		    $numSent = Mail::batchMail($admins,
 		                              "Ouverture de NoteTonProf.com",
 		                              $message);
 		    
@@ -47,7 +50,7 @@ else
 	}
 	else
 	{
-		fwrite(STDERR, "incorrect email hash\n");
+		fwrite(STDERR, "cannot find %s\n", $filename);
 		exit();
 	}
 }
