@@ -25,8 +25,6 @@ class Mail
     	else return false;
     }
     
-    
-    
     static function sendMail($recipient, $subject, $tpl_name, $tpl_vars = null)
     {
     	if (!self::$mailer)
@@ -42,6 +40,25 @@ class Mail
   		
 		//Send the message
 		$result = self::$mailer->send($message);
+    }
+    
+    static function batchMail($recipients, $subject, $content)
+    {
+    	// TODO: merge with sendMail to eliminate code redundancy
+    	
+    	if (!self::$mailer)
+    		self::setMailer();
+		
+		//Create a message
+		$message = Swift_Message::newInstance($subject)
+		  ->setFrom(self::$FROM)
+		  ->setReplyTo(self::$REPLY_TO)
+		  ->setTo($recipients)
+		  ->setBody($content)
+		  ;
+  		
+		//Send the message, returns the number of sent emails
+		return self::$mailer->batchSend($recipients);
     }
     
     private static function setMailer()

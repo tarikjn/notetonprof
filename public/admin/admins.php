@@ -102,5 +102,9 @@ $title = "Modérateurs";
 <? } ?>
 			<h3>Rechercher</h3>
 			<p>TODO: how to keep modos anonymity?, redo modos flow, when logged, see from school page, connected status, tab by power...</p>
+<? if ($user->power >= 5) { ?>
+			<h3>Correspondance</h3>
+			<p><a href="admin/mail-admins">Envoyer un courriel à tous les modérateurs</a></p>
+<? } ?>
 		</div>
 <? require("tpl/bas.php"); ?>

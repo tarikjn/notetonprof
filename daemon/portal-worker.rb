@@ -16,7 +16,7 @@ require 'beanstalk-client'
 
 # TODO: secure beanstalkd: only accept localhost connections
 
-ALLOWED_PROGRAMS = ['refresh-assignments']
+ALLOWED_PROGRAMS = ['refresh-assignments', 'mail-admins']
 WD = Dir.pwd
 
 Daemons.run_proc('portal-worker.rb') do
