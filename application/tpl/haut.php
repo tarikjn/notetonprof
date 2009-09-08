@@ -1,12 +1,13 @@
 <?
-$current = basename($_SERVER["SCRIPT_FILENAME"]);
+$current = basename($_SERVER["SCRIPT_FILENAME"], ".php");
 $map_haut = array(
-	"regles.php"   => "règles",
-	"objectif.php" => "objectif",
-	"faq.php"      => "faq",
-	"legal.php"  => "infos légales",
-	"annoncer.php" => "annoncez",
-	"contact.php"  => "contact",
+	"regles"   => "règles",
+	"objectif" => "objectif",
+	"http://forums.notetonprof.com" => "forums",
+	"faq"      => "faq",
+	"legal"  => "infos légales",
+	"annoncer" => "annoncez",
+	"contact"  => "contact",
 );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -48,7 +49,7 @@ $map_haut = array(
 		<h1><a href="."><img src="img/titre.png" width="419" height="55" alt="NoteTonProf.com" title="Retour à la page d'accueil" /></a></h1>
 		<ul>
 <? $flag = 0; foreach($map_haut as $url => $cap) { ?>
-			<li<? if (!$flag) { $flag = 1; ?> class="first"<? } ?>><? if ($url == $current) { ?><?=$cap?><? } else { ?><a href="<?=basename($url, ".php")?>"><?=$cap?></a><? } ?></li>
+			<li<? if (!$flag) { $flag = 1; ?> class="first"<? } ?>><? if ($url == $current) { ?><?=$cap?><? } else { ?><a href="<?=$url?>"><?=$cap?></a><? } ?></li>
 <? } ?>
 		</ul>
 	</div>
@@ -56,7 +57,7 @@ $map_haut = array(
 	<div class="global-link">
 		<div class="box">
 			<div class="cc-txt-logo"><span class="head">Campus</span> Citizens</div>
-			<div class="cc-goto-link"><a href="http://www.campuscitizens.com">→ site international</a></div>
+			<div class="cc-goto-link"><a href="http://www.campuscitizens.com">→ autres pays</a></div>
 		</div>
 	</div>
 	<hr />

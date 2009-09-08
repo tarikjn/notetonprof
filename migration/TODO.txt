@@ -12,3 +12,7 @@ Symlink from conf/Settings.php to conf/Settings.target.php
 
 prod php.ini:
 display_errors = On -> Off
+
+contrab:
+0 17 * * * /home/frportal/trunk/jobs/mail-assignments.php daily
+0 10 * * sun /home/frportal/trunk/jobs/mail-assignments.php weekly
