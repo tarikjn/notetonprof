@@ -6,6 +6,29 @@ require_once('third-party/recaptchalib.php');
 // used statically
 class Web
 {
+	static private $ROBOTS = array(
+	    'Google',
+	    'msnbot',
+	    'Rambler',
+	    'Yahoo',
+	    'AbachoBOT',
+	    'accoona',
+	    'AcoiRobot',
+	    'ASPSeek',
+	    'CrocCrawler',
+	    'Dumbot',
+	    'FAST-WebCrawler',
+	    'GeonaBot',
+	    'Gigabot',
+	    'Lycos',
+	    'MSRBOT',
+	    'Scooter',
+	    'AltaVista',
+	    'IDBot',
+	    'eStyle',
+	    'Scrubby'
+	  );
+
 	static function getReCaptcha($user = null, $ly = 'dl')
 	{
 		return sprintf(Helper::$RC_LAYOUTS[$ly], recaptcha_get_html(Settings::RC_PUBLIC_K));
@@ -55,6 +78,18 @@ class Web
 			$val = FALSE;
 		
 		return $val;
+	}
+	
+	// checks if the user agent is a human or a robot
+	static function isRobot($ua)
+	{
+		foreach (self::$ROBOTS as $r)
+		{
+			if (stristr($ua, $r))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	static function emailEncode($str)
