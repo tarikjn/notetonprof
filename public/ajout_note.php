@@ -302,7 +302,7 @@ $title = "Note Ton Prof";
 							</tbody>
 						</table>
 						<p class="facultatif etoile">Ne rentre pas en compte dans la note globale de ton professeur.</p>
-						<p class="indic">Pour les deux DERNIERS critères, la meilleure évaluation se trouve au CENTRE.</p>
+						<p class="indic">Pour les DEUX DERNIERS critères, la meilleure évaluation se trouve au CENTRE.</p>
 					</dd>
 					<dt>Commentaire</dt>
 					<dd<?=(@$notice["comment"])?" class=\"notice\"":""?>>

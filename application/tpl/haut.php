@@ -19,8 +19,6 @@ $map_haut = array(
 	<title>NoteTonProf.com<?=(isset($title))?" &gt; ".$title:""?></title>
 	<base href="<?=Settings::WEB_ROOT?>/" />
 	
-	<meta name="revisit-after" content="7 days" />
-	<meta name="robots" content="index,follow" />
 	<meta name="DC.alternative" content="Note ton prof" />
 	<meta name="DC.subject" content="vote, note, notes, mon, notestonprof, notetonprof, notemonprof" />
 	<meta name="DC.language" content="fr" />
