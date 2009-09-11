@@ -14,9 +14,9 @@ $map_haut = array(
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<meta http-equiv="Content-language" content="fr" />
+	<meta http-equiv="Content-language" content="fr-fr" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
-	<title>NoteTonProf.com<?=(isset($title))?" &gt; ".$title:""?></title>
+	<title>NoteTonProf.com<?=(isset($title))?" &gt; $title":' - Note Ton Prof'?></title>
 	<base href="<?=Settings::WEB_ROOT?>/" />
 	
 	<meta name="DC.alternative" content="Note ton prof" />
