@@ -13,6 +13,20 @@ if (!$stat_data = apc_fetch('day_stats'))
 	// should expire every 30 min
 	apc_store('day_stats', $stat_data, 30 * 60);
 }
+
+if (!$yesterday_ratings = apc_fetch('yesterday_ratings_count'))
+{
+	// retrieve data from previous day, for the site time zone
+	// time zone has been set by DBPal
+	$yesterday_ratings = DBPal::getOne("SELECT COUNT(*) FROM notes WHERE DATE( date ) = DATE( NOW() - INTERVAL 1 DAY )");
+	
+	// should expire at the end of the day
+	// view notes in school_of_the_dat, TODO: merge gears
+	$expires_at = mktime(0, 0, Settings::DB_MAX_TIME_DIFF, date("n"), date("j") + 1);
+	$now = time();
+	if ($expires_at > $now)
+		apc_store('yesterday_ratings_count', $yesterday_ratings, $expires_at - $now);
+}
 ?>
 	<div class="droite">
 		<h2>Statistiques</h2>
@@ -24,6 +38,6 @@ if (!$stat_data = apc_fetch('day_stats'))
 			<dt><span>Établissements référencés</span></dt>
 			<dd><?=Helper::f_int($stat_data->schools)?></dd>
 			<dt><span>Notes ajoutées hier</span></dt>
-			<dd><?=Helper::f_int($stat_data->yesterday_ratings)?></dd>
+			<dd><?=Helper::f_int($yesterday_ratings)?></dd>
 		</dl>
 	</div>
