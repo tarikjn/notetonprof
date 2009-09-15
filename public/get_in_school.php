@@ -55,7 +55,7 @@ if (@strlen($expl[1]) > 0)
 		// process POST
 		$action = @$_POST["action"];
 		
-		if ($user->power >= Admin::ACC_ALL_DATA or Web::isRobot($_SERVER['HTTP_USER_AGENT']))
+		if ($user->power >= Admin::ACC_ALL_DATA or Web::isRobot($_SERVER['HTTP_USER_AGENT']) or true)
 		{
 			Web::redirect($goto);
 		}

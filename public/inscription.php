@@ -22,11 +22,12 @@ $title = "Inscription délégué";
 						</div>
 					</dd>
 					<dt>Acceptation</dt>
-					<script type="text/javascript">
-						setTimeout("document.getElementById('timed-button').disabled = false;", 25000);
-					</script>
-					<dd style="text-align: center;"><input type="submit" id="timed-button" value="J'ai lu et j'accepte ce qui précède" disabled="disabled" /></dd>
+					<dd style="text-align: center;"><input type="submit" id="timed-button" value="J'ai lu et j'accepte ce qui précède" /></dd>
 				</dl>
 			</form>
+			<script type="text/javascript">
+			    document.getElementById('timed-button').disabled = true;
+			    setTimeout("document.getElementById('timed-button').disabled = false;", 25000);
+			</script>
 		</div>
 <? require("tpl/bas.php"); ?>

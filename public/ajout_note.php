@@ -143,7 +143,7 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 		if (!@$notice)
 		{
 			// enregistrement
-			$query = "INSERT INTO notes (prof_id, date, pedagogie, interet, connaissances, regularite, ambiance, justesse, statut, extra, comment) VALUES ($p_id, NOW(), $pedagogie, $interet, $connaissances, $regularite, $ambiance, $justesse, '$statut', '".(($extra["pop"])?"pop,":"").(($extra["in"])?"in,":"")."', " . DBPal::quote($comment) . ")";
+			$query = "INSERT INTO notes (prof_id, date, pedagogie, interet, connaissances, regularite, ambiance, justesse, statut, extra, comment) VALUES ($p_id, NOW(), $pedagogie, $interet, $connaissances, $regularite, $ambiance, $justesse, '$statut', '".((@$extra["pop"])?"pop,":"").((@$extra["in"])?"in,":"")."', " . DBPal::quote($comment) . ")";
 			$i_id = DBPal::insert($query);
 			
 			// log it
