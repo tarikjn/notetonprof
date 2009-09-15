@@ -83,7 +83,7 @@ class DBPal
 		$result = self::$dbh->query($queryString);
 		
 		// TODO: remove for security issues, debug feature
-		if (!$result)
+		if (!$result and !Settings::IS_PROD)
 			die(
 			    "MySQL error: " . self::$dbh->error . "\n"
 			  . "Query: $queryString\n"

@@ -2,6 +2,8 @@
 
 class Settings
 {
+	const IS_PROD = true;
+
 	const DB_HOST = '127.0.0.1';
 	const DB_BASE = 'frportal';
 	const DB_USER = 'frportal';
