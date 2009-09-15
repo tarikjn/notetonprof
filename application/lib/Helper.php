@@ -332,4 +332,3 @@ class Helper
 		return $s;
 	}
 }
-echo var_dump(localeconv());
