@@ -108,7 +108,8 @@ class Helper
 	static function f_int($i)
 	{
 		$locale = localeconv();
-		return number_format($i, 0, $locale['decimal_point'], $locale['thousands_sep']);
+		$sep = ($locale['thousands_sep'])? $locale['thousands_sep'] : $locale["mon_thousands_sep"];
+		return number_format($i, 0, $locale['decimal_point'], $sep);
 	}
 
 	static function schoolTitle($course, $secondary, $name, $id = null)
@@ -331,3 +332,4 @@ class Helper
 		return $s;
 	}
 }
+echo var_dump(localeconv());
