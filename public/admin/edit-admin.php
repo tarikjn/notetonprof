@@ -50,14 +50,14 @@ if (!@$err)
 		    	$log_msg[] = ($locked == 'yes') ? "Locked" : "Unlocked";
 		    
 		    if ($updated_data["level"])
-		    	$log_msg[] = ($power > $prev_data->level) ? "Promoted" : "Demoted";
+		    	$log_msg[] = ($power > $prev_data['level']) ? "Promoted" : "Demoted";
 		    
 		    // TODO: add changePower and lock/unlock object model methods
 		    
-		    if ($prev_data->locked != 'yes' or $new_data->locked != 'yes')
+		    if ($prev_data['locked'] != 'yes' or $new_data->locked != 'yes')
 		 	// means: does not apply if going from a locked to a locked state
 		    {
-		    	if ($locked == 'yes' or ($power < $prev_data->level and $prev_data->locked != 'yes'))
+		    	if ($locked == 'yes' or ($power < $prev_data['level'] and $prev_data['locked'] != 'yes'))
 		    	{
 		    		App::queue('refresh-assignments', array('of-admin', $id));
 		    	}
