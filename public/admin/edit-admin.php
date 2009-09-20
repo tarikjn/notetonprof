@@ -46,15 +46,15 @@ if (!@$err)
 		// TODO: test this
 		if (sizeof($updated_data))
 		{
-		    if ($updated_data["locked"])
+		    if (@$updated_data["locked"])
 		    	$log_msg[] = ($locked == 'yes') ? "Locked" : "Unlocked";
 		    
-		    if ($updated_data["level"])
+		    if (@$updated_data["level"])
 		    	$log_msg[] = ($power > $prev_data['level']) ? "Promoted" : "Demoted";
 		    
 		    // TODO: add changePower and lock/unlock object model methods
 		    
-		    if ($prev_data['locked'] != 'yes' or $new_data->locked != 'yes')
+		    if ($prev_data['locked'] != 'yes' or @$new_data['locked'] != 'yes')
 		 	// means: does not apply if going from a locked to a locked state
 		    {
 		    	if ($locked == 'yes' or ($power < $prev_data['level'] and $prev_data['locked'] != 'yes'))
@@ -91,7 +91,7 @@ if (!@$err)
 		App::log($log_msg, "user", $id, $user->uid, $updated_data, $notes);
 		
 		// invalidate any active session for that user
-		if ($updated_data["locked"] or $updated_data["level"])
+		if (@$updated_data["locked"] or @$updated_data["level"])
 			RealSession::replace($current_data->session_id, array('UserAuth', 'sessionSetRevalidate'));
 		
 		// if no more tickets and moderated -> clear assignments

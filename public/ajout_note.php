@@ -306,9 +306,9 @@ $title = "Note Ton Prof";
 					</dd>
 					<dt>Commentaire</dt>
 					<dd<?=(@$notice["comment"])?" class=\"notice\"":""?>>
-						<textarea style="background-color: #DFECFF;" rows="3" cols="66" name="comment" onkeydown="limite(this, <?=Settings::COMMENT_MAX_LEN?>);" onkeyup="limite(this, <?=Settings::COMMENT_MAX_LEN?>);"><?=@htmlspecialchars($comment)?></textarea>
-						<p class="facultatif etoile">Champ facultatif, <?=Settings::COMMENT_MAX_LEN?> caractères maximum.</p>
-						<div class="indic longue">Aie des propos constructifs et uniquement en relation avec l'enseignement de ton prof. Dans la mesure du possible, écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé avec l'évaluation.</div>
+						<textarea style="background-color: #DFECFF; width: 100%;" rows="3" name="comment" onkeydown="limite(this, <?=Settings::COMMENT_MAX_LEN?>);" onkeyup="limite(this, <?=Settings::COMMENT_MAX_LEN?>);"><?=@htmlspecialchars($comment)?></textarea>
+						<p class="facultatif etoile"><?=Settings::COMMENT_MAX_LEN?> caractères maximum</p>
+						<div class="indic longue">Ton commentaire doit justifier l'évaluation que tu as laissé à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé avec l'évaluation.</div>
 					</dd>
 					<dt>Informations</dt>
 					<dd class="bg">
