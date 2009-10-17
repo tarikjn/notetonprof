@@ -206,7 +206,7 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 		$statut = "on";
 		$defaults = array();
 		$defaults['get_update_notification'] = (@$_COOKIE["update_notification"]['get'])? 'yes' : 'no';
-		$defaults['update_notification_email'] = $_COOKIE["update_notification"]['email'] or '';
+		$defaults['update_notification_email'] = @$_COOKIE["update_notification"]['email'] or '';
 	}
 }
 // fin traitement formulaire
@@ -270,7 +270,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('interest', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('interest', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très motivant</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['interest']['desc']?>"><?=Ratings::$CRITERIAS['interest']['title']?></div>
@@ -279,7 +279,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget even">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('clarity', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('clarity', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Excellente pédagogie</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['clarity']['desc']?>"><?=Ratings::$CRITERIAS['clarity']['title']?></div>
@@ -288,7 +288,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('knowledgeable', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('knowledgeable', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très connaisseur</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['knowledgeable']['desc']?>"><?=Ratings::$CRITERIAS['knowledgeable']['title']?></div>
@@ -297,7 +297,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget even">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('fairness', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('fairness', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très juste</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['fairness']['desc']?>"><?=Ratings::$CRITERIAS['fairness']['title']?></div>
@@ -309,7 +309,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('regularity', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('regularity', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très régulier</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['regularity']['desc']?>"><?=Ratings::$CRITERIAS['regularity']['title']?></div>
@@ -318,7 +318,7 @@ $yui_mode = true;
 							<div class="cc-rating-widget even">
 								<div class="cc-control">
 									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
-									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('availability', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('availability', 1, 5, 1, @$grades)?></div>
 									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très disponible</div>
 								</div>
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['availability']['desc']?>"><?=Ratings::$CRITERIAS['availability']['title']?></div>
