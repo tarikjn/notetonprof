@@ -60,7 +60,7 @@ if (@isset($_GET["prof_id"]))
 					
 					if ($found_n)
 					{
-						$result = DBPal::query("SELECT id FROM notes WHERE ($where_n) && deleted = 0;");
+						$result = DBPal::query("SELECT id FROM notes WHERE ($where_n) && status = 'ok'");
 						$rnb = $result->num_rows;
 						
 						if ($rnb)
@@ -103,77 +103,119 @@ else	$erreur_url = TRUE;
 // début traitement formulaire
 if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 {
-	$sent = @stripslashes($_POST["sent"]);
-	
-	if ($sent)
+	if ($_SERVER["REQUEST_METHOD"] == 'POST')
 	{
-		$interet = (int) @$_POST["interet"];
-		$pedagogie = (int) @$_POST["pedagogie"];
-		$connaissances = (int) @$_POST["connaissances"];
-		$regularite = (int) @$_POST["regularite"];
-		$ambiance = (int) @$_POST["ambiance"];
-		$justesse = (int) @$_POST["justesse"];
 		$comment = @$_POST["comment"];
 		$statut = @$_POST["statut"];
-		$extra = @$_POST["extra"];
 		
-		$echelle = array(1, 2, 3, 4, 5);
+		$extra = array();
+		if (@$_POST['extra']['pop'])
+			$extra[] = 'pop';
+		if (@$_POST['extra']['in'])
+			$extra[] = 'in';
+		$extra = implode(",", $extra);
 		
-		if (!in_array($interet, $echelle))
-			$notice["interet"] = "Aller, commence par évaluer l'<cite>Intérêt</cite> général des cours avec ton prof !";
-		if (!in_array($pedagogie, $echelle))
-			$notice["pedagogie"] = "Comment est la <cite>Pédagogie</cite> de ton professeur ?";
-		if (!in_array($connaissances, $echelle))
-			$notice["connaissances"] = "Dis-en sur les <cite>Connaissances</cite> de ton prof en sa matière !";
-		if (!in_array($regularite, $echelle))
-			$notice["regularite"] = "Tu n'as noté la <cite>Régularité</cite> de ton professeur !";
-		if (!in_array($ambiance, $echelle))
-			$notice["ambiance"] = "Quelle est l'<cite>Ambiance</cite> dans ses cours ?";
-		if (!in_array($justesse, $echelle))
-			$notice["justesse"] = "N'ai pas peur, dis-nous en sur la <cite>Justesse</cite> de sa notation ;)";
+		$criterias = array_keys(Ratings::$CRITERIAS);
+		$scale = array(1, 2, 3, 4, 5);
+		
+		$grades = array();
+		foreach ($criterias as $criteria)
+		{
+			if (!in_array(@$_POST[$criteria], $scale))
+				$error[$criteria] = "Sélectionne une note pour ce critère !";
+			else
+				$grades[$criteria] = @$_POST[$criteria];
+		}
 		if (strlen($comment) > Settings::COMMENT_MAX_LEN)
-			$notice["comment"] = "Ton commentaire est trop long, il ne doit pas dépasser ".Settings::COMMENT_MAX_LEN." caractères (et oui ! c'est comme les <cite>SMS</cite>, c'est pas illimité !).";
+			$error["comment"] = "Commentaire trop long, ".Settings::COMMENT_MAX_LEN." caractères max !";
 		// vérification fantôme
 		if (!in_array($statut, array("on", "off")))
-			$notice["statut"] = "Statut incorrect.";
+			$error["statut"] = "Statut incorrect !";
+		
+		// check notification E-mail
+		if (@$_POST['get_update_notification'] == 'yes')
+		{
+			if (Mail::isValidEmail(@$_POST['update_notification_email']))
+			{
+				$subscribe_to_updates = true;
+				$update_email = $_POST['update_notification_email'];
+			}
+			else
+				$error['update_notification_email'] = "Format d'adresse E-mail incorrect !";
+		}
 		
 		// check the reCAPTCHA
-		Web::checkReCaptcha($user, $notice);
+		Web::checkReCaptcha($user, $error);
 		
-		if (!@$notice)
+		if (!@$error)
 		{
+			$insert = array(
+			    'prof_id' => $p_id,
+			  );
 			// enregistrement
-			$query = "INSERT INTO notes (prof_id, date, pedagogie, interet, connaissances, regularite, ambiance, justesse, statut, extra, comment) VALUES ($p_id, NOW(), $pedagogie, $interet, $connaissances, $regularite, $ambiance, $justesse, '$statut', '".((@$extra["pop"])?"pop,":"").((@$extra["in"])?"in,":"")."', " . DBPal::quote($comment) . ")";
+			$query = "INSERT INTO notes"
+			       . " (prof_id, date, " . implode(",", array_keys($grades)) . ", statut, extra, comment)"
+			       . " VALUES"
+			       . " ($p_id, NOW(), " . implode(",", array_values($grades)) . ", '$statut', '$extra', " . DBPal::quote($comment) . ")";
 			$i_id = DBPal::insert($query);
 			
 			// log it
 			App::log('Submitted Review', 'comment', $i_id, $user->uid);
 			
 			// assign moderation of the comment
-			if (strlen($comment))
-				App::queue('refresh-assignments', array('for-object', 'comment', $i_id));
+			//if (strlen($comment))
+				//App::queue('refresh-assignments', array('for-object', 'comment', $i_id));
 			
-			// enregistrement du cookie
-			setcookie("votes[$p_id][$i_id]", 1, time() + 3600 * 24 * 30 * 4, "/", Settings::COOKIE_DOMAIN);
+			// saving cookie: won't be able to rate teacher again for 1 year
+			setcookie("votes[$p_id][$i_id]", 1, time() + 3600 * 24 * 365, "/", Settings::COOKIE_DOMAIN);
+			
+			// TODO: log
+			// insert update notification
+			if (@$subscribe_to_updates)
+			{
+				$update_set = array(
+				    'rating_id' => $i_id,
+				    'email' => $update_email,
+				    'user_id' => $user->uid
+				  );
+				
+				DBPal::insert(
+				    "INSERT INTO update_notifications " . DBPal::arr2values($update_set)
+				  );
+			}
+			
+			// update notification cookie
+			setcookie("update_notification[get]", @$_POST['get_update_notification'], time() + 3600 * 24 * 365, "/", Settings::COOKIE_DOMAIN);
+			setcookie("update_notification[email]", @$_POST['update_notification_email'], time() + 3600 * 24 * 365, "/", Settings::COOKIE_DOMAIN);
 			
 			// changement de page
 			$_SESSION["msg"] = (strlen($comment))?"Ton évaluation a bien été prise en compte, ton commentaire apparaîtra dès qu'il aura été validé par un délégué.":"Ton évaluation a bien été prise en compte.";
 			Web::redirect("/notes2/".rawurlencode($p_id)."/");
 		}
-		
+		else
+		{
+			// posted data replaces defaults
+			$defaults = $_POST;
+		}
 	}
 	else
-		$notice = FALSE;
-	
-	// définition des paramètres par défaut
-	if (!isset($statut)) $statut = "on";
+	{
+		$error = FALSE;
+		
+		// set default values
+		$statut = "on";
+		$defaults = array();
+		$defaults['get_update_notification'] = (@$_COOKIE["update_notification"]['get'])? 'yes' : 'no';
+		$defaults['update_notification_email'] = $_COOKIE["update_notification"]['email'] or '';
+	}
 }
 // fin traitement formulaire
 
 // Controller-View limit
 DBPal::finish();
 
-$title = "Note Ton Prof";
+$title = "Noter";
+$yui_mode = true;
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else if ($erreur_cookies) require("tpl/erreur_cookies.php"); else { ?>
@@ -198,146 +240,165 @@ $title = "Note Ton Prof";
 			<div class="major">Matière : <em><?=htmlspecialchars( ($sujet) ? "$sujet ($matiere)" : $matiere )?></em></div>
 <? } ?>
 <? if ($voted) { ?>
-			<p>Tu as déjà noté ce professeur, tu pourras le noter de nouveau dans 4 mois à partir du moment où tu l'as noté.</p>
+			<p>Tu as déjà noté ce professeur, tu ne peux noter un professeur qu'une fois.</p>
 			<p><a href="profs/<?=urlencode($e_id)?>/">Retour à la page de ton établissement</a></p>
 <? } else { ?>
-			<p>Remplis ce formulaire la tête reposée et attentivement car tu n'aura pas la posibilité de modifier ton évaluation.</p>
-			<p>Pense à consulter les <a href="regles">régles et critères</a> de notation.</p>
-<? if ($notice) { ?>
-			<div class="head-notice">
-				<p>Attention ! Vérifie les données du formulaire :</p>
-				<ul><? foreach ($notice as $alert) { ?><li><?=$alert?></li><? } ?></ul>
-			</div>
-<? } ?>
-			<script type="text/javascript">
-			<!--
-			function limite(zone, max)
-			{
-				if(zone.value.length > max)
-					zone.value = zone.value.substring(0, max);
-			}
-			-->
-			</script>
-			<form action="<?=$_SERVER["SCRIPT_NAME"]?>?prof_id=<?=urlencode($p_id)?><?=(SID) ? "&amp;".SID : ""?>" method="post" class="form">
-				<input type="hidden" name="sent" value="1" />
+			<p class="information">
+				Remplis ce formulaire la tête reposée et attentivement car tu n'aura pas la possibilité de modifier ton évaluation.<br />
+				Pense à consulter les <a href="regles">régles</a> de notation.
+			</p>
+			<?=Helper::getErrorHeader($error)?>
+			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form rating-form">
 				<dl>
-					<dt>Critères d'évaluation</dt>
-					<dd>
-						<table class="note">
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<th><?=$i?></th>
-<? } ?>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr<?=(@$notice["interet"])?" class=\"notice\"":""?>>
-									<th>Intérêt</th>
-									<td class="etat etat-g">Nul <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="interet"<?=@($interet == $i)?" checked=\"checked\"":""?> /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Immense</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr<?=(@$notice["pedagogie"])?" class=\"notice\"":""?>>
-									<th>Pédagogie</th>
-									<td class="etat etat-g">Mauvaise <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="pedagogie"<?=@($pedagogie == $i)?" checked=\"checked\"":""?> /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Excellente</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr<?=(@$notice["connaissances"])?" class=\"notice\"":""?>>
-									<th>Connaissances</th>
-									<td class="etat etat-g">Imposteur <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="connaissances"<?=@($connaissances == $i)?" checked=\"checked\"":""?> /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Érudit</td>
-								</tr>
-							</tbody>
-						</table>
-						<p class="indic">Pour chacun de ces critères, <strong>1</strong> est la note la plus faible et <strong>5</strong> est la meilleure note.</p>
-					</dd>
-					<dt>Critères additionnels</dt>
-					<dd>
-						<table class="note">
-							<tbody>
-								<tr<?=(@$notice["regularite"])?" class=\"notice\"":""?>>
-									<th><span class="abbr" title="Est-ce que ton prof est souvent absent ? Corrige-t-il rapidement tes devoirs ? As-tu terminé le programme avec ce prof ?">Régularité</span></th>
-									<td class="etat etat-g">Pas terrible <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="regularite"<?=@($regularite == $i)?" checked=\"checked\"":""?> /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Pointue</td>
-								</tr>
-							</tbody>
-							<tbody>
-								<tr<?=(@$notice["ambiance"])?" class=\"notice\"":""?>>
-									<th><span class="abbr" title="Ce critère n'est pas forcement en rapport avec l'autorité du professeur.">Ambiance</span></th>
-									<td class="etat etat-g">Incontrôlée <img src="img/smileys/evaluations/cool.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="ambiance"<?=@($ambiance == $i)?" checked=\"checked\"":""?> title="<?=Ratings::$AMB[$i]?>" /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/serieux.png" class="smiley" alt="" /> Tendue</td>
-								</tr>
-							</tbody>
-														<tbody>
-								<tr<?=(@$notice["justesse"])?" class=\"notice\"":""?>>
-									<th><span class="abbr" title="Ce critère est relatif à la façon dont ton enseignant note tes devoirs.">Justesse</span></th>
-									<td class="etat etat-g">Insouciante <img src="img/smileys/evaluations/cool.png" class="smiley" alt="" /></td>
-<? for ($i = 1; $i <= 5; $i++) { ?>
-									<td class="note"><input type="radio" value="<?=$i?>" name="justesse"<?=@($justesse == $i)?" checked=\"checked\"":""?> title="<?=Ratings::$JUST[$i]?>" /></td>
-<? } ?>
-									<td class="etat"><img src="img/smileys/evaluations/serieux.png" class="smiley" alt="" /> Rude</td>
-								</tr>
-							</tbody>
-						</table>
-						<p class="facultatif etoile">Ne rentre pas en compte dans la note globale de ton professeur.</p>
-						<p class="indic">Pour les DEUX DERNIERS critères, la meilleure évaluation se trouve au CENTRE.</p>
-					</dd>
 					<dt>Commentaire</dt>
-					<dd<?=(@$notice["comment"])?" class=\"notice\"":""?>>
-						<textarea style="background-color: #DFECFF; width: 100%;" rows="3" name="comment" onkeydown="limite(this, <?=Settings::COMMENT_MAX_LEN?>);" onkeyup="limite(this, <?=Settings::COMMENT_MAX_LEN?>);"><?=@htmlspecialchars($comment)?></textarea>
-						<p class="facultatif etoile"><?=Settings::COMMENT_MAX_LEN?> caractères maximum</p>
-						<div class="indic longue">Ton commentaire doit justifier l'évaluation que tu as laissé à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé avec l'évaluation.</div>
+					<dd>
+						<?=Helper::getFormError('comment', $error)?>
+						<div class="cc-padding-compensater">
+							<div class="field-tip"><span class="maxlen-counter"><?=Settings::COMMENT_MAX_LEN?></span> caractères restants</div>
+							<div class="bubble-tip">
+								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisse à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
+								<div class="bt-foot"></div>
+							</div>
+							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment"><?=h(@$comment)?></textarea>
+						</div>
 					</dd>
-					<dt>Informations</dt>
+					<dt>Note</dt>
+					<dd class="widgets">
+						<fieldset>
+							<legend>Critères principaux</legend>
+							<?=Helper::getFormError('interest', $error)?>
+							<div class="cc-rating-widget">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('interest', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très motivant</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['interest']['desc']?>"><?=Ratings::$CRITERIAS['interest']['title']?></div>
+							</div>
+							<?=Helper::getFormError('clarity', $error)?>
+							<div class="cc-rating-widget even">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('clarity', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Excellente pédagogie</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['clarity']['desc']?>"><?=Ratings::$CRITERIAS['clarity']['title']?></div>
+							</div>
+							<?=Helper::getFormError('knowledgeable', $error)?>
+							<div class="cc-rating-widget">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('knowledgeable', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très connaisseur</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['knowledgeable']['desc']?>"><?=Ratings::$CRITERIAS['knowledgeable']['title']?></div>
+							</div>
+							<?=Helper::getFormError('fairness', $error)?>
+							<div class="cc-rating-widget even">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('fairness', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très juste</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['fairness']['desc']?>"><?=Ratings::$CRITERIAS['fairness']['title']?></div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend title="Ces critères ne rentrent pas en compte dans la moyenne de ton prof" class="cc-tooltip">Critères additionnels</legend>
+							<?=Helper::getFormError('regularity', $error)?>
+							<div class="cc-rating-widget">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('regularity', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très régulier</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['regularity']['desc']?>"><?=Ratings::$CRITERIAS['regularity']['title']?></div>
+							</div>
+							<?=Helper::getFormError('availability', $error)?>
+							<div class="cc-rating-widget even">
+								<div class="cc-control">
+									<div class="cc-slider-left">Pas du tout <img src="img/smileys/evaluations/mediocre.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control leveled-slider"><?=Helper::radioSlider('availability', 1, 5, 1, $grades)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/bon.png" class="smiley" alt="" /> Très disponible</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['availability']['desc']?>"><?=Ratings::$CRITERIAS['availability']['title']?></div>
+							</div>
+							<div class="bubble-tip for-widget">
+								<div class="bt-body">La meilleure note se trouve au CENTRE.</div>
+								<div class="bt-foot"></div>
+							</div>
+							<?=Helper::getFormError('difficulty', $error)?>
+							<div class="cc-rating-widget">
+								<div class="cc-control">
+									<div class="cc-slider-left">Trop facile <img src="img/smileys/evaluations/cool.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control centered-slider"><?=Helper::radioSlider('difficulty', 1, 5, 1, $defaults, true)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/serieux.png" class="smiley" alt="" /> Trop difficile</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['difficulty']['desc']?>"><?=Ratings::$CRITERIAS['difficulty']['title']?></div>
+							</div>
+							<div class="bubble-tip for-widget">
+								<div class="bt-body">La meilleure note se trouve au CENTRE.</div>
+								<div class="bt-foot"></div>
+							</div>
+							<?=Helper::getFormError('atmosphere', $error)?>
+							<div class="cc-rating-widget even">
+								<div class="cc-control">
+									<div class="cc-slider-left">Incontrôlée <img src="img/smileys/evaluations/cool.png" class="smiley" alt="" /></div>
+									<div class="cc-slider-control centered-slider"><?=Helper::radioSlider('atmosphere', 1, 5, 1, $defaults, true)?></div>
+									<div class="cc-slider-right"><img src="img/smileys/evaluations/serieux.png" class="smiley" alt="" /> Tendue</div>
+								</div>
+								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['atmosphere']['desc']?>"><?=Ratings::$CRITERIAS['atmosphere']['title']?></div>
+							</div>
+						</fieldset>
+					</dd>
+					<dt>Infos complémentaires</dt>
 					<dd class="bg">
-						<fieldset<?=(@$notice["statut"])?" class=\"notice\"":""?>>
+						<?=Helper::getFormError('statut', $error)?>
+						<fieldset class="cc-compact left50">
 							<legend>Statut</legend>
-							<label for="on">
-								<input type="radio" value="on" name="statut" id="on"<?=@($statut == "on")?" checked=\"checked\"":""?> />
+							<label>
+								<input type="radio" value="on" name="statut"<?=@($statut == "on")?" checked=\"checked\"":""?> />
 								Enseigne actuellement
 							</label>
-							<label for="off">
-								<input type="radio" value="off" name="statut" id="off"<?=@($statut == "off")?" checked=\"checked\"":""?> />
+							<label>
+								<input type="radio" value="off" name="statut"<?=@($statut == "off")?" checked=\"checked\"":""?> />
 								Parti(e) / En retraite
 							</label>
 						</fieldset>
-						<fieldset>
+						<fieldset class="cc-compact right50">
 							<legend>Extras</legend>
-							<label for="extra[pop]">
-								<input type="checkbox" value="1" name="extra[pop]" id="extra[pop]"<?=@($extra["pop"])?" checked=\"checked\"":""?> />
+							<label>
+								<input type="checkbox" value="1" name="extra[pop]"<?=@($extra["pop"])?" checked=\"checked\"":""?> />
 								Populaire <img src="img/smileys/evaluations/pop.png" class="smiley" alt="" />
 							</label>
-							<label for="extra[in]">
-								<input type="checkbox" value="1" name="extra[in]" id="extra[in]"<?=@($extra["in"])?" checked=\"checked\"":""?> />
+							<label>
+								<input type="checkbox" value="1" name="extra[in]"<?=@($extra["in"])?" checked=\"checked\"":""?> />
 								Stylé(e)
 							</label>
 						</fieldset>
 					</dd>
-					<?=Web::getReCaptcha($user)?>
 					<dt>Validation</dt>
-					<dd><input type="submit" value="Terminer" /></dd>
+					<dd>
+						<fieldset class="cc-smaller">
+							<legend>Mise à jour</legend>
+							<label>
+								<?=Helper::formFieldCheck('get_update_notification', 'yes', $defaults, true)?>
+								<span class="cc-tooltip" title="Ton choix est automatiquement mémorisé, tu peux le changer à tout moment.">M'informer lorsque ce professeur reçoit une nouvelle note</span>
+							</label>
+							<div id="update_notification_email">
+								<?=Helper::getFormError('update_notification_email', $error)?>
+								<div class="bubble-tip">
+									<div class="bt-body">L'adresse E-mail fournie sert UNIQUEMENT pour l'envoi des notifications, l'équipe de NoteTonProf.com n'y a pas accès, et en aucun cas elle ne pourra être utilisée pour t'identifier. Tu peux te désinscire facilement à partir d'un lien qui se trouve dans l'email envoyé.</div>
+									<div class="bt-foot"></div>
+								</div>
+								<label>E-mail : <?=Helper::formFieldInput('update_notification_email', $defaults)?></label>
+							</div>
+						</fieldset>
+						<?=Web::getReCaptcha($user, 'plain', $error)?>
+						<div class="cc-submit">
+							<input type="submit" value="Confirmer" />
+						</div>
+					</dd>
 				</dl>
 			</form>
 <? } ?>

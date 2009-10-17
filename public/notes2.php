@@ -11,7 +11,7 @@ if (@strlen($expl[1]) > 0)
 	$erreur_url = FALSE;
 
 	// début vérification des variables
-	$query =	"SELECT COUNT( notes.id ) AS notes, etablissements.nom AS etblt, etablissements.id AS e_id, etablissements.cursus, secondaire, dept, cp, villes.nom AS commune, villes.id AS c_id, professeurs.*, matieres.nom AS matiere, AVG( interet + pedagogie + connaissances ) / 3 AS moy, AVG( interet ) AS interet, AVG( pedagogie ) AS pedagogie, AVG( connaissances ) AS connaissances, AVG( regularite ) AS regularite, AVG( ambiance ) AS ambiance, AVG( justesse ) AS justesse, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS extra, AVG( FIND_IN_SET( 'pop', extra ) > 0 ) AS pop,  AVG( FIND_IN_SET( 'in', extra ) > 0 ) AS style ".
+	$query =	"SELECT COUNT( notes.id ) AS notes, etablissements.nom AS etblt, etablissements.id AS e_id, etablissements.cursus, secondaire, dept, cp, villes.nom AS commune, villes.id AS c_id, professeurs.*, matieres.nom AS matiere, AVG( interest + clarity + knowledgeable ) / 3 AS moy, AVG( interest ) AS interest, AVG( clarity ) AS clarity, AVG( knowledgeable ) AS knowledgeable, AVG( regularity ) AS regularity, AVG( atmosphere ) AS atmosphere, AVG( difficulty ) AS difficulty, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS extra, AVG( FIND_IN_SET( 'pop', extra ) > 0 ) AS pop,  AVG( FIND_IN_SET( 'in', extra ) > 0 ) AS style ".
 			"FROM (professeurs, matieres, etablissements, villes) ".
 			"LEFT JOIN notes ON notes.prof_id = professeurs.id && notes.status = 'ok' ".
 			"WHERE professeurs.status = 'ok' && professeurs.id = $p_id && etablissements.id = professeurs.etblt_id && villes.id = etablissements.ville_id AND etablissements.status = 'ok' && matieres.id = professeurs.matiere_id".((Admin::MOD_SCHOOL)?" && etablissements.moderated = 'yes'":"").((Admin::MOD_PROF)?" && professeurs.moderated = 'yes'":"")." ".
@@ -36,17 +36,17 @@ if (@strlen($expl[1]) > 0)
 		$sujet = $row["sujet"];
 		$notes = $row["notes"];
 		$moy = $row["moy"];
-		$int = $row["interet"];
-		$ped = $row["pedagogie"];
-		$conn = $row["connaissances"];
-		$reg = $row["regularite"];
-		$amb = $row["ambiance"];
-		$just = $row["justesse"];
+		$int = $row["interest"];
+		$ped = $row["clarity"];
+		$conn = $row["knowledgeable"];
+		$reg = $row["regularity"];
+		$amb = $row["atmosphere"];
+		$just = $row["difficulty"];
 		$pop = $row["pop"];
 		$style = $row["style"];
 		$extra = $row["extra"];
 		
-		$query = "SELECT id, moderated, open_ticket, UNIX_TIMESTAMP( date ) AS date, pedagogie, interet, connaissances, regularite, ambiance, justesse, (interet + pedagogie + connaissances) / 3 AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
+		$query = "SELECT id, moderated, open_ticket, UNIX_TIMESTAMP( date ) AS date, clarity, interest, knowledgeable, regularity, atmosphere, difficulty, (interest + clarity + knowledgeable) / 3 AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
 		$result = DBPal::query($query);
 		$rnb = $result->num_rows;
 		
@@ -177,7 +177,7 @@ $title = "Ton Prof";
 			<p class="msg"><?=$message?></p>
 <? } ?>
 			<p class="rapport"><a href="signaler?type=prof&amp;id=<?=urlencode($p_id)?>"><img src="img/attention.png" height="15" width="9" alt="" />Signaler une erreur sur ce professeur</a></p>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce professeur</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce prof</a></p>
 			<p>Toutes les notes sont établies sur une échelle allant de <strong>1</strong> à <strong>5</strong>.</p>
 			<table class="grille large">
 				<thead>
@@ -219,16 +219,16 @@ $title = "Ton Prof";
 <? } ?>
 						</td>
 						<td class="nbre small"><?=strftime("%d/%m/%Y", $row["date"])?></td>
-						<td class="eval"><?=$row["interet"]?></td>
-						<td class="eval"><?=$row["pedagogie"]?></td>
-						<td class="eval"><?=$row["connaissances"]?></td>
-						<td class="eval"><?=$row["regularite"]?></td>
-						<td><div class="smilep"><?=Helper::ambiance($row["ambiance"])?></div></td>
-						<td><div class="smilep"><?=Helper::ambiance($row["justesse"], 0)?></div></td>
+						<td class="eval"><?=$row["interest"]?></td>
+						<td class="eval"><?=$row["clarity"]?></td>
+						<td class="eval"><?=$row["knowledgeable"]?></td>
+						<td class="eval"><?=$row["regularity"]?></td>
+						<td><div class="smilep"><?=Helper::ambiance($row["atmosphere"])?></div></td>
+						<td><div class="smilep"><?=Helper::ambiance($row["difficulty"], 0)?></div></td>
 						<td class="comment" style="width: 100%">
 <? if ((Admin::MOD_COMMENT && $row["moderated"] != 'yes') or $row["open_ticket"]) { ?>
 <? if (strlen($row["comment"]) > 0) { ?>
-							<em>Commentaire en cours de validation&hellip;</em>
+							<em>Commentaire en attente de validation&hellip;</em>
 <? } else { ?>
 							<em></em>
 <? } ?>
@@ -241,7 +241,7 @@ $title = "Ton Prof";
 				</tbody>
 <? } ?>
 			</table>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce professeur</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce prof</a></p>
 		</div>
 <? } ?>
 <? require("tpl/bas.php"); ?>

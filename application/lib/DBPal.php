@@ -83,13 +83,18 @@ class DBPal
 		$result = self::$dbh->query($queryString);
 		
 		// TODO: remove for security issues, debug feature
-		if (!$result and !Settings::IS_PROD)
+		if (!$result and (!Settings::IS_PROD or defined('STDIN')))
 			die(
 			    "MySQL error: " . self::$dbh->error . "\n"
 			  . "Query: $queryString\n"
 			);
 		
 		return $result;
+	}
+	
+	static function multi_query($queryString)
+	{
+		//TODO
 	}
 	
 	static function insert($queryString)

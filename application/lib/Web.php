@@ -29,9 +29,16 @@ class Web
 	    'Scrubby'
 	  );
 
-	static function getReCaptcha($user = null, $ly = 'dl')
+	static function getReCaptcha($user = null, $ly = 'dl', $error_arr = null)
 	{
-		return sprintf(Helper::$RC_LAYOUTS[$ly], recaptcha_get_html(Settings::RC_PUBLIC_K));
+		$retval = '';
+		
+		if (is_array($error_arr))
+			$retval .= Helper::getFormError('recaptcha', $error_arr);
+		
+		$retval .= sprintf(Helper::$RC_LAYOUTS[$ly], recaptcha_get_html(Settings::RC_PUBLIC_K));
+		
+		return $retval;
 		
 		// TODO: display mode for logged in user
 	}
@@ -44,7 +51,9 @@ class Web
 	                               $_POST["recaptcha_response_field"]);
 
 		if (!$rc_resp->is_valid)
-			$notice["recaptcha"] = "le reCAPTCHA entré est incorrect.";
+			$notice["recaptcha"] = "Le reCAPTCHA entré est incorrect";
+		else if (sizeof($notice))
+			$notice["recaptcha"] = "Réentre le reCAPTCHA";
 		
 		// TODO: use this for action counter
 	}

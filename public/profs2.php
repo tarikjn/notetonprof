@@ -27,7 +27,7 @@ if (@strlen($expl[1]) > 0)
 		$c_nom = $row["commune"];
 		$c_id = $row["c_id"];
 		
-		$query =	"SELECT DISTINCT COUNT( notes.id ) AS notes, matieres.nom AS matiere, professeurs.nom, prenom, professeurs.id, UNIX_TIMESTAMP( MAX( notes.date ) ) AS lastdate , AVG( interet + pedagogie + connaissances ) / 3 AS moy, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop ".
+		$query =	"SELECT DISTINCT COUNT( notes.id ) AS notes, matieres.nom AS matiere, professeurs.nom, prenom, professeurs.id, UNIX_TIMESTAMP( MAX( notes.date ) ) AS lastdate , AVG( interest + clarity + knowledgeable ) / 3 AS moy, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop ".
 				"FROM (professeurs, matieres) ".
 				"LEFT JOIN notes ON notes.prof_id = professeurs.id && notes.status = 'ok' ".
 				"WHERE professeurs.status = 'ok' && etblt_id = $e_id && matieres.id = professeurs.matiere_id".((Admin::MOD_PROF)?" && professeurs.moderated = 'yes'":"")." ".

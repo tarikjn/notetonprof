@@ -30,14 +30,26 @@ $map_haut = array(
 	<link rel="stylesheet" type="text/css" media="screen" href="css/screen.css" />
 	<link rel="shortcut icon" type="images/x-icon" href="favicon.ico" />
 	
-	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="js/portal.js"></script>
 	<script type="text/javascript">
 		var RecaptchaOptions = {
 		   theme: 'white',
 		   lang: 'fr'
 		};
 	</script>
+<? if (@$yui_mode) { ?>
+	<!-- YUI for Slider -->
+	<script src="js/yui/yahoo-dom-event.js"></script> 
+	<script src="js/yui/dragdrop-min.js"></script>
+	<script src="js/yui/slider-min.js"></script>
+	
+	<!-- new reCaptcha mode -->
+	<script type="text/javascript">
+	RecaptchaOptions.theme = 'white';
+	</script>
+<? } ?>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.autoexpand.js"></script>
+	<script type="text/javascript" src="js/portal.js"></script>
 </head>
 <body>
 <? if ($user->uid) require('tpl/mod_panel.php') ?>
@@ -52,12 +64,14 @@ $map_haut = array(
 		</ul>
 	</div>
 	</div>
+	<!--
 	<div class="global-link">
 		<div class="box">
 			<div class="cc-txt-logo"><span class="head">Campus</span> Citizens</div>
 			<div class="cc-goto-link"><a href="http://www.campuscitizens.com">→ autres pays</a></div>
 		</div>
 	</div>
+	-->
 	<hr />
 	<div class="gauche">
 		<h2>Menu</h2>

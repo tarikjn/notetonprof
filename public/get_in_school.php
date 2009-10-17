@@ -49,7 +49,7 @@ if (@strlen($expl[1]) > 0)
 		// fetch results
 		$r = $result->fetch_object();
 		// for action = 'notes'
-		if (!$s_id)
+		if (!@$s_id)
 			$s_id = $r->s_id;
 		
 		// process POST

@@ -14,10 +14,10 @@ class Settings
 	const LOCALE = 'fr_FR.UTF-8';
 	// timezone set in .htaccess
 	
-	const WEB_ROOT = 'http://macintosh-4.home/~tarik/frportal/trunk/public';
+	const WEB_ROOT = 'http://macintosh-4.local/~tarik/frportal/trunk/public';
 	const WEB_PATH = '/~tarik/frportal/trunk/public';
 	
-	const COOKIE_DOMAIN = 'macintosh-4.home';
+	const COOKIE_DOMAIN = 'macintosh-4.local';
 	
 	const SESSION_PATH = '/var/tmp';
 	

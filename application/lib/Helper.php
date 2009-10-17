@@ -9,7 +9,7 @@ class Helper
 	// reCAPTCHA layouts
 	static $RC_LAYOUTS = array(
 	    'dl'    => '<dt>Étape Anti-spam et robots</dt><dd>%s</dd>',
-		'plain' => ''
+		'plain' => '%s'
 	  );
 
 	/* *****************
@@ -328,6 +328,71 @@ class Helper
 			  	
 			$s .= "<option value=\"" . h($value) . "\"$selected>" . h($title) . "</option>";
 		}
+		
+		return $s;
+	}
+	
+	static function radioSlider($name, $start, $end, $step, $defaults = null, $is_centered = false)
+	{
+		$s = '<div class="cc-radioslider">';
+		
+		for ($i = $start; $i <= $end; $i += $step)
+		{
+			$default = (@$defaults[$name])? $defaults[$name] :
+			  (($is_centered)? 3 : null);
+			
+			$sel = ($i == $default)? ' checked="checked"' : '';
+			$lpos = 9 + ($i - $start) * (200 / (($end - $start) * $step));
+			$s .= "<div class=\"cc-radioslider-pos\" style=\"left: {$lpos}px;\">"
+			    . "<label for=\"radio-$name-$i\">$i</label>"
+			    . "<div><input type=\"radio\" id=\"radio-$name-$i\" value=\"$i\" name=\"$name\"$sel /></div>"
+			    . "</div>";
+		}
+		
+		return $s . '</div>';
+	}
+	
+	static function formFieldCheck($name, $on_value = 'on', $defaults = array(), $put_id = false)
+	{
+		$s = '<input type="checkbox" name="' . $name . '" value="' . $on_value . '"';
+				
+		if ($put_id)
+			$s .= ' id="' . $name . '"';
+		
+		if ($defaults[$name] and !in_array($defaults[$name], array('no', 'off')))
+			$s .= ' checked="checked"';
+		
+		return $s . ' />';
+	}
+	
+	static function formFieldInput($name, $defaults = array())
+	{
+		return '<input type="text" name="' . $name . '" value="' . $defaults[$name] . '" />';
+	}
+	
+	static function getErrorHeader($error)
+	{
+		if ($error)
+			$retval = '<p class="error">'
+			        . '  Attention ! Des <a href="'.$_SERVER["REQUEST_URI"].'#first-form-error">erreurs</a> sont présentes, revérifie le formulaire.'
+			        . '';
+		else
+			$retval = '';
+		
+		return $retval;
+	}
+	
+	static function getFormError($name, $error)
+	{
+		if (!@$error[$name])
+			return;
+		
+		// TODO: check array key position?
+		$anchor = (1) ? '<a name="first-form-error">%s</a>' : '';
+		
+		$s = '<div class="cc-form-error"><div class="text"><div class="bg"></div><div class="inner">'
+		   . sprintf($anchor, $error[$name])
+		   . '</div></div><div class="tip"></div></div>';
 		
 		return $s;
 	}
