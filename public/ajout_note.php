@@ -368,11 +368,11 @@ $yui_mode = true;
 						<fieldset class="cc-compact right50">
 							<legend>Extras</legend>
 							<label>
-								<input type="checkbox" value="1" name="extra[pop]"<?=@($extra["pop"])?" checked=\"checked\"":""?> />
+								<input type="checkbox" value="1" name="extra[pop]"<?=(@$extra["pop"])?" checked=\"checked\"":""?> />
 								Populaire <img src="img/smileys/evaluations/pop.png" class="smiley" alt="" />
 							</label>
 							<label>
-								<input type="checkbox" value="1" name="extra[in]"<?=@($extra["in"])?" checked=\"checked\"":""?> />
+								<input type="checkbox" value="1" name="extra[in]"<?=(@$extra["in"])?" checked=\"checked\"":""?> />
 								Stylé(e)
 							</label>
 						</fieldset>
