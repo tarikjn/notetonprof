@@ -390,9 +390,9 @@ class Helper
 		// TODO: check array key position?
 		$anchor = (1) ? '<a name="first-form-error">%s</a>' : '';
 		
-		$s = '<div class="cc-form-error"><div class="text"><div class="bg"></div><div class="inner">'
+		$s = '<div class="cc-form-error"><div class="tip"></div><div class="text"><div class="bg"></div><div class="inner">'
 		   . sprintf($anchor, $error[$name])
-		   . '</div></div><div class="tip"></div></div>';
+		   . '</div></div></div>';
 		
 		return $s;
 	}
