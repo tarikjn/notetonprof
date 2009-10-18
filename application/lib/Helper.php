@@ -375,7 +375,7 @@ class Helper
 		if ($error)
 			$retval = '<p class="error">'
 			        . '  Attention ! Des <a href="'.$_SERVER["REQUEST_URI"].'#first-form-error">erreurs</a> sont présentes, revérifie le formulaire.'
-			        . '';
+			        . '</p>';
 		else
 			$retval = '';
 		

@@ -163,8 +163,8 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 			App::log('Submitted Review', 'comment', $i_id, $user->uid);
 			
 			// assign moderation of the comment
-			//if (strlen($comment))
-				//App::queue('refresh-assignments', array('for-object', 'comment', $i_id));
+			if (strlen($comment))
+				App::queue('refresh-assignments', array('for-object', 'comment', $i_id));
 			
 			// saving cookie: won't be able to rate teacher again for 1 year
 			setcookie("votes[$p_id][$i_id]", 1, time() + 3600 * 24 * 365, "/", Settings::COOKIE_DOMAIN);
@@ -256,7 +256,7 @@ $yui_mode = true;
 						<div class="cc-padding-compensater">
 							<div class="field-tip"><span class="maxlen-counter"><?=Settings::COMMENT_MAX_LEN?></span> caractères restants</div>
 							<div class="bubble-tip">
-								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisse à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
+								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisses à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
 								<div class="bt-foot"></div>
 							</div>
 							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment"><?=h(@$comment)?></textarea>

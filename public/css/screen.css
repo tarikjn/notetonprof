@@ -980,12 +980,14 @@ td.eval {
 	left: 41px;
 	height: 41px;
 	background: url(../img/field-error.png) top right no-repeat;
+	z-index: 1;
 }
 .cc-form-error .tip {
 	position: absolute;
 	height: 41px;
 	width: 41px;
 	background: url(../img/field-error.png) no-repeat;
+	z-index: 1;
 }
 
 /* mod_panel */
