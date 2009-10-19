@@ -399,10 +399,10 @@ dt .title-tip {
 }
 .maxlen-counter {
 	font-size: 1.2em;
-	color: navy;
+	color: #a77a00;
 }
 .cc-padding-compensater {
-	background-color: #DFECFF;
+	background-color: #f6dfa3;
 	padding: 5px 9px 5px 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;

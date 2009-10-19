@@ -177,7 +177,7 @@ $title = "Ton Prof";
 			<p class="msg"><?=$message?></p>
 <? } ?>
 			<p class="rapport"><a href="signaler?type=prof&amp;id=<?=urlencode($p_id)?>"><img src="img/attention.png" height="15" width="9" alt="" />Signaler une erreur sur ce professeur</a></p>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce prof</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Note ce prof</a></p>
 			<p>Toutes les notes sont établies sur une échelle allant de <strong>1</strong> à <strong>5</strong>.</p>
 			<table class="grille large">
 				<thead>
@@ -241,7 +241,7 @@ $title = "Ton Prof";
 				</tbody>
 <? } ?>
 			</table>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Noter ce prof</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Note ce prof</a></p>
 		</div>
 <? } ?>
 <? require("tpl/bas.php"); ?>
