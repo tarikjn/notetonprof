@@ -2,12 +2,21 @@
 
 class Ratings
 {
-	static $AMB = array(
-	    1 => "Incontrôlée",
-	    2 => "Décontractée",
-	    3 => "Bonne",
-	    4 => "Sérieuse",
-	    5 => "Tendue"
+	static $CENTERED_LABELS = array(
+	    'difficulty' => array(
+	      1 => "Trop facile",
+	      2 => "Plutôt facile",
+	      3 => "Bon",
+	      4 => "Plutôt difficile",
+	      5 => "Trop difficile"
+	    ),
+	    'atmosphere' => array(
+	      1 => "Incontrôlée",
+	      2 => "Décontractée",
+	      3 => "Bonne",
+	      4 => "Sérieuse",
+	      5 => "Tendue"
+	    )
 	  );
 	
 	static $JUST = array(
@@ -18,6 +27,8 @@ class Ratings
 	    5 => "Rude"
 	  );
 	
+	const SQL_AVERAGE = "(interest*2 + clarity + knowledgeable + IFNULL(fairness, 0)) / IF(fairness IS NULL, 4, 5)";
+	
 	static $CRITERIAS = array(
 	    'interest' => array(
 	        'title' => 'Intéressant / Motivant',
@@ -25,6 +36,7 @@ class Ratings
 	      ),
 	     'clarity' => array(
 	        'title' => 'Clair / Pédagogue',
+	        
 	        'desc' => "Avec quelle facilité comprends-tu les cours ? Ton prof explique-t-il bien ? Utilise-t-il une méthode efficace ?"
 	      ),
 	      'knowledgeable' => array(

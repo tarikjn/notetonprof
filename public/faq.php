@@ -13,7 +13,7 @@ $title = "FAQ";
 			<dl class="faq">
 				<dt>Comment calculez-vous la moyenne d'un prof ?</dt>
 				<dd>
-					Nous faisons la moyenne des trois critères principaux : Intérêt, Pédagogie et Connaissances. Nous pondérons ces 3 critères de la même façon.<br />
+					Nous faisons la moyenne des quatre critères principaux : <em><?=Ratings::$CRITERIAS['interest']['title']?></em>, <em><?=Ratings::$CRITERIAS['clarity']['title']?></em>, <em><?=Ratings::$CRITERIAS['knowledgeable']['title']?></em> et <em><?=Ratings::$CRITERIAS['fairness']['title']?></em>. Le critère <em><?=Ratings::$CRITERIAS['interest']['title']?></em> compte pour double dans le calcul de la moyenne.<br />
 					Ces critères nous semblent essentiels pour exprimer les qualités d'un professeur qui jouent sur la motivation et la réussite des élèves.
 				</dd>
 				<dt>Comment signaler un commentaire qui ne devrait pas apparaître ?</dt>

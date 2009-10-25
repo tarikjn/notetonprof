@@ -111,6 +111,13 @@ class Helper
 		$sep = ($locale['thousands_sep'])? $locale['thousands_sep'] : $locale["mon_thousands_sep"];
 		return number_format($i, 0, $locale['decimal_point'], $sep);
 	}
+	
+	static function f_avg($f)
+	{
+		$locale = localeconv();
+		$sep = ($locale['thousands_sep'])? $locale['thousands_sep'] : $locale["mon_thousands_sep"];
+		return number_format($f, 1, $locale['decimal_point'], $sep);
+	}
 
 	static function schoolTitle($course, $secondary, $name, $id = null)
 	{
@@ -229,7 +236,7 @@ class Helper
 		return $tag;
 	}
 	
-	static function ambiance($moy, $amb = 1)
+	static function centeredAvg($moy, $amb = 1)
 	{	
 		if (!$moy)
 			$tag = NULL;
@@ -266,12 +273,38 @@ class Helper
 				$img = "normal";
 				$tit = 3;
 			}
-			$tit = ($amb) ? Ratings::$AMB[$tit] : Ratings::$JUST[$tit];
+			//$tit = ($amb) ? Ratings::$AMB[$tit] : Ratings::$JUST[$tit];
 			
 			$tag = "<strong><img src=\"img/smileys/evaluations/$img.png\" class=\"smiley\" alt=\"\" title=\"$tit\" />$add</strong>";
 		}
 		
 		return $tag;
+	}
+	
+	static function centeredRating($i, $type)
+	{
+		// TODO: add title
+		if ($i > 3.25)
+		{
+			$img = 'serieux';
+			$bg = ($i > 4)? 'serieux' : 'half-mean';
+		}
+		else if ($i < 2.75)
+		{
+			$img = 'cool';
+			$bg = ($i < 2)? 'cool' : 'half-cool';
+		}
+		else
+		{
+			$img = 'normal';
+			$bg = 'normal';
+			$title = "Bien";
+		}
+		
+		$title = Ratings::$CENTERED_LABELS[$type][$i];
+		$s = '<div class="centered-rating">' . "<img src=\"img/smileys/evaluations/$bg.png\" class=\"smiley\" alt=\"$img\" title=\"$title\" />" . '</div>';
+		
+		return $s;
 	}
 	
 	static function formatLog($result)

@@ -241,6 +241,29 @@ hr {
 
 /* !titres */
 
+
+/* score board */
+.centered-rating {
+	height: 15px;
+	width: 15px;
+	padding: 2px;
+	line-height: 15px;
+}
+.centered-rating img {
+	vertical-align: baseline;
+}
+.centered-rating.red {
+	background-image: url(../img/score/smiley-bg-red.png);
+}
+.centered-rating.yellow {
+	background-image: url(../img/score/smiley-bg-yellow.png);
+}
+.centered-rating.green {
+	background-image: url(../img/score/smiley-bg-green.png);
+}
+/* /score board */
+
+
 .edit {
 	vertical-align: middle;
 }

@@ -19,7 +19,7 @@ if (@strlen($expl[1]) > 0)
 		$erreur_var = FALSE;
 		
 		$query =
-			"SELECT etablissements.id, etablissements.nom, secondaire, villes.nom AS commune, AVG( interest + clarity + knowledgeable ) / 3 AS moy, COUNT( DISTINCT notes.id ) AS notes ".
+			"SELECT etablissements.id, etablissements.nom, secondaire, villes.nom AS commune, AVG(".Ratings::SQL_AVERAGE.") AS moy, COUNT( DISTINCT notes.id ) AS notes ".
 			"FROM etablissements, villes, professeurs ".
 			"LEFT JOIN notes ON notes.prof_id = professeurs.id && notes.status = 'ok' ".
 			"WHERE villes.id = etablissements.ville_id && cursus = '$cursus' && professeurs.etblt_id = etablissements.id && notes.prof_id = professeurs.id && professeurs.status = 'ok' AND etablissements.status = 'ok'".((Admin::MOD_SCHOOL)?" && etablissements.moderated = 'yes'":"")." ".

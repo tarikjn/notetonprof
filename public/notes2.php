@@ -11,7 +11,7 @@ if (@strlen($expl[1]) > 0)
 	$erreur_url = FALSE;
 
 	// début vérification des variables
-	$query =	"SELECT COUNT( notes.id ) AS notes, etablissements.nom AS etblt, etablissements.id AS e_id, etablissements.cursus, secondaire, dept, cp, villes.nom AS commune, villes.id AS c_id, professeurs.*, matieres.nom AS matiere, AVG( interest + clarity + knowledgeable ) / 3 AS moy, AVG( interest ) AS interest, AVG( clarity ) AS clarity, AVG( knowledgeable ) AS knowledgeable, AVG( regularity ) AS regularity, AVG( atmosphere ) AS atmosphere, AVG( difficulty ) AS difficulty, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS extra, AVG( FIND_IN_SET( 'pop', extra ) > 0 ) AS pop,  AVG( FIND_IN_SET( 'in', extra ) > 0 ) AS style ".
+	$query =	"SELECT COUNT( notes.id ) AS notes, etablissements.nom AS etblt, etablissements.id AS e_id, etablissements.cursus, secondaire, dept, cp, villes.nom AS commune, villes.id AS c_id, professeurs.*, matieres.nom AS matiere, AVG(" . Ratings::SQL_AVERAGE . ") AS moy, AVG( interest ) AS interest, AVG( clarity ) AS clarity, AVG( knowledgeable ) AS knowledgeable, AVG( fairness ) AS fairness, AVG( availability ) AS availability, AVG( regularity ) AS regularity, AVG( atmosphere ) AS atmosphere, AVG( difficulty ) AS difficulty, AVG( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS extra, AVG( FIND_IN_SET( 'pop', extra ) > 0 ) AS pop,  AVG( FIND_IN_SET( 'in', extra ) > 0 ) AS style ".
 			"FROM (professeurs, matieres, etablissements, villes) ".
 			"LEFT JOIN notes ON notes.prof_id = professeurs.id && notes.status = 'ok' ".
 			"WHERE professeurs.status = 'ok' && professeurs.id = $p_id && etablissements.id = professeurs.etblt_id && villes.id = etablissements.ville_id AND etablissements.status = 'ok' && matieres.id = professeurs.matiere_id".((Admin::MOD_SCHOOL)?" && etablissements.moderated = 'yes'":"").((Admin::MOD_PROF)?" && professeurs.moderated = 'yes'":"")." ".
@@ -21,32 +21,26 @@ if (@strlen($expl[1]) > 0)
 	
 	if ($rnb)
 	{
-		$row = $result->fetch_assoc();
-		$cursus = $row["cursus"];
-		$dept = $row["dept"];
-		$cp = $row["cp"];
-		$secondaire = $row["secondaire"];
-		$e_nom = $row["etblt"];
-		$e_id = $row["e_id"];
-		$c_nom = $row["commune"];
-		$c_id = $row["c_id"];
-		$nom = $row["nom"];
-		$prenom = $row["prenom"];
-		$matiere = $row["matiere"];
-		$sujet = $row["sujet"];
-		$notes = $row["notes"];
-		$moy = $row["moy"];
-		$int = $row["interest"];
-		$ped = $row["clarity"];
-		$conn = $row["knowledgeable"];
-		$reg = $row["regularity"];
-		$amb = $row["atmosphere"];
-		$just = $row["difficulty"];
-		$pop = $row["pop"];
-		$style = $row["style"];
-		$extra = $row["extra"];
+		$record = $result->fetch_assoc();
+		$cursus = $record["cursus"];
+		$dept = $record["dept"];
+		$cp = $record["cp"];
+		$secondaire = $record["secondaire"];
+		$e_nom = $record["etblt"];
+		$e_id = $record["e_id"];
+		$c_nom = $record["commune"];
+		$c_id = $record["c_id"];
+		$nom = $record["nom"];
+		$prenom = $record["prenom"];
+		$matiere = $record["matiere"];
+		$sujet = $record["sujet"];
+		$notes = $record["notes"];
+		$moy = $record["moy"];
+		$pop = $record["pop"];
+		$style = $record["style"];
+		$extra = $record["extra"];
 		
-		$query = "SELECT id, moderated, open_ticket, UNIX_TIMESTAMP( date ) AS date, clarity, interest, knowledgeable, regularity, atmosphere, difficulty, (interest + clarity + knowledgeable) / 3 AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
+		$query = "SELECT id, moderated, open_ticket, UNIX_TIMESTAMP( date ) AS date, clarity, interest, fairness, knowledgeable, availability, regularity, atmosphere, difficulty, " . Ratings::SQL_AVERAGE . " AS moy, ( FIND_IN_SET( 'pop', extra ) || FIND_IN_SET( 'in', extra ) ) AS pop, comment FROM notes WHERE prof_id = $p_id AND status = 'ok' ORDER by date desc";
 		$result = DBPal::query($query);
 		$rnb = $result->num_rows;
 		
@@ -102,7 +96,7 @@ else	$erreur_url = TRUE;
 // Controller-View limit
 DBPal::finish();
 
-$title = "Ton Prof";
+$title = $prenom . ' ' . strtoupper($nom);
 ?>
 <? require("tpl/haut.php"); ?>
 <? if ($erreur_url) require("tpl/erreur_url.php"); else if ($erreur_var) require("tpl/erreur_var.php"); else { ?>
@@ -125,31 +119,39 @@ $title = "Ton Prof";
 				</tr>
 				<tr class="new">
 					<th>Moyenne :</th>
-					<td class="r nb"><?=($moy) ? number_format($moy, 1) : "<em>-</em>"?></td>
+					<td class="r nb"><?=($moy) ? Helper::f_avg($moy) : "<em>-</em>"?></td>
 				</tr>
 				<tr class="new">
-					<td>Intérêt :</td>
-					<td class="r nb"><?=($int) ? number_format($int, 1) : "<em>-</em>"?></td>
+					<td><?=Ratings::$CRITERIAS['interest']['title']?> :</td>
+					<td class="r nb"><?=($record['interest']) ? Helper::f_avg($record['interest']) : "<em>-</em>"?></td>
 				</tr>
 				<tr>
-					<td>Pédagogie :</td>
-					<td class="r nb"><?=($ped) ? number_format($ped, 1) : "<em>-</em>"?></td>
+					<td><?=Ratings::$CRITERIAS['clarity']['title']?> :</td>
+					<td class="r nb"><?=($record['clarity']) ? Helper::f_avg($record['clarity']) : "<em>-</em>"?></td>
 				</tr>
 				<tr>
-					<td>Connaissances :</td>
-					<td class="r nb"><?=($conn) ? number_format($conn, 1) : "<em>-</em>"?></td>
+					<td><?=Ratings::$CRITERIAS['knowledgeable']['title']?> :</td>
+					<td class="r nb"><?=($record['knowledgeable']) ? Helper::f_avg($record['knowledgeable']) : "<em>-</em>"?></td>
+				</tr>
+				<tr>
+					<td><?=Ratings::$CRITERIAS['fairness']['title']?> :</td>
+					<td class="r nb"><?=($record['fairness']) ? Helper::f_avg($record['fairness']) : "<em>-</em>"?></td>
 				</tr>
 				<tr class="new">
-					<td>Régularité :</td>
-					<td class="r"><?=($reg) ? number_format($reg, 1) : "<em>-</em>"?></td>
+					<td><?=Ratings::$CRITERIAS['regularity']['title']?> :</td>
+					<td class="r nb"><?=($record['regularity']) ? Helper::f_avg($record['regularity']) : "<em>-</em>"?></td>
 				</tr>
 				<tr>
-					<td>Ambiance :</td>
-					<td class="amb"><?=Helper::ambiance($amb)?></td>
+					<td><?=Ratings::$CRITERIAS['availability']['title']?> :</td>
+					<td class="r nb"><?=($record['availability']) ? Helper::f_avg($record['availability']) : "<em>-</em>"?></td>
 				</tr>
 				<tr>
-					<td>Justesse :</td>
-					<td class="amb"><?=Helper::ambiance($just, 0)?></td>
+					<td><?=Ratings::$CRITERIAS['difficulty']['title']?> :</td>
+					<td class="amb"><?=Helper::centeredAvg($record['difficulty'])?></td>
+				</tr>
+				<tr>
+					<td><?=Ratings::$CRITERIAS['atmosphere']['title']?> :</td>
+					<td class="amb"><?=Helper::centeredAvg($record['atmosphere'])?></td>
 				</tr>
 				<tr>
 					<td>Popularité :</td>
@@ -177,54 +179,46 @@ $title = "Ton Prof";
 			<p class="msg"><?=$message?></p>
 <? } ?>
 			<p class="rapport"><a href="signaler?type=prof&amp;id=<?=urlencode($p_id)?>"><img src="img/attention.png" height="15" width="9" alt="" />Signaler une erreur sur ce professeur</a></p>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Note ce prof</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Ajouter une note</a></p>
 			<p>Toutes les notes sont établies sur une échelle allant de <strong>1</strong> à <strong>5</strong>.</p>
 			<table class="grille large">
-				<thead>
+				<?
+					for ($i = 0; $i == 0 or ($i < 2 and $notes >= 10); $i++)
+					{
+						$tag = ($i == 0)? 'thead':'tfoot';
+				?>
+				<<?=$tag?>>
 					<tr>
 						<th></th>
 						<th class="nbre">Date</th>
-						<th class="eval"><span class="abbr" title="Intérêt">Int.</span></th>
-						<th class="eval"><span class="abbr" title="Pédagogie">Péd.</span></th>
-						<th class="eval"><span class="abbr" title="Connaissances">Conn.</span></th>
-						<th class="eval"><span class="abbr" title="Régularité">Rég.</span></th>
-						<th class="eval"><span class="abbr" title="Ambiance">Amb.</span></th>
-						<th class="eval"><span class="abbr" title="Justesse">Just.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['interest']['title']?>">Int.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['clarity']['title']?>">Péd.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['knowledgeable']['title']?>">Conn.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['fairness']['title']?>">Just.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['regularity']['title']?>">Rég.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['availability']['title']?>">Disp.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['difficulty']['title']?>">Niv.</span></th>
+						<th class="eval"><span class="abbr" title="<?=Ratings::$CRITERIAS['atmosphere']['title']?>">Amb.</span></th>
 						<th class="nom" style="width: 100%">Commentaire</th>
 						<th></th>
 					</tr>
-				</thead>
-<? if ($notes >= 10) { ?>
-				<tfoot>
-					<tr>
-						<th></th>
-						<th class="nbre">Date</th>
-						<th class="eval"><span class="abbr" title="Intérêt">Int.</span></th>
-						<th class="eval"><span class="abbr" title="Pédagogie">Péd.</span></th>
-						<th class="eval"><span class="abbr" title="Connaissances">Conn.</span></th>
-						<th class="eval"><span class="abbr" title="Régularité">Rég.</span></th>
-						<th class="eval"><span class="abbr" title="Ambiance">Amb.</span></th>
-						<th class="eval"><span class="abbr" title="Justesse">Just.</span></th>
-						<th class="nom" style="width: 100%">Commentaire</th>
-						<th></th>
-					</tr>
-				</tfoot>
-<? } ?>
+				</<?=$tag?>>
+				<?
+					}
+				?>
 <? for($i = 0; $row = $result->fetch_assoc(); $i = ($i + 1) % 2) { ?>
 				<tbody<?=(isset($_COOKIE["votes"][$p_id][$row["id"]])) ? " class=\"tanote\"" : (($i == 1) ? " class=\"impair\"" : "")?>>
 					<tr>
-						<td>
-<? if ((!Admin::MOD_COMMENT || $row["moderated"] == 'yes') && strlen($row["comment"]) > 0) { ?>
-							<a href="signaler?type=comment&amp;id=<?=urlencode($row["id"])?>"><img src="img/attention.png" height="15" width="9" alt="" title="Signaler un commentaire ne respectant pas les règles" /></a>
-<? } ?>
-						</td>
+						<td><?=Helper::smiley($row["moy"], $row["pop"])?></td>
 						<td class="nbre small"><?=strftime("%d/%m/%Y", $row["date"])?></td>
 						<td class="eval"><?=$row["interest"]?></td>
 						<td class="eval"><?=$row["clarity"]?></td>
 						<td class="eval"><?=$row["knowledgeable"]?></td>
+						<td class="eval"><?=$row["fairness"]?></td>
 						<td class="eval"><?=$row["regularity"]?></td>
-						<td><div class="smilep"><?=Helper::ambiance($row["atmosphere"])?></div></td>
-						<td><div class="smilep"><?=Helper::ambiance($row["difficulty"], 0)?></div></td>
+						<td class="eval"><?=$row["availability"]?></td>
+						<td><div class="smilep"><?=Helper::centeredRating($row["difficulty"], 'difficulty')?></div></td>
+						<td><div class="smilep"><?=Helper::centeredRating($row["atmosphere"], 'atmosphere')?></div></td>
 						<td class="comment" style="width: 100%">
 <? if ((Admin::MOD_COMMENT && $row["moderated"] != 'yes') or $row["open_ticket"]) { ?>
 <? if (strlen($row["comment"]) > 0) { ?>
@@ -236,12 +230,16 @@ $title = "Ton Prof";
 							<div><?=h($row["comment"])?></div>
 <? } ?>
 						</td>
-						<td><?=Helper::smiley($row["moy"], $row["pop"])?></td>
+						<td>
+<? if ((!Admin::MOD_COMMENT || $row["moderated"] == 'yes') && strlen($row["comment"]) > 0) { ?>
+							<a href="signaler?type=comment&amp;id=<?=urlencode($row["id"])?>"><img src="img/attention.png" height="15" width="9" alt="" title="Signaler un commentaire ne respectant pas les règles" /></a>
+<? } ?>
+						</td>
 					</tr>
 				</tbody>
 <? } ?>
 			</table>
-			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Note ce prof</a></p>
+			<p class="action"><a href="ajout_note?prof_id=<?=urlencode($p_id)?>">Ajouter une note</a></p>
 		</div>
 <? } ?>
 <? require("tpl/bas.php"); ?>
