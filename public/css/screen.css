@@ -261,6 +261,11 @@ hr {
 .centered-rating.green {
 	background-image: url(../img/score/smiley-bg-green.png);
 }
+
+.ratings-grid {
+	clear: both;
+	margin-top: 10px;
+}
 /* /score board */
 
 
