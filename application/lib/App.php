@@ -209,7 +209,7 @@ class App
 		return $object_id;
 	}
 	
-	static function processReports($reports_post, $obj_arr, $uid, $current_report = false)
+	static function processReports($reports_post, $obj_arr, $uid, $update_id, $current_report = false)
 	{
 		$object_where = " WHERE object_type = '" . $obj_arr[0] . "' AND object_id = " . $obj_arr[1];
 		
@@ -220,6 +220,8 @@ class App
 		    if (!$rid)
 		    	continue;
 		    
+		    $related_data = array('log_update_id' => $update_id);
+		    
 		    switch($action)
 		    {
 		    	// TODO: would be nice if report fixes get individual comments ($notes)
@@ -228,7 +230,7 @@ class App
 		    		
 		    		DBPal::query("UPDATE reports SET status = 'closed'" . $object_where . " AND id = $rid");
 		    		
-		    		self::log("Closed", "report", $rid, $uid);
+		    		self::log("Closed", "report", $rid, $uid, $related_data);
 		    		
 		    		break;
 		    		
@@ -237,7 +239,7 @@ class App
 		    		// no need to check that report is associated with object, affect only user
 		    		DBPal::query("INSERT INTO defered_reports (admin_id, report_id) VALUES ($uid, $rid)");
 		    		
-		    		self::log("Defered", "report", $rid, $uid);
+		    		self::log("Defered", "report", $rid, $uid, $related_data);
 		    		
 		    		break;
 		    }

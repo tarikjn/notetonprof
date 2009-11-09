@@ -179,13 +179,16 @@ $title = "Commentaires";
 <? if (sizeof($comments) == 0) { ?>
 			<div class="page-msg">Tu n'as aucun commentaires à modérer pour le moment</div>
 <? } else { ?>
+		<? if (SHOW_SCORE) { ?>
+			<p class="information">La colonne Indice de Priorité (<em>Priorit.</em>) n'est visible qu'aux <?=Admin::$RANKS[5]?>s.</p>
+		<? } ?>
 			<div class="page-msg"><?=sizeof($comments)?> commentaires affichées sur un total de <?=$mp_count->comments?> (classés par priorité)</div>
 			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="has-labels">
 				<table class="mod-table">
 					<thead>
 						<tr>
 <? if (SHOW_SCORE) { ?>
-							<th class="score">P. Score</th>
+							<th class="score">Priorit.</th>
 <? } ?>			
 					    	<th class="comment">Commentaire</th>
 					    	<th class="action">Action</th>
@@ -203,7 +206,7 @@ $title = "Commentaires";
 							</td>
 						</tr>
 						<tr class="extra-tr">
-							<td colspan="<?=SHOW_SCORE? 3:2?>"><label><span>Notes (facultatif)</span> <input type="text" name="comment[<?=$row->id?>][notes]" /></label></td>
+							<td colspan="<?=SHOW_SCORE? 3:2?>"><label><span>Raison (facultatif)</span> <input type="text" name="comment[<?=$row->id?>][notes]" /></label></td>
 						</tr>
 <?
 	if ($row->reports) while ($report = $row->reports->fetch_object())
@@ -226,9 +229,9 @@ $title = "Commentaires";
 					<input type="submit" value="Confirmer" />
 				</div>
 			</form>
-<? } ?>
 <? if ($mp_count->comments > COMMENTSPP) { ?>
 			<p class="page-end">Pour voir la suite, tu dois d'abord modérer ces commentaires</p>
+<? } ?>
 <? } ?>
 		</div>
 <? require("tpl/bas.php"); ?>

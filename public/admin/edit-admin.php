@@ -72,10 +72,6 @@ if (!@$err)
 		    }
 		}
 		
-		// process reports
-		if (@$_POST['report'])
-		    $new_open_ticket = App::processReports($_POST['report'], array('user', $id), $user->uid, $current_data->open_ticket);
-		
 		// update
 		DBPal::query(
 		      "UPDATE delegues SET id = id"
@@ -88,7 +84,11 @@ if (!@$err)
 		
 		// TODO: what if no update at all?
 		// log
-		App::log($log_msg, "user", $id, $user->uid, $updated_data, $notes);
+		$log_update_id = App::log($log_msg, "user", $id, $user->uid, $updated_data, $notes);
+		
+		// process reports
+		if (@$_POST['report'])
+		    $new_open_ticket = App::processReports($_POST['report'], array('user', $id), $user->uid, $log_update_id, $current_data->open_ticket);
 		
 		// invalidate any active session for that user
 		if (@$updated_data["locked"] or @$updated_data["level"])

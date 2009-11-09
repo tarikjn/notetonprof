@@ -1,3 +1,5 @@
+Requires beanstalkd: activate startup option
+
 Deploy method:
 
 - svn hook rename migrate.rb/.sql to migrate-revXYZ.rb/.sql

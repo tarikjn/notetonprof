@@ -55,13 +55,15 @@ $title = "Données";
 <? if (sizeof($objects) == 0) { ?>
 			<div class="page-msg">Tu n'as aucunes données à modérer pour le moment</div>
 <? } else { ?>
+		<? if (SHOW_SCORE) { ?>
+			<p class="information">La colonne Indice de Priorité (<em>Priorit.</em>) n'est visible qu'aux <?=Admin::$RANKS[5]?>s.</p>
+		<? } ?>
 			<div class="page-msg"><?=sizeof($objects)?> tâches affichées sur un total de <?=$mp_count->data?> (classées par priorité)</div>
-<? } ?>
 			<table class="mod-table">
 			    <thead>
 			    	<tr>
 <? if (SHOW_SCORE) { ?>
-			    		<th class="score">P. Score</th>
+			    		<th class="score">Priorit.</th>
 <? } ?>
 			        	<th class="title">Description</th>
 			        	<th class="edit">Action</th>
@@ -96,6 +98,7 @@ $title = "Données";
 			</table>
 <? if ($mp_count->data > OBJECTSPP) { ?>
 			<p class="page-end">Pour voir la suite, tu dois d'abord compléter ces tâches</p>
+<? } ?>
 <? } ?>
 			<h3>Rechercher</h3>
 			<p>Pour modifier les données d'un professeur ou d'un établissement, rends toi directement sur la page en question à partir du portail en étant connecté.</p>

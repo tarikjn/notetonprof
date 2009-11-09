@@ -91,10 +91,6 @@ if (!@$err)
 		    		$log_msg[] = 'Moderated: ' . (($moderate == 'accept')? 'accepted' : 'raised');
 		    	}
 		    	
-		    	// process reports
-		    	if (@$_POST['report'])
-					$new_open_ticket = App::processReports($_POST['report'], array('school', $id), $user->uid, $test_row->open_ticket);
-		    	
 		    	// update
 		    	DBPal::query(
 		    		  "UPDATE etablissements SET id = id"
@@ -109,7 +105,11 @@ if (!@$err)
 		    	  );
 		    	
 		    	// log
-		    	App::log($log_msg, "school", $id, $user->uid, $updated_data, $notes);
+		    	$log_update_id = App::log($log_msg, "school", $id, $user->uid, $updated_data, $notes);
+		    	
+		    	// process reports
+		    	if (@$_POST['report'])
+					$new_open_ticket = App::processReports($_POST['report'], array('school', $id), $user->uid, $log_update_id, $test_row->open_ticket);
 		    	
 		    	// if no more tickets and moderated -> clear assignments
 		    	if (($test_row->moderated == 'yes' or @$new_moderate == 'yes' or !Admin::MOD_SCHOOL)
