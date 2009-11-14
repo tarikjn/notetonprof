@@ -113,7 +113,7 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 			$extra[] = 'pop';
 		if (@$_POST['extra']['in'])
 			$extra[] = 'in';
-		$extra = implode(",", $extra);
+		$extra_q = implode(",", $extra);
 		
 		$criterias = array_keys(Ratings::$CRITERIAS);
 		$scale = array(1, 2, 3, 4, 5);
@@ -156,7 +156,7 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 			$query = "INSERT INTO notes"
 			       . " (prof_id, date, " . implode(",", array_keys($grades)) . ", statut, extra, comment)"
 			       . " VALUES"
-			       . " ($p_id, NOW(), " . implode(",", array_values($grades)) . ", '$statut', '$extra', " . DBPal::quote($comment) . ")";
+			       . " ($p_id, NOW(), " . implode(",", array_values($grades)) . ", '$statut', '$extra_q', " . DBPal::quote($comment) . ")";
 			$i_id = DBPal::insert($query);
 			
 			// log it
@@ -383,7 +383,7 @@ $yui_mode = true;
 							<legend>Mise à jour</legend>
 							<label>
 								<?=Helper::formFieldCheck('get_update_notification', 'yes', $defaults, true)?>
-								<span class="cc-tooltip" title="Ton choix est automatiquement mémorisé, tu peux le changer à tout moment.">M'informer lorsque ce professeur reçoit une nouvelle note</span>
+								<span class="cc-tooltip" title="Ton choix est automatiquement mémorisé, tu peux le changer à tout moment.">M'informer lorsque ce prof reçoit une nouvelle note</span>
 							</label>
 							<div id="update_notification_email">
 								<?=Helper::getFormError('update_notification_email', $error)?>

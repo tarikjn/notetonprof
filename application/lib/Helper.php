@@ -392,7 +392,7 @@ class Helper
 		if ($put_id)
 			$s .= ' id="' . $name . '"';
 		
-		if ($defaults[$name] and !in_array($defaults[$name], array('no', 'off')))
+		if (@$defaults[$name] and !in_array(@$defaults[$name], array('no', 'off')))
 			$s .= ' checked="checked"';
 		
 		return $s . ' />';
