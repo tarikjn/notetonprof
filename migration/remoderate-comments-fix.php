@@ -1,6 +1,6 @@
 #!/usr/local/php5/bin/php -q
 <?php
-require("_ini.php");
+require("../jobs/_ini.php");
 
 $time = time();
 
