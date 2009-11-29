@@ -24,8 +24,8 @@ class Settings
 	const BEANSTALKQ = 'localhost:11300';
 	
 	// reCAPTCHA keys
-	const RC_PUBLIC_K = '6LfcKwgAAAAAAFGPkxbgpaZIPUg7vJYBVzJRChnP';
-	const RC_PRIVATE_K = '6LfcKwgAAAAAAG2lPqpcw64y9X3yUQoYXG_F0FFl';
+	const RC_PUBLIC_K = '6LcfrwkAAAAAAHOPn_OoN8USYbCmwWWbHNhvd8UD';
+	const RC_PRIVATE_K = '6LcfrwkAAAAAAFhMAU_ASJye3olor77BMAMrmS98';
 	
 	// Mail settings
 	const USE_SENDMAIL = true;
