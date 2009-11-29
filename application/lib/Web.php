@@ -52,7 +52,7 @@ class Web
 
 		if (!$rc_resp->is_valid)
 			$notice["recaptcha"] = "Le reCAPTCHA entré est incorrect";
-		else if (sizeof($notice))
+		else if (sizeof($notice) and @$notice)
 			$notice["recaptcha"] = "Réentre le reCAPTCHA";
 		
 		// TODO: use this for action counter
