@@ -3,7 +3,7 @@ define("ROOT_DIR", "");
 require(ROOT_DIR."_ini.php");
 
 // initialisation des variables
-$notice = FALSE;
+$notice = NULL;
 $success = FALSE;
 
 // début traitement formulaire

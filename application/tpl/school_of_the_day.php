@@ -36,7 +36,7 @@ if (($sotd = apc_fetch('school_of_the_day')) === false)
 		<div class="edj">
 			<h2>Établissement du jour</h2>
 			<div>
-				<div>Établissement qui a recueillit hier le plus de notes (<?=Helper::f_int($sotd->ratings)?>) :</div>
+				<div>Établissement qui a recueilli hier le plus de notes (<?=Helper::f_int($sotd->ratings)?>) :</div>
 				<div class="dernier-etblt"><a class="etab" href="profs/<?=$sotd->id?>/"><?=htmlspecialchars($sotd->caption)?></a></div>
 			</div>
 		</div>

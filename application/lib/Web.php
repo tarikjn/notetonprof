@@ -108,6 +108,17 @@ class Web
 		$encoded = '%'.substr($encoded, 0, strlen($encoded) - 1); 
 		return $encoded; 
 	}
+	
+	static function checkBlacklisted(&$notice)
+	{
+		$match = DBPal::getOne("SELECT id FROM blacklist WHERE ip = " . DBPal::quote($_SERVER["REMOTE_ADDR"]) . " AND status = 'active'");
+
+		if ($match)
+		{
+			DBPal::query("UPDATE blacklist SET attempts = attempts + 1 WHERE id = $match");
+			$notice["blacklist"] = "Action refusée, veuillez contacter <a href=\"mailto:ops@notetonprof.com\">les opérateurs</a>.";
+		}
+	}
 }
 
 // short function wrapper

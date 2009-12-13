@@ -12,7 +12,7 @@ $title = "Contact";
 		<hr />
 		<div>
 			<h2>Forums</h2>
-			<p>Les <a href="http://forums.notetonprof.com">forums</a> sont à votre disposition pour échanger vos avis sur le site, vos idées ou débatre sur tout ce qui s'y rapporte.</p>
+			<p>Les <a href="http://forums.notetonprof.com">forums</a> sont à votre disposition pour échanger vos avis sur le site, vos idées ou débattre sur tout ce qui s'y rapporte.</p>
 			<h2>Nous contacter</h2>
 			<p>Pour nous signaler une erreur sur un professeur ou un établissement, ou signaler un commentaire qui ne respecte pas les <a href="regles">règles du site</a>, merci d'utiliser la fonction « Signaler » (représentée par un <img src="img/attention.png" />) à coté de l'établissement, du professeur ou du commentaire concerné.</p>
 			<p>Merci d'envoyer votre message à l'adresse appropriée.</p>

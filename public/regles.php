@@ -11,7 +11,7 @@ $title = "Règles de notation";
 		<div>
 			<h2>Règles de notation</h2>
 			<p><strong>En utilisant ce site, tu acceptes de noter et de commenter <em>uniquement</em> tes professeurs, administrateurs, conseillers ou autres professionnels qui affectent ton éducation. Tu ne peux évaluer un professeur (ou professionnel) qu'une seule fois.</strong></p>
-			<p>Une fois que tu as laissé une évaluation, il t'es impossible de la modifier ou de la supprimer.</p>
+			<p>Une fois que tu as laissé une évaluation, il t'est impossible de la modifier ou de la supprimer.</p>
 			<h3><a name="comment">Commentaire</a></h3>
 			<p>
 				Ton commentaire doit être utile, constructif, il doit avant tout être en rapport avec l'enseignement et le déroulement des cours avec ton professeur.<br />
@@ -40,6 +40,7 @@ $title = "Règles de notation";
 				<li>faisant état d'une intention de lui faire du mal</li>
 			</ul>
 			<p>&hellip; sera transmis aux autorités compétentes avec ton adresse IP.</p>
+			<p>Si vous laissez un commentaire particulièrement négatif (nul, inutile), votre commentaire doit impérativement justifier de façon construite votre avis.</p>
 			<h3>Critères de notation</h3>
 			<h4>Critères principaux</h4>
 			<p>Ce sont les critères qui rentrent en compte dans la moyenne de ton professeur. Pour chaque critère, nous te demandons de donner une note de 1 à 5, 1 étant le pire, et 5 le meilleur, correspondant à ton avis personnel.</p>

@@ -291,7 +291,7 @@ $__JSON_DEPT = <<<JSON
    },
    "72":{
       "nom":"Sarthe",
-      "ind":"05"
+      "ind":"02"
    },
    "73":{
       "nom":"Savoie",

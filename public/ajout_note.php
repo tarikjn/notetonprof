@@ -147,6 +147,9 @@ if (!$erreur_url && !$erreur_var && !$erreur_cookies && !$voted)
 		// check the reCAPTCHA
 		Web::checkReCaptcha($user, $error);
 		
+		// check if the network is blacklisted
+		Web::checkBlacklisted($error);
+		
 		if (!@$error)
 		{
 			$insert = array(
@@ -248,20 +251,8 @@ $yui_mode = true;
 				Pense à consulter les <a href="regles">régles</a> de notation.
 			</p>
 			<?=Helper::getErrorHeader($error)?>
-			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form rating-form">
+			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form rating-form" onsubmit="return confirm('Es-tu sûr de vouloir laisser une évaluation sans commentaire ? Un commentaire apportera beaucoup plus de valeur à ton évaluation.')">
 				<dl>
-					<dt>Commentaire</dt>
-					<dd>
-						<?=Helper::getFormError('comment', $error)?>
-						<div class="cc-padding-compensater">
-							<div class="field-tip"><span class="maxlen-counter"><?=Settings::COMMENT_MAX_LEN?></span> caractères restants</div>
-							<div class="bubble-tip">
-								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisses à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
-								<div class="bt-foot"></div>
-							</div>
-							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment"><?=h(@$comment)?></textarea>
-						</div>
-					</dd>
 					<dt>Note</dt>
 					<dd class="widgets">
 						<fieldset>
@@ -350,6 +341,18 @@ $yui_mode = true;
 								<div class="cc-label cc-tooltip" title="<?=Ratings::$CRITERIAS['atmosphere']['desc']?>"><?=Ratings::$CRITERIAS['atmosphere']['title']?></div>
 							</div>
 						</fieldset>
+					</dd>
+					<dt>Commentaire</dt>
+					<dd>
+						<?=Helper::getFormError('comment', $error)?>
+						<div class="cc-padding-compensater">
+							<div class="field-tip"><span class="maxlen-counter"><?=Settings::COMMENT_MAX_LEN?></span> caractères restants</div>
+							<div class="bubble-tip">
+								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisses à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
+								<div class="bt-foot"></div>
+							</div>
+							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment"><?=h(@$comment)?></textarea>
+						</div>
 					</dd>
 					<dt>Infos complémentaires</dt>
 					<dd class="bg">

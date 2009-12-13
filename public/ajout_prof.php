@@ -63,6 +63,9 @@ if (!$erreur_url && !$erreur_var)
 		// check the reCAPTCHA
 		Web::checkReCaptcha($user, $notice);
 		
+		// check if the network is blacklisted
+		Web::checkBlacklisted($notice);
+		
 		if (!$notice)
 		{
 			// create associative array for prof data
@@ -90,7 +93,7 @@ if (!$erreur_url && !$erreur_var)
 		
 	}
 	else
-		$notice = FALSE;
+		$notice = NULL;
 	
 	// lecture de la liste des matières
 	$result = DBPal::query("SELECT * FROM matieres WHERE cursus = '$cursus' ORDER by type, ".(($cursus == E_2ND) ? "id" : "nom"));

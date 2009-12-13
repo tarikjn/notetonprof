@@ -28,6 +28,11 @@ $title = NULL;
 			<p>
 				<strong>NoteTonProf.com te permet de noter tes professeurs de façon totalement anonyme.</strong>
 			</p>
+			<!--
+			<div class="best-of-comments">
+				Best of comments
+			</div>
+			-->
 <? if ($last_etblt) { ?>
 			<div>
 				Dernier établissement que tu as consulté :
@@ -54,13 +59,29 @@ $title = NULL;
 		</div>
 <? require("tpl/school_of_the_day.php"); ?>
 		<hr />
-		<div class="message">
+		<div class="site-message">
 			<p>
-				<strong>Un outil essentiel à la disposition des élèves.</strong>
-				Pour permettre aux enseignants d'améliorer et de perfectionner leurs méthodes d'apprentissage.<br />
-				Et récompenser le travail formidable effectué par les professeurs brillants et pédagogues dont on ne parle pas assez.
+				<span class="before-quote">“</span>
+				<strong>Un outil essentiel à la disposition des élèves.</strong><br />
+				Pour permettre aux enseignants d'améliorer et de perfectionner leurs méthodes d'apprentissage
+				...et récompenser le travail formidable effectué par les professeurs brillants et pédagogues dont on ne parle pas assez.
+				<span class="after-quote">”</span>
 			</p>
 			<!-- Dernière info -->
 		</div>
-
+		<!--
+		<div class="forum-preview">
+			<div>Derniers messages du forum :</div>
+			<dl>
+				<dt><a href="#">Message 1</a></dt>
+				<dd>Aujourdhui à 8:50 par Pahly</dd>
+				<dt><a href="#">Message 1</a></dt>
+				<dd>Aujourdhui à 8:50 par Pahly</dd>
+				<dt><a href="#">Message 1</a></dt>
+				<dd>Aujourdhui à 8:50 par Pahly</dd>
+				<dt><a href="#">Message 1</a></dt>
+				<dd>Aujourdhui à 8:50 par Pahly</dd>		
+			<dl>
+		</div>
+		-->
 <? require("tpl/bas.php"); ?>

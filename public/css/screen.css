@@ -272,11 +272,34 @@ hr {
 .edit {
 	vertical-align: middle;
 }
-.centre .message {
+.centre .site-message {
 	background-color: #DFECFF;
-	border: 1px solid gray;
-	padding: 0 .5em;
-	font-size: .95em;
+	padding: 5px 15px;
+	font-size: .85em;
+	font-style: italic;
+
+	/*width: 50%;*/
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+.site-message p {
+	text-align: left;
+}
+.site-message p .before-quote, .site-message p .after-quote {
+	font-family: "trebuchet MS";
+    font-size: 45pt;
+	height: 12pt;
+	top: -10pt;
+	display: block;
+	position: relative;
+}
+.site-message p .before-quote {
+	float: left;
+	padding: 0 8px 8px 0;
+}
+.site-message p .after-quote {
+    float: right;
 }
 
 .cursus dl a {

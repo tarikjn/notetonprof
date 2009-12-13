@@ -3,7 +3,7 @@ define("ROOT_DIR", "");
 require(ROOT_DIR."_ini.php");
 
 // initialisation des variables
-$notice = FALSE;
+$notice = NULL;
 
 // début traitement des variables URL
 if (@isset($_GET["etblt_id"]))

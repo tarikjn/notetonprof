@@ -6,7 +6,7 @@ $user->requireOrRedirect();
 
 // initialisation des variables
 $success = FALSE;
-$notice = FALSE;
+$notice = NULL;
 $q_add = "";
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST')

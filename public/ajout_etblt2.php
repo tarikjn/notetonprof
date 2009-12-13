@@ -66,6 +66,9 @@ if (!$erreur_url && !$erreur_var)
 		// check the reCAPTCHA
 		Web::checkReCaptcha($user, $notice);
 		
+		// check if the network is blacklisted
+		Web::checkBlacklisted($notice);
+		
 		if (!$notice)
 		{
 			// create associative array for school data
@@ -90,7 +93,7 @@ if (!$erreur_url && !$erreur_var)
 		
 	}
 	else
-		$notice = FALSE;
+		$notice = NULL;
 	
 	// lecture de la liste des communes pour le code postal donné
 	$query = "SELECT id, nom FROM villes WHERE cp = " . DBPal::quote($cp) . " ORDER by nom;";

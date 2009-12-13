@@ -4,7 +4,7 @@ require(ROOT_DIR."_ini.php");
 
 
 // initialisation des variables
-$notice = FALSE;
+$notice = NULL;
 
 // début traitement formulaire
 $sent = @$_POST["sent"];

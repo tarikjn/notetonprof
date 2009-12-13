@@ -64,7 +64,7 @@ if (!$erreur_url && !$erreur_var)
 		}
 	}
 	else
-		$notice = FALSE;
+		$notice = NULL;
 }
 // fin traitement formulaire
 
