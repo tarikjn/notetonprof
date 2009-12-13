@@ -18,7 +18,7 @@ $title = "Contact";
 			<p>Merci d'envoyer votre message à l'adresse appropriée.</p>
 			<ul class="contact">
 				<li>
-					Pour signaler une erreur sur des données qui ne peut être signalée via la fonction « Signaler », ou pour toute problème de modération rencontré :<br />
+					Pour signaler une erreur sur des données qui ne peut être signalée via la fonction « Signaler », ou pour tout problème de modération rencontré :<br />
 					<a href="mailto:<?=Web::emailEncode("ops@notetonprof.com")?>">ops@notetonprof.com</a>
 				</li>
 				<li>

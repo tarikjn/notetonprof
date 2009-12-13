@@ -56,7 +56,7 @@ class Ratings
 	        'desc' => "Ton prof prends-t-il le temps pour répondre à tes questions ou des points que tu n'as pas compris ? Est-t-il disponible à la fin du cours ou en dehors des cours ?"
 	      ),
 	      'difficulty' => array(
-	        'title' => 'Difficultée / Niveau',
+	        'title' => 'Difficulté / Niveau',
 	        'desc' => "Comment est le niveau des cours et la difficulté des devoirs ?"
 	      ),
 	      'atmosphere' => array(

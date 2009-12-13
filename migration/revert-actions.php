@@ -12,7 +12,7 @@ $notes = "Script reverted action done by user";
 
 $actions = DBPal::query(
       "SELECT object_type, object_id FROM logs"
-    . "  WHERE client_ip = '77.198.106.100' AND log_msg = 'Created'"
+    . "  WHERE client_ip = '93.13.110.127' AND log_msg = 'Created'"
   );
 
 while ($action = $actions->fetch_object())
