@@ -119,6 +119,12 @@ class Web
 			$notice["blacklist"] = "Action refusée, veuillez contacter <a href=\"mailto:ops@notetonprof.com\">les opérateurs</a>.";
 		}
 	}
+	
+	static function valid_ip($ip)
+	{ 
+	    return preg_match("/^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])" . 
+	            "(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/", $ip); 
+	}
 }
 
 // short function wrapper
