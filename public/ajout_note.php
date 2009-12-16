@@ -251,7 +251,7 @@ $yui_mode = true;
 				Pense à consulter les <a href="regles">régles</a> de notation.
 			</p>
 			<?=Helper::getErrorHeader($error)?>
-			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form rating-form" onsubmit="return confirm('Es-tu sûr de vouloir laisser une évaluation sans commentaire ? Un commentaire apportera beaucoup plus de valeur à ton évaluation.')">
+			<form action="<?=$_SERVER["REQUEST_URI"]?>" method="post" class="form rating-form" onsubmit="return ((document.getElementById('comment-field').value == '')? confirm('Es-tu sûr de vouloir laisser une évaluation sans commentaire ? Un commentaire apportera beaucoup plus de valeur à ton évaluation.') : true)">
 				<dl>
 					<dt>Note</dt>
 					<dd class="widgets">
@@ -351,7 +351,7 @@ $yui_mode = true;
 								<div class="bt-body">Ton commentaire doit justifier l'évaluation que tu laisses à ton prof et doit uniquement être en relation avec ses cours. Écris et ortographie ton commentaire correctement, c'est à dire PAS DE LANGAGE SMS. Il est INTERDIT DE SIGNER d'une quelconque façon ce commentaire. Tout commentaire ne respectant pas les <a href="regles#comment">règles</a> sera effacé.</div>
 								<div class="bt-foot"></div>
 							</div>
-							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment"><?=h(@$comment)?></textarea>
+							<textarea class="comment-field maxlen-field autoexpand" rows="4" name="comment" id="comment-field"><?=h(@$comment)?></textarea>
 						</div>
 					</dd>
 					<dt>Infos complémentaires</dt>

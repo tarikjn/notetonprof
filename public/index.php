@@ -62,7 +62,7 @@ $title = NULL;
 		<div class="site-message">
 			<p>
 				<span class="before-quote">“</span>
-				<strong>Un outil essentiel à la disposition des élèves.</strong><br />
+				<strong>Un outil essentiel à la disposition des élèves et des profs.</strong><br />
 				Pour permettre aux enseignants d'améliorer et de perfectionner leurs méthodes d'apprentissage
 				...et récompenser le travail formidable effectué par les professeurs brillants et pédagogues dont on ne parle pas assez.
 				<span class="after-quote">”</span>
