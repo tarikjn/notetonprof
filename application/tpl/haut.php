@@ -72,6 +72,21 @@ $map_haut = array(
 		</div>
 	</div>
 	-->
+	
+	<div class="ad-top">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-5461332511807874";
+		/* 180x150, created 1/28/10 */
+		google_ad_slot = "4933686609";
+		google_ad_width = 180;
+		google_ad_height = 150;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
 	<hr />
 	<div class="gauche">
 		<h2>Menu</h2>
