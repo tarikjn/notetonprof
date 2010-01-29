@@ -63,15 +63,6 @@ $map_haut = array(
 <? } ?>
 		</ul>
 	</div>
-	</div>
-	<!--
-	<div class="global-link">
-		<div class="box">
-			<div class="cc-txt-logo"><span class="head">Campus</span> Citizens</div>
-			<div class="cc-goto-link"><a href="http://www.campuscitizens.com">→ autres pays</a></div>
-		</div>
-	</div>
-	-->
 	
 	<div class="ad-top">
 		<script type="text/javascript"><!--
@@ -100,6 +91,15 @@ $map_haut = array(
 		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		</script>
 	</div>
+	</div>
+	<!--
+	<div class="global-link">
+		<div class="box">
+			<div class="cc-txt-logo"><span class="head">Campus</span> Citizens</div>
+			<div class="cc-goto-link"><a href="http://www.campuscitizens.com">→ autres pays</a></div>
+		</div>
+	</div>
+	-->
 	
 	<hr />
 	<div class="gauche">

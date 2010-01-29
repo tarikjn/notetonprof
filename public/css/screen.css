@@ -59,6 +59,7 @@ a:visited, a:active {
 	padding: 1em 0;
 	text-align: center;
 	line-height: 1em;
+	position: relative;
 }
 .haut ul {
 	padding: 0;
@@ -1715,14 +1716,12 @@ table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 
 .ad-top {
 	position: absolute;
-	top: 20px;
-	margin-left: 10px;
+	top: 10px;
 	width: 200px;
 }
 .ad-top-right {
-	margin-right: 10px;
 	position: absolute;
-	top: 20px;
+	top: 10px;
 	right: 10px;
 }
 
