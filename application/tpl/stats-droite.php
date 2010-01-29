@@ -40,4 +40,18 @@ if (!$yesterday_ratings = apc_fetch('yesterday_ratings_count'))
 			<dt><span>Notes ajoutées hier</span></dt>
 			<dd><?=Helper::f_int($yesterday_ratings)?></dd>
 		</dl>
+		
+		<!-- Google Ads -->
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-5461332511807874";
+		/* 160x600, created 1/28/10 */
+		google_ad_slot = "1104923012";
+		google_ad_width = 160;
+		google_ad_height = 600;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+		
 	</div>
