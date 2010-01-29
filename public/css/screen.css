@@ -1706,3 +1706,18 @@ table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 }
 
 /* !new styles */
+
+/* ads */
+
+.ad-panel {
+	margin-top: 20px;
+}
+
+.ad-top {
+	position: absolute;
+	top: 20px;
+	margin-left: 10px;
+	width: 200px;
+}
+
+/* !ads */
