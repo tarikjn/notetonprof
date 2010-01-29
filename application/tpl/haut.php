@@ -87,6 +87,20 @@ $map_haut = array(
 		</script>
 	</div>
 	
+	<div class="ad-top-right">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-5461332511807874";
+		/* 180x150, top right corner */
+		google_ad_slot = "0013285911";
+		google_ad_width = 180;
+		google_ad_height = 150;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
 	<hr />
 	<div class="gauche">
 		<h2>Menu</h2>
@@ -141,6 +155,20 @@ $map_haut = array(
 			<script type="text/javascript"
 			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
+		</div>
+		
+		<div class="sponsor-box menu">
+			<div class="inside">
+				<div class="caption">Aidez Campus Citizens à se développer :</div>
+				<div>
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="hosted_button_id" value="9TYR276SWL4QS">
+					<input type="image" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - la solution de paiement en ligne la plus simple et la plus sécurisée !">
+					<img alt="" border="0" src="https://www.paypal.com/fr_XC/i/scr/pixel.gif" width="1" height="1">
+					</form>
+				</div>
+			</div>
 		</div>
 		
 	</div>

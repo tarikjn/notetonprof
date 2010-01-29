@@ -1719,5 +1719,27 @@ table.rank-table tr.controls th { border-left: 8px solid #ff9671; }
 	margin-left: 10px;
 	width: 200px;
 }
+.ad-top-right {
+	margin-right: 10px;
+	position: absolute;
+	top: 20px;
+	right: 10px;
+}
+
+.sponsor-box {
+	margin-top: 20px;
+	text-align: center;
+}
+.sponsor-box .caption {
+	font-size: .8em;
+	margin-bottom: 5px;
+}
+.sponsor-box .inside {
+	background: white;
+	padding: 5px;
+	
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
 
 /* !ads */
